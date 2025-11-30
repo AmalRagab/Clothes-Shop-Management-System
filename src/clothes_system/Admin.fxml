@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -40,7 +48,7 @@
                         <Image url="@resources/images/208-2088538_report-icon-reports-icon-white-png-removebg-preview.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="21.0" prefWidth="200.0" text="Products" textFill="#a676ac">
+                  <Label fx:id="product" onMouseClicked="#showProductPane" prefHeight="21.0" prefWidth="200.0" text="Products" textFill="#a676ac">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -90,7 +98,7 @@
                         <Image url="@resources/images/208-2088538_report-icon-reports-icon-white-png-removebg-preview.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="21.0" prefWidth="200.0" text="Employees" textFill="#a676ac">
+                  <Label fx:id="employeesChoose" onMouseClicked="#showEmployeesPane" prefHeight="21.0" prefWidth="200.0" text="Employees" textFill="#a676ac">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -133,14 +141,14 @@
                   <Insets left="5.0" top="30.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="reportChoose" alignment="CENTER_LEFT" onMouseClicked="#reportsDisplay" prefHeight="30.0" prefWidth="200.0" spacing="5.0" styleClass="reportHBox" stylesheets="@admin.css">
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="5.0" styleClass="reportHBox" stylesheets="@admin.css">
                <children>
                   <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@resources/images/208-2088538_report-icon-reports-icon-white-png-removebg-preview.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="21.0" prefWidth="200.0" text="Reports" textFill="#a676ac">
+                  <Label fx:id="reportChoose" onMouseClicked="#reportsDisplay" onMousePressed="#reportsDisplay" prefHeight="21.0" prefWidth="200.0" text="Reports" textFill="#a676ac">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -180,7 +188,7 @@
                   <Image url="@resources/images/Gemini_Generated_Image_i6l835i6l835i6l8.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="anchorReport" prefHeight="200.0" prefWidth="200.0" styleClass="anchorReport" stylesheets="@admin.css">
+            <AnchorPane fx:id="reportsPane" prefHeight="200.0" prefWidth="200.0" styleClass="anchorReport" stylesheets="@admin.css" visible="false">
                <children>
                   <VBox prefHeight="802.0" prefWidth="1361.0">
                      <children>
@@ -188,99 +196,7 @@
                            <children>
                               <AnchorPane fx:id="reportsPane" prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <VBox alignment="TOP_CENTER" layoutX="126.0" layoutY="44.0" prefHeight="142.0" prefWidth="262.0" styleClass="topCustomerPrice" stylesheets="@admin.css" AnchorPane.leftAnchor="126.0" AnchorPane.topAnchor="44.0">
-                                       <children>
-                                          <Label text="TOP CUSTOMER PRICE" textFill="#766c6c">
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                             <font>
-                                                <Font name="Arial" size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Text fx:id="top_Price_Result" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
-                                             <VBox.margin>
-                                                <Insets left="10.0" right="50.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                    </VBox>
-                                    <VBox alignment="TOP_CENTER" layoutX="158.0" layoutY="269.0" prefHeight="128.0" prefWidth="252.0" styleClass="topCustomerPrice" stylesheets="@admin.css">
-                                       <children>
-                                          <Label text="TOP CUSTOMER ORDER" textFill="#766c6c">
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                             <font>
-                                                <Font name="Arial" size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Text fx:id="top_Order_Result" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
-                                             <VBox.margin>
-                                                <Insets left="10.0" right="50.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                    </VBox>
-                                    <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="461.0" layoutY="43.0" prefHeight="80.0" prefWidth="250.0" styleClass="topCustomerPrice" stylesheets="@admin.css">
-                                       <children>
-                                          <Label text="Payment Method Report" textFill="#766c6c">
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                             <font>
-                                                <Font name="Arial" size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Text fx:id="payment_Method_Rep" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
-                                             <VBox.margin>
-                                                <Insets left="10.0" right="50.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                    </VBox>
-                                    <VBox layoutX="14.0" layoutY="504.0" prefHeight="258.0" prefWidth="402.0" styleClass="chartVBox" stylesheets="@admin.css">
-                                       <children>
-                                          <Label text="sales In Year " textFill="#766c6c">
-                                             <VBox.margin>
-                                                <Insets left="150.0" top="10.0" />
-                                             </VBox.margin>
-                                             <font>
-                                                <Font name="Arial" size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <BarChart fx:id="prices_Chart" prefHeight="150.0" prefWidth="510.0" styleClass="chartshape" stylesheets="@admin.css">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis side="LEFT" />
-                                             </yAxis>
-                                             <VBox.margin>
-                                                <Insets left="20.0" right="30.0" top="50.0" />
-                                             </VBox.margin>
-                                          </BarChart>
-                                       </children>
-                                    </VBox>
-                                    <VBox layoutX="457.0" layoutY="510.0" prefHeight="258.0" prefWidth="402.0" styleClass="chartVBox" stylesheets="@admin.css">
+                                    <VBox layoutX="895.0" layoutY="511.0" prefHeight="265.0" prefWidth="427.0" style="-fx-background-color: #C9BCE6;">
                                        <children>
                                           <Label text="Orders In Year" textFill="#766c6c">
                                              <VBox.margin>
@@ -290,12 +206,12 @@
                                                 <Font name="Arial" size="20.0" />
                                              </font>
                                           </Label>
-                                          <BarChart fx:id="Orders_Chart" prefHeight="150.0" prefWidth="510.0" styleClass="chartshape" stylesheets="@admin.css">
+                                          <BarChart fx:id="Orders_Chart" prefHeight="170.0" prefWidth="352.0" style="-fx-background-color: #C9BCE6;">
                                              <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
+                                                <CategoryAxis label="Year" prefHeight="47.0" prefWidth="296.0" side="BOTTOM" />
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis side="LEFT" />
+                                                <NumberAxis label="Order" prefHeight="94.0" prefWidth="58.0" side="LEFT" upperBound="0.0" />
                                              </yAxis>
                                              <VBox.margin>
                                                 <Insets left="20.0" right="30.0" top="50.0" />
@@ -303,7 +219,7 @@
                                           </BarChart>
                                        </children>
                                     </VBox>
-                                    <VBox layoutX="897.0" layoutY="506.0" prefHeight="258.0" prefWidth="429.0" styleClass="chartVBox" stylesheets="@admin.css">
+                                    <VBox layoutX="881.0" layoutY="231.0" prefHeight="258.0" prefWidth="429.0" style="-fx-background-color: #C9BCE6;">
                                        <children>
                                           <Label text="Best Seller Product" textFill="#766c6c">
                                              <VBox.margin>
@@ -313,12 +229,12 @@
                                                 <Font name="Arial" size="20.0" />
                                              </font>
                                           </Label>
-                                          <BarChart fx:id="Seller_Chart" prefHeight="150.0" prefWidth="510.0" styleClass="chartshape" stylesheets="@admin.css">
+                                          <BarChart fx:id="Seller_Chart" prefHeight="194.0" prefWidth="379.0" style="-fx-background-color: #C9BCE6; -fx-alternative-column-fill-visible: #C9BCE6;">
                                              <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
+                                                <CategoryAxis label="Product ID" prefHeight="45.0" prefWidth="300.0" side="BOTTOM" />
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis side="LEFT" />
+                                                <NumberAxis label="Sold Quantity " minorTickCount="0" minorTickLength="0.0" prefHeight="88.0" prefWidth="50.0" side="LEFT" tickLabelGap="0.0" tickLength="0.0" tickUnit="0.0" upperBound="0.0" />
                                              </yAxis>
                                              <VBox.margin>
                                                 <Insets left="20.0" right="30.0" top="50.0" />
@@ -326,75 +242,124 @@
                                           </BarChart>
                                        </children>
                                     </VBox>
-                                    <VBox alignment="TOP_CENTER" layoutX="785.0" layoutY="47.0" prefHeight="128.0" prefWidth="252.0" styleClass="topCustomerPrice" stylesheets="@admin.css">
+                                    <VBox layoutX="436.0" layoutY="514.0" prefHeight="258.0" prefWidth="402.0" style="-fx-background-color: #C9BCE6;">
                                        <children>
-                                          <Label text="Best Supplier" textFill="#766c6c">
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
+                                          <Label text="Orders In Year" textFill="#766c6c">
                                              <VBox.margin>
-                                                <Insets top="5.0" />
+                                                <Insets left="150.0" top="10.0" />
                                              </VBox.margin>
                                              <font>
-                                                <Font name="Arial" size="19.0" />
+                                                <Font name="Arial" size="20.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="top_Supplier" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
+                                          <BarChart fx:id="prices_Chart" prefHeight="214.0" prefWidth="352.0" styleClass="chartarea" stylesheets="@admin.css">
+                                            <xAxis>
+                                              <CategoryAxis label="Year" prefHeight="41.0" prefWidth="274.0" side="BOTTOM">
+                                                   <tickLabelFont>
+                                                      <Font name="Arial" size="8.0" />
+                                                   </tickLabelFont></CategoryAxis>
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis label="Sales" prefHeight="104.0" prefWidth="62.0" side="LEFT" />
+                                            </yAxis>
                                              <VBox.margin>
-                                                <Insets left="10.0" right="50.0" top="10.0" />
+                                                <Insets left="20.0" right="30.0" top="50.0" />
                                              </VBox.margin>
-                                          </Text>
+                                          </BarChart>
                                        </children>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
                                     </VBox>
-                                    <VBox alignment="TOP_CENTER" layoutX="935.0" layoutY="275.0" prefHeight="128.0" prefWidth="252.0" styleClass="topCustomerPrice" stylesheets="@admin.css">
+                                    <AnchorPane layoutX="88.0" layoutY="313.0" prefHeight="150.0" prefWidth="242.0" style="-fx-background-color: #C9BCE6; -fx-background-radius: 7;">
                                        <children>
-                                          <Label text="Total Revenue" textFill="#766c6c">
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
+                                          <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Payment Method Report">
                                              <font>
-                                                <Font name="Arial" size="19.0" />
+                                                <Font name="Arial" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="Total_Revenue" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
-                                             <VBox.margin>
-                                                <Insets left="10.0" right="50.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Text>
+                                          <StackPane layoutX="8.0" layoutY="48.0" prefHeight="90.0" prefWidth="226.0" style="-fx-background-color: #B597E8; -fx-background-radius: 7;">
+                                             <children>
+                                                <Text fx:id="payment_Method_Rep" fontSmoothingType="LCD" smooth="false" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </StackPane>
                                        </children>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                    </VBox>
-                                    <VBox alignment="TOP_CENTER" layoutX="1072.0" layoutY="41.0" prefHeight="128.0" prefWidth="252.0" styleClass="low_Stock" stylesheets="@admin.css">
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="726.0" layoutY="48.0" prefHeight="147.0" prefWidth="247.0" style="-fx-background-color: #C9BCE6; -fx-background-radius: 7;">
                                        <children>
-                                          <Label text="Low Stock Alert" textFill="#766c6c">
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
+                                          <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="TOP CUSTOMER PRICE">
                                              <font>
-                                                <Font name="Arial" size="19.0" />
+                                                <Font name="Arial" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="alert" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
-                                             <VBox.margin>
-                                                <Insets left="10.0" right="50.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Text>
+                                          <StackPane layoutX="11.0" layoutY="48.0" prefHeight="83.0" prefWidth="212.0" style="-fx-background-color: #B597E8; -fx-background-radius: 7;">
+                                             <children>
+                                                <Text fx:id="top_Price_Result" fontSmoothingType="LCD" smooth="false" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </StackPane>
                                        </children>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                    </VBox>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="76.0" layoutY="54.0" prefHeight="153.0" prefWidth="266.0" style="-fx-background-color: #C9BCE6; -fx-background-radius: 7;">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Total Revenue">
+                                             <font>
+                                                <Font name="Arial" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <StackPane layoutX="8.0" layoutY="48.0" prefHeight="94.0" prefWidth="250.0" style="-fx-background-color: #B597E8; -fx-background-radius: 7;">
+                                             <children>
+                                                <Text fx:id="Total_Revenue" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="1022.0" layoutY="45.0" prefHeight="149.0" prefWidth="242.0" style="-fx-background-color: #C9BCE6; -fx-background-radius: 7;">
+                                       <children>
+                                          <Label layoutX="28.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Best Supplier">
+                                             <font>
+                                                <Font name="Arial" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <StackPane layoutX="8.0" layoutY="48.0" prefHeight="90.0" prefWidth="226.0" style="-fx-background-color: #B597E8; -fx-background-radius: 7;">
+                                             <children>
+                                                <Text fx:id="top_Supplier" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="436.0" layoutY="53.0" prefHeight="154.0" prefWidth="242.0" style="-fx-background-color: #C9BCE6; -fx-background-radius: 7;">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="225.0" text="TOP CUSTOMER ORDER">
+                                             <font>
+                                                <Font name="Arial" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <StackPane layoutX="8.0" layoutY="48.0" prefHeight="90.0" prefWidth="226.0" style="-fx-background-color: #B597E8; -fx-background-radius: 7;">
+                                             <children>
+                                                <Text fx:id="top_Order_Result" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="93.0" layoutY="587.0" prefHeight="152.0" prefWidth="242.0" style="-fx-background-color: #C9BCE6; -fx-background-radius: 7;">
+                                       <children>
+                                          <Label layoutX="28.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Low Stock Alert">
+                                             <font>
+                                                <Font name="Arial" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <StackPane layoutX="8.0" layoutY="48.0" prefHeight="90.0" prefWidth="226.0" style="-fx-background-color: #B597E8; -fx-background-radius: 7;">
+                                             <children>
+                                                <Text fx:id="alert" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </AnchorPane>
                                  </children>
                                  <StackPane.margin>
                                     <Insets />
@@ -405,6 +370,115 @@
                      </children>
                   </VBox>
                </children></AnchorPane>
+            <AnchorPane id="AnchorPane" fx:id="editpane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" visible="false">
+               <children>
+                  <Text fx:id="title" layoutX="260.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT PRODUCT" />
+                  <Text fx:id="from" layoutX="127.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FROM:" />
+                  <Text fx:id="to" layoutX="463.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO:" />
+                  <Button fx:id="savebtn" layoutX="234.0" layoutY="331.0" mnemonicParsing="false" onAction="#save" text="SAVE" />
+                  <Button fx:id="cancelbtn" layoutX="308.0" layoutY="331.0" mnemonicParsing="false" onAction="#cancel" text="CANCEL" />
+                  <TextField fx:id="fid" layoutX="70.0" layoutY="81.0" />
+                  <TextField fx:id="fname" layoutX="71.0" layoutY="113.0" />
+                  <TextField fx:id="fprice" layoutX="72.0" layoutY="146.0" />
+                  <TextField fx:id="fquantity" layoutX="70.0" layoutY="181.0" />
+                  <TextField fx:id="fstatus" layoutX="70.0" layoutY="218.0" />
+                  <TextField fx:id="fsid" layoutX="70.0" layoutY="252.0" />
+                  <TextField fx:id="fcolour" layoutX="70.0" layoutY="286.0" />
+                  <TextField fx:id="tid" layoutX="399.0" layoutY="81.0" />
+                  <TextField fx:id="tname" layoutX="398.0" layoutY="113.0" />
+                  <TextField fx:id="tprice" layoutX="398.0" layoutY="146.0" />
+                  <TextField fx:id="tquantity" layoutX="398.0" layoutY="181.0" />
+                  <TextField fx:id="tstatus" layoutX="400.0" layoutY="218.0" />
+                  <TextField fx:id="tsid" layoutX="398.0" layoutY="252.0" />
+                  <TextField fx:id="tcolour" layoutX="400.0" layoutY="286.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane id="AnchorPane" fx:id="productPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="736.0" prefWidth="957.0" visible="false">
+               <children>
+                  <Button fx:id="Addbtn" layoutX="123.0" layoutY="443.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAddProductPane" prefHeight="36.0" prefWidth="66.0" styleClass="addbtn" text="Add">
+                     <stylesheets>
+                        <URL value="@admin.css" />
+                        <URL value="@admin.css" />
+                     </stylesheets></Button>
+                  <Button fx:id="Editbtn" layoutX="250.0" layoutY="443.0" mnemonicParsing="false" onAction="#showEditProductPane" prefHeight="36.0" prefWidth="75.0" text="EDIT" />
+                  <Button fx:id="Deletebtn" layoutX="366.0" layoutY="443.0" mnemonicParsing="false" onAction="#deleteproduct" text="Delete" />
+                  <AnchorPane id="AnchorPane" fx:id="addpane" layoutX="600.0" layoutY="96.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0">
+                     <children>
+                        <Button fx:id="cancel" layoutX="317.0" layoutY="306.0" mnemonicParsing="false" onAction="#cancel" text="cancel" />
+                        <Button fx:id="finish" layoutX="217.0" layoutY="306.0" mnemonicParsing="false" onAction="#finish" text="finish" />
+                        <TextField fx:id="pid" alignment="CENTER" layoutX="217.0" layoutY="31.0" text="ID" />
+                        <TextField fx:id="name" alignment="CENTER" layoutX="217.0" layoutY="67.0" text="name" />
+                        <TextField fx:id="price1" alignment="CENTER" layoutX="217.0" layoutY="103.0" text="price" />
+                        <TextField fx:id="quantity1" alignment="CENTER" layoutX="217.0" layoutY="140.0" text="quantity" />
+                        <TextField fx:id="status1" alignment="CENTER" layoutX="217.0" layoutY="174.0" text="status" />
+                        <TextField fx:id="sid" alignment="CENTER" layoutX="217.0" layoutY="211.0" text="supplierID" />
+                        <TextField fx:id="colour" alignment="CENTER" layoutX="217.0" layoutY="243.0" text="colour" />
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="producttable" layoutX="14.0" layoutY="138.0" prefHeight="262.0" prefWidth="552.0">
+                     <columns>
+                        <TableColumn fx:id="productID" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="Pname" prefWidth="75.0" text="Name" />
+                        <TableColumn fx:id="price" prefWidth="75.0" text="Price" />
+                        <TableColumn fx:id="quantity" prefWidth="75.0" text="Quantity" />
+                        <TableColumn fx:id="status" prefWidth="75.0" text="Status" />
+                        <TableColumn fx:id="supid" prefWidth="75.0" text="SID" />
+                        <TableColumn fx:id="pcolour" prefWidth="90.40011596679688" text="Colour" />
+                     </columns>
+                  </TableView>
+                  <TextField fx:id="search" layoutX="197.0" layoutY="64.0" text="search" />
+               </children>
+            </AnchorPane>
+             <AnchorPane fx:id="employeesPane" prefHeight="800.0" prefWidth="1300.0">
+                <children>
+                    <TableView fx:id="employeeTable" layoutX="134.0" layoutY="124.0" prefHeight="526.0" prefWidth="890.0">
+                        <columns>
+                            <TableColumn fx:id="colID" prefWidth="133.59996032714844" text="ID" />
+                            <TableColumn fx:id="colName" prefWidth="159.99993896484375" text="Name" />
+                            <TableColumn fx:id="colPhone" prefWidth="151.20001220703125" text="Phone" />
+                            <TableColumn fx:id="colRole" prefWidth="136.800048828125" text="Role" />
+                            <TableColumn fx:id="colSalary" prefWidth="146.4000244140625" text="Salary" />
+                            <TableColumn fx:id="colEmail" prefWidth="159.19998779296873" text="Email" />
+                        </columns>
+                    </TableView>
+
+                    <TextField fx:id="searchField" layoutX="152.0" layoutY="51.0" prefHeight="40" prefWidth="300" promptText="Search employee..." />
+                    <Button fx:id="AddUserButton" layoutX="244.0" layoutY="696.0" onAction="#showAddEmployees" prefWidth="150.0" text="Add Employee" />
+                    <Button fx:id="EditUserButton" layoutX="493.0" layoutY="695.0" onAction="#editEmpClicked" prefWidth="150" text="Edit Employee" />
+                    <Button fx:id="DelUserButton" layoutX="737.0" layoutY="695.0" onAction="#deleteEmployee" prefWidth="150" text="Delete Employee" />
+               <AnchorPane fx:id="editEmpPane" layoutX="1074.0" layoutY="369.0" prefHeight="324.0" prefWidth="200.0">
+                  <children>
+                     <Label layoutX="10.0" layoutY="54.0" text="Name" />
+                     <TextField fx:id="editEmpNameField" layoutX="72.0" layoutY="49.0" prefHeight="26.0" prefWidth="122.0" />
+                     <Label layoutX="10.0" layoutY="99.0" text="Phone" />
+                     <TextField fx:id="editEmpPhoneField" layoutX="72.0" layoutY="95.0" prefHeight="26.0" prefWidth="122.0" />
+                     <TextField fx:id="editEmpPassField" layoutX="72.0" layoutY="190.0" prefHeight="26.0" prefWidth="122.0" />
+                     <TextField fx:id="editEmpSalaryField" layoutX="72.0" layoutY="236.0" prefHeight="26.0" prefWidth="122.0" />
+                     <TextField fx:id="editEmpEmailField" layoutX="72.0" layoutY="147.0" prefHeight="26.0" prefWidth="122.0" />
+                     <Label layoutX="11.0" layoutY="240.0" text="Salary" />
+                     <Label alignment="CENTER" layoutX="-8.0" layoutY="194.0" prefHeight="18.0" prefWidth="70.0" text="Password" textAlignment="CENTER" />
+                     <Label layoutX="13.0" layoutY="151.0" prefHeight="18.0" prefWidth="57.0" text="Email" />
+                     <Button fx:id="editEmpBtn" layoutX="91.0" layoutY="289.0" mnemonicParsing="false" onAction="#saveEmpClicked" prefHeight="26.0" prefWidth="58.0" text="Save" />
+                  </children>
+               </AnchorPane>
+               <AnchorPane fx:id="addEmpPane" layoutX="1059.0" layoutY="12.0" prefHeight="348.0" prefWidth="224.0">
+                  <children>
+                     <TextField fx:id="addEmpNameField" layoutX="26.0" layoutY="50.0" promptText="Name" />
+                     <TextField fx:id="addEmpPhoneField" layoutX="27.0" layoutY="98.0" promptText="Phone" />
+                     <TextField fx:id="addEmpEmailField" layoutX="26.0" layoutY="149.0" promptText="Email" />
+                     <TextField fx:id="addEmpSalaryField" layoutX="26.0" layoutY="237.0" promptText="Salary" />
+                     <RadioButton fx:id="rbAdmin" layoutX="46.0" layoutY="273.0" mnemonicParsing="false" text="Admin">
+                        <toggleGroup>
+                           <ToggleGroup fx:id="userType" />
+                        </toggleGroup>
+                     </RadioButton>
+                     <RadioButton fx:id="rbCashier" layoutX="119.0" layoutY="273.0" mnemonicParsing="false" text="Cashier" toggleGroup="$userType" />
+                     <Button fx:id="addEmpBtn" layoutX="92.0" layoutY="309.0" mnemonicParsing="false" onAction="#addEmpClicked" prefHeight="26.0" prefWidth="57.0" text="Add" />
+                     <PasswordField fx:id="addEmpPassField" layoutX="27.0" layoutY="195.0" promptText="Password" />
+                  </children>
+               </AnchorPane>
+                </children>
+            </AnchorPane>
          </children>
       </StackPane>
    </center>

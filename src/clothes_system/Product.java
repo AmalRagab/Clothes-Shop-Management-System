@@ -4,35 +4,39 @@ package clothes_system;
 
 
 public class Product {
-    public enum Status { AVAILABLE ,NOT_AVAILABLE}
+
+    private  String colour;
+
     
     private int id;
     private String name;
     private double price;
     private int quantity;
-    private Status status;
-    private Supplier supplier;
+    private String status;
+    private int supplierID;
 
-    public Product( int id,Supplier supplier, String name, double price, int quantity, Status status) {
+    public Product( int id,int supplierID, String name, double price, int quantity, String status,String colour) {
         this.id = id;
-        this.supplier=supplier;
+        this.supplierID=supplierID;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.status = status;
+        this.colour = colour;
     }
 
     public int getId() {
         return id;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
+    public int getSupplierID(){
+        return supplierID;
     }
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
+    public void setSupplierID(int supplierID) {
+        this.supplierID = supplierID;
     }
+    
 
     public void setId(int id) {
         this.id = id;
@@ -63,12 +67,21 @@ public class Product {
     }
 
     public String getStatus() {
-        return status.name();
+        return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getColour() {
+        return colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
+    }
+    
 
     @Override
     public String toString() {

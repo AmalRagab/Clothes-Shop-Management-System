@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="800" prefWidth="1550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothes_system.AdminController">
+
+    <!-- Sidebar -->
+    <left>
+        <VBox fx:id="sideBar" prefWidth="247.0" spacing="50.0" styleClass="sideBar" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="54">
+                    <children>
+                        <ImageView fitHeight="50" fitWidth="50" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@resources/images/user_icon.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                  <Text strokeWidth="0" text="Admin" textAlignment="CENTER" wrappingWidth="134.83983993530273" />
+
+                <Button fx:id="productButton" prefHeight="46.0" prefWidth="244.0" text="Products" />
+                <Button fx:id="employeesButton" prefHeight="42.0" prefWidth="247.0" text="Employees" />
+                <Button fx:id="customerButton" prefHeight="46.0" prefWidth="247.0" text="Customers" />
+                <Button fx:id="reportsButton" prefHeight="46.0" prefWidth="247.0" text="Reports" />
+                <Button fx:id="logoutButton" prefHeight="38.0" prefWidth="122.0" text="Log Out" textAlignment="CENTER" />
+            </children>
+        </VBox>
+    </left>
+
+    <!-- Center StackPane -->
+    <center>
+        <StackPane fx:id="centerStack" prefHeight="700" prefWidth="1200" BorderPane.alignment="CENTER">
+
+                  <!-- Reports Pane (Updated Design) -->
+            <AnchorPane fx:id="reportsPane" prefHeight="700" prefWidth="1200" styleClass="anchorReport" stylesheets="@admin.css" visible="false">
+                <children>
+                    <!-- Top Customer Price -->
+                    <VBox alignment="TOP_CENTER" layoutX="126" layoutY="44" prefHeight="142" prefWidth="262" styleClass="topCustomerPrice">
+                        <children>
+                            <Label text="TOP CUSTOMER PRICE" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="19" />
+                        </font>
+                            </Label>
+                            <Text fx:id="top_Price_Result" styleClass="top_Price_Result" text="" />
+                        </children>
+                    </VBox>
+
+                          <!-- Top Customer Orders -->
+                    <VBox alignment="TOP_CENTER" layoutX="158" layoutY="269" prefHeight="128" prefWidth="252" styleClass="topCustomerPrice">
+                        <children>
+                            <Label text="TOP CUSTOMER ORDER" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="19" />
+                        </font>
+                            </Label>
+                            <Text fx:id="top_Order_Result" styleClass="top_Price_Result" text="" />
+                        </children>
+                    </VBox>
+
+                          <!-- Payment Method Report -->
+                    <VBox alignment="TOP_CENTER" layoutX="461" layoutY="43" prefHeight="80" prefWidth="250" styleClass="topCustomerPrice">
+                        <children>
+                            <Label text="Payment Method Report" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="19" />
+                        </font>
+                            </Label>
+                            <Text fx:id="payment_Method_Rep" styleClass="top_Price_Result" text="" />
+                        </children>
+                    </VBox>
+
+                          <!-- Best Supplier -->
+                    <VBox alignment="TOP_CENTER" layoutX="785" layoutY="47" prefHeight="128" prefWidth="252" styleClass="topCustomerPrice">
+                        <children>
+                            <Label text="Best Supplier" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="19" />
+                        </font>
+                            </Label>
+                            <Text fx:id="top_Supplier" styleClass="top_Price_Result" text="" />
+                        </children>
+                    </VBox>
+
+                          <!-- Total Revenue -->
+                    <VBox alignment="TOP_CENTER" layoutX="935" layoutY="275" prefHeight="128" prefWidth="252" styleClass="topCustomerPrice">
+                        <children>
+                            <Label text="Total Revenue" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="19" />
+                        </font>
+                            </Label>
+                            <Text fx:id="Total_Revenue" styleClass="top_Price_Result" text="" />
+                        </children>
+                    </VBox>
+
+                          <!-- Low Stock Alert -->
+                    <VBox alignment="TOP_CENTER" layoutX="1072" layoutY="41" prefHeight="128" prefWidth="252" styleClass="low_Stock">
+                        <children>
+                            <Label text="Low Stock Alert" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="19" />
+                        </font>
+                            </Label>
+                            <Text fx:id="alert" styleClass="top_Price_Result" text="" />
+                        </children>
+                    </VBox>
+
+                          <!-- Charts -->
+                    <VBox layoutX="14" layoutY="504" prefHeight="258" prefWidth="402" styleClass="chartVBox">
+                        <children>
+                            <Label text="Sales In Year" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="20" />
+                        </font>
+                            </Label>
+                            <BarChart fx:id="prices_Chart" prefHeight="150" prefWidth="510" styleClass="chartshape">
+                                <xAxis>
+                           <CategoryAxis side="BOTTOM" />
+                        </xAxis>
+                                <yAxis>
+                           <NumberAxis side="LEFT" />
+                        </yAxis>
+                            </BarChart>
+                        </children>
+                    </VBox>
+
+                          <VBox layoutX="457" layoutY="510" prefHeight="258" prefWidth="402" styleClass="chartVBox">
+                        <children>
+                            <Label text="Orders In Year" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="20" />
+                        </font>
+                            </Label>
+                            <BarChart fx:id="Orders_Chart" prefHeight="150" prefWidth="510" styleClass="chartshape">
+                                <xAxis>
+                           <CategoryAxis side="BOTTOM" />
+                        </xAxis>
+                                <yAxis>
+                           <NumberAxis side="LEFT" />
+                        </yAxis>
+                            </BarChart>
+                        </children>
+                    </VBox>
+
+                          <VBox layoutX="897" layoutY="506" prefHeight="258" prefWidth="429" styleClass="chartVBox">
+                        <children>
+                            <Label text="Best Seller Product" textFill="#766c6c">
+                                <font>
+                           <Font name="Arial" size="20" />
+                        </font>
+                            </Label>
+                            <BarChart fx:id="Seller_Chart" prefHeight="150" prefWidth="510" styleClass="chartshape">
+                                <xAxis>
+                           <CategoryAxis side="BOTTOM" />
+                        </xAxis>
+                                <yAxis>
+                           <NumberAxis side="LEFT" />
+                        </yAxis>
+                            </BarChart>
+                        </children>
+                    </VBox>
+
+                      </children>
+            </AnchorPane>
+
+            <!-- Employees Pane -->
+            <AnchorPane fx:id="employeesPane" prefHeight="800.0" prefWidth="1341.0">
+                <children>
+                    <TableView fx:id="employeeTable" layoutX="218.0" layoutY="159.0" prefHeight="526.0" prefWidth="890.0">
+                        <columns>
+                            <TableColumn fx:id="colID" prefWidth="133.59996032714844" text="ID" />
+                            <TableColumn fx:id="colName" prefWidth="159.99993896484375" text="Name" />
+                            <TableColumn fx:id="colPhone" prefWidth="151.20001220703125" text="Phone" />
+                            <TableColumn fx:id="colRole" prefWidth="136.800048828125" text="Role" />
+                            <TableColumn fx:id="colSalary" prefWidth="146.4000244140625" text="Salary" />
+                            <TableColumn fx:id="colEmail" prefWidth="159.19998779296873" text="Email" />
+                        </columns>
+                    </TableView>
+
+                    <TextField fx:id="searchField" layoutX="50" layoutY="70" prefHeight="40" prefWidth="300" promptText="Search employee..." />
+                    <Button fx:id="AddUserButton" layoutX="404.0" layoutY="741.0" prefWidth="150.0" text="Add Employee" />
+                    <Button fx:id="EditUserButton" layoutX="588.0" layoutY="741.0" onAction="#editEmpClicked" prefWidth="150" text="Edit Employee" />
+                    <Button fx:id="DelUserButton" layoutX="771.0" layoutY="741.0" onAction="#deleteEmployee" prefWidth="150" text="Delete Employee" />
+               <AnchorPane fx:id="editEmpPane" layoutX="1200.0" layoutY="255.0" prefHeight="324.0" prefWidth="200.0">
+                  <children>
+                     <Label layoutX="10.0" layoutY="54.0" text="Name" />
+                     <TextField fx:id="editEmpNameField" layoutX="72.0" layoutY="49.0" prefHeight="26.0" prefWidth="122.0" />
+                     <Label layoutX="10.0" layoutY="99.0" text="Phone" />
+                     <TextField fx:id="editEmpPhoneField" layoutX="72.0" layoutY="95.0" prefHeight="26.0" prefWidth="122.0" />
+                     <TextField fx:id="editEmpPassField" layoutX="72.0" layoutY="190.0" prefHeight="26.0" prefWidth="122.0" />
+                     <TextField fx:id="editEmpSalaryField" layoutX="72.0" layoutY="236.0" prefHeight="26.0" prefWidth="122.0" />
+                     <TextField fx:id="editEmpEmailField" layoutX="72.0" layoutY="147.0" prefHeight="26.0" prefWidth="122.0" />
+                     <Label layoutX="11.0" layoutY="240.0" text="Salary" />
+                     <Label alignment="CENTER" layoutX="-8.0" layoutY="194.0" prefHeight="18.0" prefWidth="70.0" text="Password" textAlignment="CENTER" />
+                     <Label layoutX="13.0" layoutY="151.0" prefHeight="18.0" prefWidth="57.0" text="Email" />
+                     <Button fx:id="editEmpBtn" layoutX="91.0" layoutY="289.0" mnemonicParsing="false" onAction="#saveEmpClicked" prefHeight="26.0" prefWidth="58.0" text="Save" />
+                  </children>
+               </AnchorPane>
+               <AnchorPane fx:id="addEmpPane" layoutX="1200.0" layoutY="250.0" prefHeight="348.0" prefWidth="224.0">
+                  <children>
+                     <TextField fx:id="addEmpNameField" layoutX="26.0" layoutY="50.0" promptText="Name" />
+                     <TextField fx:id="addEmpPhoneField" layoutX="27.0" layoutY="98.0" promptText="Phone" />
+                     <TextField fx:id="addEmpEmailField" layoutX="26.0" layoutY="149.0" promptText="Email" />
+                     <TextField fx:id="addEmpSalaryField" layoutX="26.0" layoutY="237.0" promptText="Salary" />
+                     <RadioButton fx:id="rbAdmin" layoutX="46.0" layoutY="273.0" mnemonicParsing="false" text="Admin">
+                        <toggleGroup>
+                           <ToggleGroup fx:id="userType" />
+                        </toggleGroup>
+                     </RadioButton>
+                     <RadioButton fx:id="rbCashier" layoutX="119.0" layoutY="273.0" mnemonicParsing="false" text="Cashier" toggleGroup="$userType" />
+                     <Button fx:id="addEmpBtn" layoutX="92.0" layoutY="309.0" mnemonicParsing="false" onAction="#addEmpClicked" prefHeight="26.0" prefWidth="57.0" text="Add" />
+                     <PasswordField fx:id="addEmpPassField" layoutX="27.0" layoutY="195.0" promptText="Password" />
+                  </children>
+               </AnchorPane>
+                </children>
+            </AnchorPane>
+
+        </StackPane>
+    </center>
+
+</BorderPane>
