@@ -188,7 +188,7 @@
                   <Image url="@resources/images/Gemini_Generated_Image_i6l835i6l835i6l8.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="reportsPane" prefHeight="200.0" prefWidth="200.0" styleClass="anchorReport" stylesheets="@admin.css" visible="false">
+            <AnchorPane fx:id="reportsPane" prefHeight="200.0" prefWidth="200.0" styleClass="anchorReport" stylesheets="@admin.css">
                <children>
                   <VBox prefHeight="802.0" prefWidth="1361.0">
                      <children>
@@ -370,7 +370,7 @@
                      </children>
                   </VBox>
                </children></AnchorPane>
-            <AnchorPane id="AnchorPane" fx:id="editpane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" visible="false">
+            <AnchorPane id="AnchorPane" fx:id="editpane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0">
                <children>
                   <Text fx:id="title" layoutX="260.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT PRODUCT" />
                   <Text fx:id="from" layoutX="127.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FROM:" />
@@ -393,7 +393,7 @@
                   <TextField fx:id="tcolour" layoutX="400.0" layoutY="286.0" />
                </children>
             </AnchorPane>
-            <AnchorPane id="AnchorPane" fx:id="productPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="736.0" prefWidth="957.0" visible="false">
+            <AnchorPane id="AnchorPane" fx:id="productPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="736.0" prefWidth="957.0">
                <children>
                   <Button fx:id="Addbtn" layoutX="123.0" layoutY="443.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAddProductPane" prefHeight="36.0" prefWidth="66.0" styleClass="addbtn" text="Add">
                      <stylesheets>

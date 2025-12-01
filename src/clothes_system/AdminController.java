@@ -21,6 +21,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -171,14 +173,14 @@ public class AdminController implements Initializable {
     
     // ================= Text Reports Methods =================
     public void getReportText() throws SQLException {
-    ResultSet rs = topRevenueUser(); 
+     List<Map<String, Object>> report = Reports.topRevenueUser();
 
     StringBuilder sb = new StringBuilder();
-    while(rs.next()) {
-        String name = rs.getString("Name");
-        int price = rs.getInt("Total_Price");
+    for (Map<String, Object> row : report) {
+        String name = (String) row.get("Name");
+        double price = (Double) row.get("total_Price"); // خلي بالك اسم المفتاح مطابق للكلاس الجديد
         sb.append("Customer: ").append(name)
-          .append("\n")     
+          .append("\n")
           .append("Total Price: ").append(price)
           .append("\n");
     }
@@ -187,145 +189,147 @@ public class AdminController implements Initializable {
     top_Price_Result.setFill(Color.web("#000000"));
 }
 
-    public void getReport2Text() throws SQLException {
-    ResultSet rs = topOrderUser(); 
+    public void getReport2Text() {
+    // استدعاء النسخة الجديدة من Reports اللي بترجع List
+    List<Map<String, Object>> report = Reports.topOrderUser();
 
     StringBuilder sb = new StringBuilder();
-    while(rs.next()) {
-        String name =rs.getString("Name");
-        String contact = rs.getString("Contact_Info");
-        int no_Orders = rs.getInt("no_OF_Orders");
+    for (Map<String, Object> row : report) {
+        String name = (String) row.get("Name");
+        String contact = (String) row.get("Contact_Info");
+        int no_Orders = (Integer) row.get("no_OF_Orders");
+
         sb.append("Customer: ").append(name)
-          .append("\n")      
+          .append("\n")
           .append("Contact Information: ").append(contact)
           .append("\n")
-          .append("Number Of Orders: ").append(no_Orders);
-        
+          .append("Number Of Orders: ").append(no_Orders)
+          .append("\n");
     }
+
     top_Order_Result.setText(sb.toString());
     top_Order_Result.setFont(Font.font("Arial", 15));
     top_Order_Result.setFill(Color.web("#000000"));
-
 }
 
     public void getReport4Text() throws SQLException {
-    ResultSet rs = bestSupplier(); 
+    List<Map<String, Object>> report = Reports.bestSupplier();
+StringBuilder sb = new StringBuilder();
 
-    StringBuilder sb = new StringBuilder();
-    if(rs.next()) {
-        int upplierID = rs.getInt("SID");
-        int soldQTY   =rs.getInt("TotalSoldQty");
-        String supplierName = rs.getString("Name");
-    
-        sb.append(" Supplier ID: ").append(upplierID)   
-           .append("\n")
-          .append(" Supplier Name: ").append(supplierName)
-          .append("\n") 
-          .append(" Sold Quantity: ").append(soldQTY)
-          .append("\n");
-        
-    }
+for (Map<String, Object> row : report) {
+    int supplierID = (Integer) row.get("SID");
+    String supplierName = (String) row.get("Name");
+    int soldQTY = (Integer) row.get("TotalSoldQty");
+
+    sb.append("Supplier ID: ").append(supplierID)
+      .append("\n")
+      .append("Supplier Name: ").append(supplierName)
+      .append("\n")
+      .append("Sold Quantity: ").append(soldQTY)
+      .append("\n");
+}
+
+System.out.println(sb.toString());
+
     top_Supplier.setText(sb.toString());
     top_Supplier.setFont(Font.font("Arial", 15));
     top_Supplier.setFill(Color.web("#000000"));
 
 }
 
-    public void getReport3Text() throws SQLException {
-    ResultSet rs = payment_Methods_Prices(); 
+    public void getReport3Text() {
+    // استدعاء النسخة الجديدة من Reports اللي بترجع List
+    List<Map<String, Object>> report = Reports.payment_Methods_Prices();
 
     StringBuilder sb = new StringBuilder();
-    while(rs.next()) {
-        String payment = rs.getString("Payment_Method");
-        double payment_Price = rs.getDouble("Payment_Prices");
-    
-        sb.append("Payment Method: ").append(payment) 
-          .append("\n")      
+    for (Map<String, Object> row : report) {
+        String payment = (String) row.get("Payment_Method");
+        double payment_Price = (Double) row.get("Payment_Prices");
+
+        sb.append("Payment Method: ").append(payment)
+          .append("\n")
           .append("Payment Total Price: ").append(payment_Price)
           .append("\n");
-    
-        
     }
+
     payment_Method_Rep.setText(sb.toString());
     payment_Method_Rep.setFont(Font.font("Arial", 15));
     payment_Method_Rep.setFill(Color.web("#000000"));
-
 }
 
-    public void getReport5Text() throws SQLException {
-    ResultSet rs = totalRevenue(); 
+
+    public void getReport5Text() {
+    List<Map<String, Object>> report = Reports.totalRevenue();
 
     StringBuilder sb = new StringBuilder();
-    if(rs.next()) {
-        int price =rs.getInt("total_revenue");
-    
-        sb.append(" Total Revenue For All Orders: ").append(price)   ;
-          
-        
+    for (Map<String, Object> row : report) {
+        double price = (Double) row.get("total_revenue");
+        sb.append("Total Revenue For All Orders: ").append(price).append("\n");
     }
+
     Total_Revenue.setText(sb.toString());
     Total_Revenue.setFont(Font.font("Arial", 15));
     Total_Revenue.setFill(Color.web("#000000"));
-
 }
+
     
 
-    public void getReport6Text() throws SQLException {
-    ResultSet rs =LowStockAlert(); 
+    public void getReport6Text() {
+    List<Map<String, Object>> report = Reports.LowStockAlert();
 
     StringBuilder sb = new StringBuilder();
-    while(rs.next()) {
-        int ID = rs.getInt("ID");
-        String name = rs.getString("Name");
-    
-        sb.append(" Product ID: ").append(ID)
-                .append("\n")
-                .append(" Product Name:").append(name)
-                .append("\n");
+    for (Map<String, Object> row : report) {
+        int ID = (Integer) row.get("ID");
+        String name = (String) row.get("Name");
 
-          
-        
+        sb.append("Product ID: ").append(ID)
+          .append("\n")
+          .append("Product Name: ").append(name)
+          .append("\n");
     }
+
     alert.setText(sb.toString());
     alert.setFont(Font.font("Arial", 15));
     alert.setFill(Color.web("#000000"));
-
 }
+
 
 // ================= Chart Methods =================
 
  @FXML
-private void loadSalesData() throws SQLException {
+private void loadSalesData() {
     AreaChart.Series<String, Number> series = new AreaChart.Series<>();
     series.setName("Sales");
 
-    ResultSet rs = totalPriceInYears();
-    while (rs.next()) {
-        String year = rs.getString("year");
-        double price = rs.getDouble("total_year_price");
+    List<Map<String, Object>> report = Reports.totalPriceInYears();
+
+    for (Map<String, Object> row : report) {
+        String year = (String) row.get("year");
+        double price = (Double) row.get("total_year_price");
         series.getData().add(new AreaChart.Data<>(year, price));
     }
 
     prices_Chart.getData().add(series);
+
     for (XYChart.Series<String, Number> s : prices_Chart.getData()) {
         for (XYChart.Data<String, Number> data : s.getData()) {
-            data.getNode().setStyle("-fx-bar-fill:  #B597E8;");
+            data.getNode().setStyle("-fx-bar-fill: #B597E8;");
         }
     }
-
-
 }
 
 
+
 @FXML
-private void loadOrdersData() throws SQLException {
+private void loadOrdersData() {
     XYChart.Series<String, Number> series = new XYChart.Series<>();
     series.setName("Orders");
 
-    ResultSet rs = allOrdersInYears();
-    while (rs.next()) {
-        String year = rs.getString("year");
-        int number = rs.getInt("no_of_orders");
+    List<Map<String, Object>> report = Reports.allOrdersInYears();
+
+    for (Map<String, Object> row : report) {
+        String year = (String) row.get("year");
+        int number = (Integer) row.get("no_of_orders");
         series.getData().add(new XYChart.Data<>(year, number));
     }
 
@@ -333,21 +337,23 @@ private void loadOrdersData() throws SQLException {
 
     for (XYChart.Series<String, Number> s : Orders_Chart.getData()) {
         for (XYChart.Data<String, Number> data : s.getData()) {
-            data.getNode().setStyle("-fx-bar-fill:  #B597E8;");
+            data.getNode().setStyle("-fx-bar-fill: #B597E8;");
         }
     }
 }
+
  
 
 @FXML
-private void loadSellerData() throws SQLException {
+private void loadSellerData() {
     XYChart.Series<String, Number> series = new XYChart.Series<>();
     series.setName("Seller");
 
-    ResultSet rs =getTopNSoldProducts();
-    while (rs.next()) {
-        int productId = rs.getInt("ID");
-        int quantity = rs.getInt("TotalSoldQty");
+    List<Map<String, Object>> report = Reports.getTopNSoldProducts();
+
+    for (Map<String, Object> row : report) {
+        int productId = (Integer) row.get("ID");
+        int quantity = (Integer) row.get("TotalSoldQty");
         series.getData().add(new XYChart.Data<>(String.valueOf(productId), quantity));
     }
 
@@ -355,10 +361,11 @@ private void loadSellerData() throws SQLException {
 
     for (XYChart.Series<String, Number> s : Seller_Chart.getData()) {
         for (XYChart.Data<String, Number> data : s.getData()) {
-            data.getNode().setStyle("-fx-bar-fill:  #B597E8;");
+            data.getNode().setStyle("-fx-bar-fill: #B597E8;");
         }
     }
 }
+
 // ================= Load Employees Data =================
     @FXML
     private void loadEmployeesData() {
@@ -527,8 +534,8 @@ private void loadSellerData() throws SQLException {
 
             // exceptions
             try {
-                boolean success = User_DBO.addUser(u);
-                if (success) {
+                User_DBO.addUser(u);
+                if (true) {
                     showAlert("Success", "User added successfully!");
                     loadEmployeesData();
                     addEmpPane.setVisible(false);
@@ -825,6 +832,8 @@ private Label product;
             setupSearch();
             intializeReports();
             userType = new ToggleGroup();
+            rbAdmin.setToggleGroup(userType);
+         rbCashier.setToggleGroup(userType);
          // Search while typing
          searchField.textProperty().addListener((observable, oldValue, newValue) -> {
          String keyword = newValue.trim();
@@ -842,8 +851,8 @@ private Label product;
            colEmail.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(5)));
            employeeTable.setItems(data);
             });
-         rbAdmin.setToggleGroup(userType);
-         rbCashier.setToggleGroup(userType);
+          loadEmployeesData();
+         
 
         
             

@@ -1,8 +1,7 @@
 
 package clothes_system;
 
-import clothes_system.Person.Type;
-import clothes_system.User.Utype;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,6 +18,7 @@ public class Clothes_System extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Admin.fxml"));
+
 
 
         Scene scene = new Scene(root);
