@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+
 package clothes_system;
 
 
+import clothes_system.Product;
 import static clothes_system.Reports.LowStockAlert;
 import static clothes_system.Reports.allOrdersInYears;
 import static clothes_system.Reports.bestSupplier;
@@ -14,6 +12,7 @@ import static clothes_system.Reports.topOrderUser;
 import static clothes_system.Reports.topRevenueUser;
 import static clothes_system.Reports.totalPriceInYears;
 import static clothes_system.Reports.totalRevenue;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -21,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,7 +32,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -52,6 +54,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.Node;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+
 
 /**
  * FXML Controller class
@@ -66,6 +76,8 @@ public class AdminController implements Initializable {
     @FXML private Text payment_Method_Rep;
     @FXML private Text Total_Revenue;
     @FXML private Text alert;
+    // ================= Labels =================
+    @FXML private Label logoutButton;
     // ================= Charts =================
     @FXML private BarChart<String, Number> prices_Chart;
     @FXML private BarChart<String, Number> Orders_Chart;
@@ -78,10 +90,12 @@ public class AdminController implements Initializable {
     @FXML private AnchorPane productPane;
     @FXML private AnchorPane addpane;
     @FXML private AnchorPane editpane;
+    @FXML private AnchorPane suppliersPane;
+    @FXML private AnchorPane addSuppPane;
+    @FXML private AnchorPane editSuppPane;
     // ================= Buttons =================
     @FXML private Button employeesButton;
     @FXML private Button customerButton;
-    @FXML private Button logoutButton;
     @FXML private Button AddUserButton;
     @FXML private Button EditUserButton;
     @FXML private Button DelUserButton;
@@ -102,6 +116,11 @@ public class AdminController implements Initializable {
     @FXML private TableColumn<ObservableList<String>, String> colEmail;
     @FXML private TableColumn<ObservableList<String>, String> colSalary;
     @FXML private TableColumn<ObservableList<String>, String> colRole;
+    // ================= TableView Suppliers =================
+    @FXML private TableView<ObservableList<String>> suppliersTable;
+    @FXML private TableColumn<ObservableList<String>, String> colSuppID;
+    @FXML private TableColumn<ObservableList<String>, String> colSuppName;
+    @FXML private TableColumn<ObservableList<String>, String> colSuppPhone;
      // ================= TableView Products =================
     @FXML private TableView<Product> producttable;
     @FXML private TableColumn<Product, String> productID;
@@ -125,6 +144,11 @@ public class AdminController implements Initializable {
 
 
     @FXML private ToggleGroup userType;
+    // ================= AddSuppliers Fields =================
+    @FXML private TextField addSuppNameField;
+    @FXML private TextField addSuppPhoneField;
+    @FXML private Button addSuppBtn;
+    @FXML private TextField searchSuppField;
     // ================= Edit Employees Fields =================
     @FXML private TextField editEmpNameField;
     @FXML private TextField editEmpPhoneField;
@@ -133,6 +157,11 @@ public class AdminController implements Initializable {
     @FXML private TextField editEmpSalaryField;
     
     @FXML private Button editEmpbtn;
+    // ================= Edit Suppliers Fields =================
+    @FXML private TextField editSuppNameField;
+    @FXML private TextField editSuppPhoneField;
+    
+    @FXML private Button editSuppbtn;
     // ================= Edit Products Fields =================
     @FXML private TextField search;
 
@@ -170,7 +199,7 @@ public class AdminController implements Initializable {
   
      @FXML
     private TextField pid;
-    
+    // ========================================================= Reports ===========================================================
     // ================= Text Reports Methods =================
     public void getReportText() throws SQLException {
      List<Map<String, Object>> report = Reports.topRevenueUser();
@@ -178,7 +207,7 @@ public class AdminController implements Initializable {
     StringBuilder sb = new StringBuilder();
     for (Map<String, Object> row : report) {
         String name = (String) row.get("Name");
-        double price = (Double) row.get("total_Price"); // خلي بالك اسم المفتاح مطابق للكلاس الجديد
+        double price = (Double) row.get("total_Price");
         sb.append("Customer: ").append(name)
           .append("\n")
           .append("Total Price: ").append(price)
@@ -365,7 +394,38 @@ private void loadSellerData() {
         }
     }
 }
+// ================= Initialize Reports =================
+@FXML
+private void intializeReports() throws SQLException{
+        getReportText(); 
+        getReport2Text();
+        getReport3Text();
+        getReport4Text();
+        getReport5Text();
+        getReport6Text();
+        loadSalesData();
+        loadOrdersData();
+        loadSellerData();
+}
+@FXML
+private Label reportChoose;
 
+    @FXML
+    private void reportsDisplay() {
+        reportsPane.setVisible(true);
+        productPane.setVisible(false);
+        addpane.setVisible(false);
+        editpane.setVisible(false);
+        employeesPane.setVisible(false);
+        suppliersPane.setVisible(false);
+        addSuppPane.setVisible(false);
+        editSuppPane.setVisible(false);
+        customerPane.setVisible(false);
+        ordersPane.setVisible(false);
+    }
+//================================================================================================================================
+
+// ========================================================= Employees ===========================================================
 // ================= Load Employees Data =================
     @FXML
     private void loadEmployeesData() {
@@ -576,38 +636,209 @@ private void loadSellerData() {
             alert.setContentText(message);
             alert.showAndWait();
         }
-// ================= Initialize Reports =================
-@FXML
-private void intializeReports() throws SQLException{
-        getReportText(); 
-        getReport2Text();
-        getReport3Text();
-        getReport4Text();
-        getReport5Text();
-        getReport6Text();
-        loadSalesData();
-        loadOrdersData();
-        loadSellerData();
+         @FXML private Label employeesChoose;
+    @FXML
+    private void showEmployeesPane(){
+        employeesPane.setVisible(true);
+        productPane.setVisible(false);
+        addpane.setVisible(false);
+        editpane.setVisible(false);
+        reportsPane.setVisible(false);
+        suppliersPane.setVisible(false);
+        addSuppPane.setVisible(false);
+        editSuppPane.setVisible(false);
+        customerPane.setVisible(false);
+        ordersPane.setVisible(false);
+        
+    }
+    @FXML 
+    private void showAddEmployees(){
+        addEmpPane.setVisible(true);
+    }
+//================================================================================================================================
+
+// ========================================================= Suppliers ===========================================================
+  // ================= Load Suppliers Data =================
+    @FXML
+    private void loadSuppliersData() {
+        ObservableList<ObservableList<String>> data = Supplier_DBO.getAllPersonsForTable();
+        colSuppID.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(0)));
+        colSuppName.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(1)));
+        colSuppPhone.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(2)));
+        suppliersTable.setItems(data);
+    }
+    // ================= Search Suppliers =================
+    
+    @FXML
+         public void searchSupplier() {
+             String keyword = searchSuppField.getText().trim();
+             if (keyword.isEmpty()) {
+                 loadSuppliersData();
+                   return;
+                }
+             ObservableList<ObservableList<String>> data = Supplier_DBO.searchUsersForTable(keyword);
+             if (data.isEmpty()) {
+             showAlert("Info", "No Supplier found with this keyword!");
+               }
+
+             colSuppID.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(0)));
+             colSuppName.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(1)));
+             colSuppPhone.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(2)));
+             suppliersTable.setItems(data);
+             }
+         // ================= Delete Supplier =================
+    @FXML
+      public void deleteSupplier() {
+    ObservableList<String> selectedSupplier = suppliersTable.getSelectionModel().getSelectedItem();
+    
+    if (selectedSupplier == null) {
+        showAlert("Error", "Please select a supplier to delete!");
+        return;
+    }
+    
+    try {
+        int supplierId = Integer.parseInt(selectedSupplier.get(0)); 
+        String supplierName = selectedSupplier.get(1);
+        
+        // Alert to confirm deletion
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm Delete");
+        confirmation.setHeaderText("Delete Supplier");
+        confirmation.setContentText("Are you sure you want to delete " + supplierName + "?");
+        
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean success = Supplier_DBO.deletePerson(supplierId);
+            loadSuppliersData();
+
+        }
+    } catch (NumberFormatException e) {
+        showAlert("Error", "Invalid supplier ID!");
+    }
 }
+      // ================= Edit Supplier =================
+        private int suppId; 
+
+        @FXML
+        public void editSuppClicked() {    // get the user id from the table and fill the fields with the data
+            addSuppPane.setVisible(false);  // close the add pane if it's open
+            ObservableList<String> selectedSupplier = suppliersTable.getSelectionModel().getSelectedItem();
+
+            if (selectedSupplier == null) {
+                showAlert("Error", "Please select a supplier to edit!");
+                return;
+            }
+
+            try {
+                //
+                suppId = Integer.parseInt(selectedSupplier.get(0));
+
+                Person person = Supplier_DBO.searchPerson(String.valueOf(suppId));
+                if (person == null) {
+                    showAlert("Error", "Supplier not found in database!");
+                    return;
+                }
+
+                // fill old data
+                editSuppNameField.setText(person.getName());
+                editSuppPhoneField.setText(person.getContact_info());
 
 
+                editSuppPane.setVisible(true); 
 
+            } catch (NumberFormatException e) {
+                showAlert("Error", "Invalid supplier ID!");
+            }
+        }
+
+        @FXML
+        public void saveSuppClicked() {
+            try {
+                String newName = editEmpNameField.getText();
+                String newPhone = editEmpPhoneField.getText();
+
+                boolean success = Supplier_DBO.updatePerson(suppId, newName, newPhone);
+
+                if (success) {
+                    showAlert("Success", "Supplier updated successfully!");
+                    editSuppPane.setVisible(false);
+                    loadSuppliersData();
+                } else {
+                    showAlert("Error", "Failed to update supplier.");
+                }
+            } catch (NumberFormatException e) {
+                showAlert("Error", "Invalid input data!");
+            }
+        }
+        // ================= Add Supplier =================
+         @FXML
+        public void addSuppClicked() {
+            String name = addSuppNameField.getText().trim();
+            String phone = addSuppPhoneField.getText().trim();
+
+
+            // check empty fields
+            if (name.isEmpty() || phone.isEmpty()) {
+                showAlert("Error", "All fields are required!");
+                return;
+            }
+
+            Person p = new Person(name, phone, Person.Type.SUPPLIER);
+
+            // exceptions
+            try {
+                Supplier_DBO.addPerson(p);
+                if (true) {
+                    showAlert("Success", "Supplier added successfully!");
+                    loadSuppliersData();
+                    addSuppPane.setVisible(false);
+                    clearFields();
+                } else {
+                    showAlert("Error", "Failed to add supplier!");
+                }
+            } catch (Exception e) {
+                
+            }
+        }
+
+        // clear fields after add
+        private void clearSuppFields() {
+            addSuppNameField.clear();
+            addSuppPhoneField.clear();
+
+        }
+
+        // Alert method
+        private void showSuppAlert(String title, String message) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        }
+         @FXML private Label suppliersChoose;
+    @FXML
+    private void showSuppliersPane(){
+        suppliersPane.setVisible(true);
+        productPane.setVisible(false);
+        addpane.setVisible(false);
+        editpane.setVisible(false);
+        reportsPane.setVisible(false);
+        employeesPane.setVisible(false);
+        addEmpPane.setVisible(false);
+        editEmpPane.setVisible(false);
+        customerPane.setVisible(false);
+        ordersPane.setVisible(false);
+        
+    }
+    @FXML 
+    private void showAddSuppliers(){
+        addSuppPane.setVisible(true);
+    }
     
+//================================================================================================================================        
 
-    
-
-    
-   
-  
-     
-
-    
-
-    
-
-    
-
-    
+// ========================================================= Products ===========================================================        
 
     private ObservableList<Product> productlist = FXCollections.observableArrayList();
     private FilteredList<Product> filteredList;
@@ -656,23 +887,53 @@ for (Product p : productlist) {
         });
     }
 
- @FXML
+@FXML
 private void deleteproduct(ActionEvent event) {
+
+    // Get selected product
     Product selected = producttable.getSelectionModel().getSelectedItem();
+
+    // If nothing selected → show error and stop
     if (selected == null) {
-        System.out.println("No product selected!");
+        showAlert("Error", "Please select a product to delete!");
         return;
     }
 
-    // 1. Delete from database
+    // Show confirmation dialog
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirm Delete");
+    alert.setHeaderText("Are you sure you want to delete this product?");
+    alert.setContentText("This action cannot be undone.");
+
+    Optional<ButtonType> result = alert.showAndWait();
+
+    // If user clicked CANCEL → do nothing
+    if (result.isEmpty() || result.get() != ButtonType.OK) {
+        return;
+    }
+
+    // If user clicked OK → delete from DB
     productDB.deleteProducts(selected.getId());
 
-    // 2. Remove from ObservableList so TableView updates
+    // Delete from list so TableView updates
     productlist.remove(selected);
 
+    showAlert("Success", "Product deleted successfully!");
 }
 
-    
+
+
+     private void clearFieldsproduct() {
+            name.clear();
+            price1.clear();
+            quantity1.clear();
+            pid.clear();
+            status1.clear();
+            colour.clear();
+            sid.clear();
+
+
+        }
 
     @FXML
     private void cancel(ActionEvent event) {
@@ -688,7 +949,7 @@ private void save(ActionEvent event) {
 
     try {
         // Update product with TO field values
-        selectedProduct.setId(Integer.parseInt(tid.getText()));
+       // selectedProduct.setId(Integer.parseInt(tid.getText()));
         selectedProduct.setName(tname.getText());
         selectedProduct.setPrice(Double.parseDouble(tprice.getText()));
         selectedProduct.setQuantity(Integer.parseInt(tquantity.getText()));
@@ -697,20 +958,31 @@ private void save(ActionEvent event) {
         selectedProduct.setColour(tcolour.getText());
 
         // Update in database
-        productDB.updateProduct(selectedProduct);
+        
 
         // Refresh TableView
-        loadProducts();
+     
 
         // Close edit pane
-        editpane.setVisible(false);
-        productPane.setVisible(true);
-
-        System.out.println("Product updated successfully!");
+    
+         boolean isedited=productDB.updateProduct(selectedProduct);
+        if(isedited){
+                 
+              // productDB.updateProduct(selectedProduct);
+               loadProducts();
+                showAlert("success", "product updated successfully"); 
+                editpane.setVisible(false);
+                productPane.setVisible(true);
+        }
+        else{
+           
+        }
+       
+      
 
     } catch (Exception e) {
         e.printStackTrace();
-        System.out.println("Error updating product. Please check fields.");
+         showAlert("Error", "edit failed.supplier does not exist");
     }
 }
 
@@ -737,34 +1009,38 @@ private void finish(ActionEvent event) {
             productStatus,
             productColour
         );
+        boolean isadded=productDB.addProduct(newProduct);
+        if(isadded){
+                productlist.add(newProduct); 
+               // productDB.addProduct(newProduct);
+                  showAlert("success", "product added successfully");
+        }
+        else{
+            
+        }
+       
+    
 
-        productlist.add(newProduct);
-productDB.addProduct(newProduct);
 
       
 
         // 6. Switch panes back to main product view
         addpane.setVisible(false);
         productPane.setVisible(true);
+        clearFieldsproduct();
+          name.setText("name");
+           price1.setText("price");
+            quantity1.setText("quantity");
+            pid.setText("pid");
+            status1.setText("status");
+            colour.setText("colour");
+            sid.setText("sid");
 
-        System.out.println("Product added successfully!");
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("Error adding product. Please check all fields.");
-    }
+    } 
+   catch (Exception e) {
+    showAlert("Error", "Invalid input. Please check the fields.");
 }
-@FXML
-private Label reportChoose;
-
-    @FXML
-    private void reportsDisplay() {
-        reportsPane.setVisible(true);
-        productPane.setVisible(false);
-        addpane.setVisible(false);
-        editpane.setVisible(false);
-        employeesPane.setVisible(false);
-    }
+}
     @FXML
 private Label product;
     @FXML
@@ -774,6 +1050,11 @@ private Label product;
         editpane.setVisible(false);
         reportsPane.setVisible(false);
         employeesPane.setVisible(false);
+        suppliersPane.setVisible(false);
+        addSuppPane.setVisible(false);
+        editSuppPane.setVisible(false);
+        customerPane.setVisible(false);
+        ordersPane.setVisible(false);
     }
 
     @FXML
@@ -783,15 +1064,21 @@ private Label product;
         editpane.setVisible(false);
         reportsPane.setVisible(false);
         employeesPane.setVisible(false);
+        suppliersPane.setVisible(false);
+        addSuppPane.setVisible(false);
+        editSuppPane.setVisible(false);
+        customerPane.setVisible(false);
+        ordersPane.setVisible(false);
     }
 
     @FXML
     private void showEditProductPane() {
       Product selected = producttable.getSelectionModel().getSelectedItem();
     if (selected == null) {
-        System.out.println("No product selected for edit!");
+        showAlert("Error", "Please select a product to edit!");
         return;
     }
+     
     this.selectedProduct = selected;
 
     // Fill FROM fields (show current values)
@@ -802,36 +1089,588 @@ private Label product;
     fstatus.setText(selected.getStatus());
     fsid.setText(String.valueOf(selected.getSupplierID()));
     fcolour.setText(selected.getColour());
-      productPane.setVisible(false);
+      productPane.setVisible(true);
         addpane.setVisible(false);
         editpane.setVisible(true);
-        reportsPane.setVisible(false);
-        employeesPane.setVisible(false);
+     reportsPane.setVisible(false);
+     employeesPane.setVisible(false);
+     suppliersPane.setVisible(false);
+        addSuppPane.setVisible(false);
+        editSuppPane.setVisible(false);
+        customerPane.setVisible(false);
+        ordersPane.setVisible(false);
     }
-    @FXML private Label employeesChoose;
+    
+//================================================================================================================================ 
+// ========================================================= Customers ===========================================================    
+
+   
+    @FXML private AnchorPane customerPane;  // Changed from 'customer'
+    @FXML private Button Add;
+    @FXML private Button Delete;
+    @FXML private Button Update;
+    @FXML private Button show_orders;
+    @FXML private TextField Search;
+    @FXML private TableView<Customer> customers;
+    @FXML private TableColumn<Customer, Integer> Id;
+    @FXML private TableColumn<Customer, String> Name;
+    @FXML private TableColumn<Customer, String> Contact_info;
+    
+    @FXML private Button Save;
+    @FXML private Button Cancel;  // Changed from 'cancel' to 'Cancel'
+    @FXML private TextField custName;
+    @FXML private TextField Contact;
+    
+    @FXML private AnchorPane ordersPane;  // Changed from 'his_orders'
+    @FXML private TableView<Order> Orders; 
+    @FXML private TableColumn<Order, Integer> id;
+    @FXML private TableColumn<Order, Date> date;
+    @FXML private TableColumn<Order, Double> discount;
+    @FXML private TableColumn<Order, Double> calc_price;
+    @FXML private TableColumn<Order, String> pay_method;
+    @FXML private TableColumn<Order, Double> tot_price;
+    @FXML private TableColumn<Order, Integer> cid;
+    @FXML private TableColumn<Order, Integer> caid;
+    @FXML private Button Back;
+    @FXML private Label CustName;
+    
+    private ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+    private FilteredList<Customer> filteredCustomers;
+    
+   
+    
+    // Setup real-time search functionality
+    private void setupRealTimeSearch() {
+        // Initialize filtered list
+        filteredCustomers = new FilteredList<>(allCustomers, p -> true);
+        customers.setItems(filteredCustomers);
+        
+        // Add listener to search field for real-time filtering
+        Search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterCustomers(newValue);
+        });
+        
+        // Add search placeholder text
+        Search.setPromptText("Search by name, phone, or ID...");
+    }
+    
+    // Method to filter customers based on search text
+    private void filterCustomers(String searchText) {
+        if (searchText == null || searchText.isEmpty()) {
+            filteredCustomers.setPredicate(customer -> true); // Show all customers
+        } else {
+            String lowerCaseFilter = searchText.toLowerCase().trim();
+            
+            filteredCustomers.setPredicate(customer -> {
+                // Search in name (case insensitive)
+                if (customer.getName() != null && customer.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                
+                // Search in contact info (case insensitive)
+                if (customer.getContact_info() != null && customer.getContact_info().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                
+                // Search in ID (exact match or partial)
+                if (String.valueOf(customer.getId()).contains(lowerCaseFilter)) {
+                    return true;
+                }
+                
+                return false; // No match found
+            });
+        }
+    }
+    
+    private void refreshCustomerTable() {
+        List<Customer> customerList = Customer_DBO.getAllCustomers();
+        allCustomers.setAll(customerList);
+        
+        // Refresh the filtered list with new data
+        if (filteredCustomers != null) {
+            String searchText = Search.getText();
+            if (searchText == null || searchText.isEmpty()) {
+                filteredCustomers.setPredicate(customer -> true);
+            } else {
+                String lowerCaseFilter = searchText.toLowerCase().trim();
+                filteredCustomers.setPredicate(customer -> {
+                    // Search in name
+                    if (customer.getName() != null && customer.getName().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                    
+                    // Search in contact info
+                    if (customer.getContact_info() != null && customer.getContact_info().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                    
+                    // Search in ID
+                    if (String.valueOf(customer.getId()).contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                    
+                    return false;
+                });
+            }
+        }
+    }
+    
     @FXML
-    private void showEmployeesPane(){
-        employeesPane.setVisible(true);
+    private void onAddButtonClick(ActionEvent event) {
+        // Clear form for new customer
+        custName.clear();
+        Contact.clear();
+        custName.requestFocus();
+        
+        // Reset Save button to add mode
+        Save.setOnAction(this::handleSaveCustomer);
+    }
+    
+    @FXML
+    private void handleSaveCustomer(ActionEvent event) {
+        String customerName = custName.getText().trim();
+        String contactInfo = Contact.getText().trim();
+
+        // Check for empty fields
+        if (customerName.isEmpty() || contactInfo.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Missing Information");
+            alert.setContentText("Please fill in all fields.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Remove any spaces, dashes, or parentheses from phone number
+        String cleanContactInfo = contactInfo.replaceAll("[\\s\\-()]", "");
+        
+        // Validate contact info format (Egyptian phone number)
+        if (!isValidEgyptianPhoneNumber(cleanContactInfo)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Phone Number");
+            alert.setHeaderText("Phone Number Format Error");
+            alert.setContentText("Please enter a valid Egyptian phone number:\n" +
+                               "• Must start with 01\n" +
+                               "• Must be exactly 11 digits\n" +
+                               "• Format: 01XXXXXXXXX (e.g., 01123456789)\n" +
+                               "• Only digits allowed (no spaces or dashes)");
+            alert.showAndWait();
+            Contact.requestFocus();
+            Contact.selectAll();
+            return;
+        }
+
+        // Check if phone number already exists in database
+        if (isPhoneNumberExists(cleanContactInfo)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Duplicate Phone Number");
+            alert.setHeaderText("Phone Number Already Exists");
+            alert.setContentText("This phone number is already registered to another customer.\n" +
+                               "Please use a different phone number.");
+            alert.showAndWait();
+            Contact.requestFocus();
+            Contact.selectAll();
+            return;
+        }
+
+        // === ADDED CONFIRMATION DIALOG FOR ADD ===
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Addition");
+        confirmAlert.setHeaderText("Add New Customer");
+        confirmAlert.setContentText("Are you sure you want to add this customer?\n\n" +
+                                   "• Name: " + customerName + "\n" +
+                                   "• Phone: " + formatPhoneNumber(cleanContactInfo) + "\n\n" +
+                                   "Please verify the information is correct.");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        
+        // If user clicks Cancel or closes the dialog, do nothing
+        if (result.isPresent() && result.get() != ButtonType.OK) {
+            return;
+        }
+        // === END CONFIRMATION DIALOG ===
+
+        Customer newCustomer = new Customer(customerName,cleanContactInfo,Person.Type.CUSTOMER);
+
+        
+        boolean success = Customer_DBO.addCustomer(newCustomer);
+
+        if (success) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Customer Added Successfully");
+            alert.setContentText("Customer '" + customerName + "' has been added to the system.\n" +
+                               "Phone: " + formatPhoneNumber(cleanContactInfo));
+            alert.showAndWait();
+            
+            custName.clear();
+            Contact.clear();
+            refreshCustomerTable();
+            
+            // Clear search after adding new customer
+            Search.clear();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Add Failed");
+            alert.setContentText("Could not add the customer. Please try again.");
+            alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    private void handleCancel(ActionEvent event) {
+        custName.clear();
+        Contact.clear();
+    }
+    
+    @FXML
+    private void handleDeleteCustomer(ActionEvent event) {
+        Customer selectedCust = customers.getSelectionModel().getSelectedItem();
+
+        if (selectedCust == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("No Selection");
+            alert.setContentText("Please select a customer to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        // === VERIFICATION DIALOG FOR DELETE ===
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Deletion");
+        confirmAlert.setHeaderText("Delete Customer");
+        confirmAlert.setContentText("Are you sure you want to delete customer:\n\n" +
+                                   "• Name: " + selectedCust.getName() + "\n" +
+                                   "• Phone: " + formatPhoneNumber(selectedCust.getContact_info()) + "\n" +
+                                   "• ID: " + selectedCust.getId() + "\n\n" +
+                                   "⚠️ This action cannot be undone!");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        
+        // If user clicks Cancel or closes the dialog, do nothing
+        if (result.isPresent() && result.get() != ButtonType.OK) {
+            return;
+        }
+        // === END VERIFICATION DIALOG ===
+
+        boolean success = Customer_DBO.deleteCustomer(selectedCust.getId());
+
+        if (success) {
+            refreshCustomerTable(); 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Customer Deleted");
+            alert.setContentText("Customer '" + selectedCust.getName() + "' has been deleted successfully.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Delete Failed");
+            alert.setContentText("Could not delete the customer.");
+            alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    private void handleShowOrders(ActionEvent event) {
+        Customer selectedCust = customers.getSelectionModel().getSelectedItem();
+
+        if (selectedCust == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("No Selection");
+            alert.setContentText("Please select a customer to view orders.");
+            alert.showAndWait();
+            return;
+        }
+
+        System.out.println("=== DEBUG: Selected Customer ID: " + selectedCust.getId() + " ===");
+
+        ObservableList<Order> orders = Order_DBO.getOrdersByCustomerId(selectedCust.getId());
+
+        // DEBUG: Check what we're getting
+        System.out.println("Number of orders found: " + orders.size());
+        for (Order order : orders) {
+            System.out.println("Order ID: " + order.getId() + 
+                             " | CID in Order object: " + order.getCid() + 
+                             " | CAID: " + order.getCaid());
+        }
+
+        if (orders != null && !orders.isEmpty()) {
+            Orders.setItems(orders);
+            CustName.setText("Customer Name: " + selectedCust.getName());
+
+            // DEBUG: Check TableView binding
+            System.out.println("TableView items count: " + Orders.getItems().size());
+
+            customerPane.setVisible(false); 
+            ordersPane.setVisible(true);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No Orders");
+            alert.setHeaderText("No Orders Found");
+            alert.setContentText("This customer has no orders yet.");
+            alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    private void handleBack(ActionEvent event) {
+        ordersPane.setVisible(false);
+        customerPane.setVisible(true);
+        refreshCustomerTable();
+    }
+    
+    @FXML
+    private void handleUpdateCustomer(ActionEvent event) {
+        Customer selectedCust = customers.getSelectionModel().getSelectedItem();
+
+        if (selectedCust == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("No Selection");
+            alert.setContentText("Please select a customer to update.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Fill form with existing data
+        custName.setText(selectedCust.getName());
+        Contact.setText(selectedCust.getContact_info());
+
+        // Store the original customer for comparison
+        Customer originalCustomer = selectedCust;
+
+        // Store customer to update
+        Customer customerToUpdate = selectedCust;
+
+        // Temporarily change Save button action for update
+        Save.setOnAction(e -> {
+            String newName = custName.getText().trim();
+            String newContact = Contact.getText().trim();
+
+            // Check for empty fields
+            if (newName.isEmpty() || newContact.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText("Missing Information");
+                alert.setContentText("Please fill in all fields.");
+                alert.showAndWait();
+                return;
+            }
+
+            // Remove any spaces, dashes, or parentheses from phone number
+            String cleanContactInfo = newContact.replaceAll("[\\s\\-()]", "");
+
+            // Validate contact info format
+            if (!isValidEgyptianPhoneNumber(cleanContactInfo)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Invalid Phone Number");
+                alert.setHeaderText("Phone Number Format Error");
+                alert.setContentText("Please enter a valid Egyptian phone number:\n" +
+                                   "• Must start with 01\n" +
+                                   "• Must be exactly 11 digits\n" +
+                                   "• Format: 01XXXXXXXXX (e.g., 01123456789)\n" +
+                                   "• Only digits allowed (no spaces or dashes)");
+                alert.showAndWait();
+                Contact.requestFocus();
+                Contact.selectAll();
+                return;
+            }
+
+            // Check if phone number already exists (excluding current customer)
+            if (!cleanContactInfo.equals(originalCustomer.getContact_info()) && isPhoneNumberExists(cleanContactInfo)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Duplicate Phone Number");
+                alert.setHeaderText("Phone Number Already Exists");
+                alert.setContentText("This phone number is already registered to another customer.\n" +
+                                   "Please use a different phone number.");
+                alert.showAndWait();
+                Contact.requestFocus();
+                Contact.selectAll();
+                return;
+            }
+
+            // === CONFIRMATION DIALOG FOR UPDATE ===
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Confirm Update");
+            confirmAlert.setHeaderText("Update Customer Information");
+
+            // Show changes
+            StringBuilder changes = new StringBuilder();
+            changes.append("Are you sure you want to update this customer?\n\n");
+
+            if (!newName.equals(originalCustomer.getName())) {
+                changes.append("• Name: ").append(originalCustomer.getName())
+                       .append(" → ").append(newName).append("\n");
+            } else {
+                changes.append("• Name: ").append(newName).append(" (unchanged)\n");
+            }
+
+            if (!cleanContactInfo.equals(originalCustomer.getContact_info())) {
+                changes.append("• Phone: ").append(formatPhoneNumber(originalCustomer.getContact_info()))
+                       .append(" → ").append(formatPhoneNumber(cleanContactInfo)).append("\n");
+            } else {
+                changes.append("• Phone: ").append(formatPhoneNumber(cleanContactInfo)).append(" (unchanged)\n");
+            }
+
+            changes.append("\nPlease verify the changes are correct.");
+
+            confirmAlert.setContentText(changes.toString());
+
+            Optional<ButtonType> result = confirmAlert.showAndWait();
+
+            // If user clicks Cancel or closes the dialog, do nothing
+            if (result.isPresent() && result.get() != ButtonType.OK) {
+                return;
+            }
+            // === END CONFIRMATION DIALOG ===
+
+            customerToUpdate.setName(newName);
+            customerToUpdate.setContact_info(cleanContactInfo);
+
+            boolean success = Customer_DBO.updateCustomer(customerToUpdate);
+
+            if (success) {
+                // REMOVED THE DUPLICATE SUCCESS ALERT - ONLY SHOW CONFIRMATION DIALOG
+
+                custName.clear();
+                Contact.clear();
+                refreshCustomerTable();
+
+                // Reset Save button to normal add action
+                Save.setOnAction(this::handleSaveCustomer);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Update Failed");
+                alert.setContentText("Could not update the customer.");
+                alert.showAndWait();
+            }
+        });
+    }
+    
+    // Helper method to validate Egyptian phone number format
+    private boolean isValidEgyptianPhoneNumber(String phoneNumber) {
+        // Remove any spaces, dashes, or other characters
+        phoneNumber = phoneNumber.replaceAll("[\\s\\-()]", "");
+        
+        // Check if it's exactly 11 digits and starts with 01
+        if (!phoneNumber.matches("01\\d{9}")) {
+            return false;
+        }
+        
+        // Additional validation: check specific Egyptian mobile prefixes
+        String prefix = phoneNumber.substring(0, 3);
+        String[] validPrefixes = {"010", "011", "012", "015"};
+        
+        for (String validPrefix : validPrefixes) {
+            if (prefix.equals(validPrefix)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    // Helper method to check if phone number already exists in database
+    private boolean isPhoneNumberExists(String phoneNumber) {
+        // Remove any formatting for comparison
+        phoneNumber = phoneNumber.replaceAll("[\\s\\-()]", "");
+        
+        String sql = "SELECT COUNT(*) as count FROM Person WHERE Contact_Info = ? AND Type = 'CUSTOMER'";
+        
+        try (java.sql.Connection connection = DBconnector.connect();
+             java.sql.PreparedStatement pst = connection.prepareStatement(sql)) {
+            
+            pst.setString(1, phoneNumber);
+            java.sql.ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("count") > 0;
+            }
+            
+        } catch (java.sql.SQLException e) {
+            System.out.println("Error checking phone number: " + e.getMessage());
+        }
+        
+        return false;
+    }
+    
+    // Helper method to format phone number for display
+    private String formatPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.length() != 11) {
+            return phoneNumber;
+        }
+        // Format as 01X-XXX-XXXX
+        return phoneNumber.substring(0, 3) + "-" + 
+               phoneNumber.substring(3, 7) + "-" + 
+               phoneNumber.substring(7);
+    }
+    
+    // Optional: Clear search button
+    @FXML
+    private void handleClearSearch(ActionEvent event) {
+        Search.clear();
+        Search.requestFocus();
+    }
+    
+    // Optional: Enter key search
+    @FXML
+    private void handleSearch(ActionEvent event) {
+        // Focus on table if there are results
+        if (!customers.getItems().isEmpty()) {
+            customers.requestFocus();
+            customers.getSelectionModel().selectFirst();
+        }
+    } 
+    @FXML
+    private void showCustomerPane() {
         productPane.setVisible(false);
         addpane.setVisible(false);
         editpane.setVisible(false);
         reportsPane.setVisible(false);
+        employeesPane.setVisible(false);
+        suppliersPane.setVisible(false);
+        addSuppPane.setVisible(false);
+        editSuppPane.setVisible(false);
+        customerPane.setVisible(true);
+        ordersPane.setVisible(false);
+    }
+    
+//================================================================================================================================    
+    @FXML
+    private void returnToSignIn(MouseEvent e ) throws IOException{
+    Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml"));
+    Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+
+        Scene scene = new Scene(root, width, height); 
+        stage.setScene(scene);
+        stage.show();
+
+    }
+    private void closeAll(){
+        reportsPane.setVisible(false);
+        productPane.setVisible(false);
+        addpane.setVisible(false);
+        editpane.setVisible(false);
+        employeesPane.setVisible(false);
+        addEmpPane.setVisible(false);
+        editEmpPane.setVisible(false);
+        suppliersPane.setVisible(false);
+        addSuppPane.setVisible(false);
+        editSuppPane.setVisible(false);
+        customerPane.setVisible(false);
+        ordersPane.setVisible(false);
         
     }
-    @FXML 
-    private void showAddEmployees(){
-        addEmpPane.setVisible(true);
-    }
- 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
-            setupTable();
-            loadProducts();
-            setupSearch();
-            intializeReports();
-            userType = new ToggleGroup();
+    private void intialize_Emp(){
+        userType = new ToggleGroup();
             rbAdmin.setToggleGroup(userType);
          rbCashier.setToggleGroup(userType);
          // Search while typing
@@ -852,26 +1691,86 @@ private Label product;
            employeeTable.setItems(data);
             });
           loadEmployeesData();
-         
+    }
+    private void intialize_Supp(){
+         searchSuppField.textProperty().addListener((observable, oldValue, newValue) -> {
+         String keyword = newValue.trim();
+             if (keyword.isEmpty()) {
+             loadSuppliersData(); 
+                return;
+                }
+            ObservableList<ObservableList<String>> data = Supplier_DBO.searchUsersForTable(keyword);
+
+           colSuppID.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(0)));
+           colSuppName.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(1)));
+           colSuppPhone.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(2)));
+
+           suppliersTable.setItems(data);
+            });
+          loadSuppliersData();
+    }
+    
+    private void initialize_Prod(){
+        setupTable();
+            loadProducts();
+            setupSearch();
+    }
+    private void initialize_Cust(){
+        customerPane.setVisible(true); 
+        ordersPane.setVisible(false);
 
         
+
+        Id.setCellValueFactory(new PropertyValueFactory<>("id")); 
+        Name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        Contact_info.setCellValueFactory(new PropertyValueFactory<>("contact_info"));
+
+        // ORDER TABLE COLUMNS
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));  // Order ID
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        tot_price.setCellValueFactory(new PropertyValueFactory<>("total_price"));
+        discount.setCellValueFactory(new PropertyValueFactory<>("disount"));  // Note the typo
+        pay_method.setCellValueFactory(new PropertyValueFactory<>("payment_method"));
+        calc_price.setCellValueFactory(new PropertyValueFactory<>("calculated_price"));
+        cid.setCellValueFactory(new PropertyValueFactory<>("cid"));  // FIXED: Changed from "id" to "cid"
+        caid.setCellValueFactory(new PropertyValueFactory<>("caid"));
+
+        
+        setupRealTimeSearch();
+        Contact.setPromptText("01123456789 (11 digits starting with 01)");
+        refreshCustomerTable();
+    }
+    static String rec_Email;
+    static String rec_Pass;
+    public static void receive_Info(List<String> info) {
+    rec_Email = info.get(0);
+    rec_Pass = info.get(1);
+   
+}
+    
+
+    
+ 
+
+    @FXML Text adminName;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            initialize_Prod();
+            intializeReports();
+            intialize_Emp();
+            intialize_Supp();
+            initialize_Cust();
+            adminName.setText(User_DBO.getAdminName(rec_Email, rec_Pass));
             
             
-  
- 
- 
-     
-         
+            
+            
+      
      } catch (SQLException ex) {
          Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
      }
-        reportsPane.setVisible(false);
-        productPane.setVisible(false);
-        addpane.setVisible(false);
-        editpane.setVisible(false);
-        employeesPane.setVisible(false);
-        addEmpPane.setVisible(false);
-        editEmpPane.setVisible(false);
+       closeAll();
     }
 
 

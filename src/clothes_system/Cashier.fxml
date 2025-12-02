@@ -1,20 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox alignment="CENTER" layoutY="-1.0" prefHeight="111.0" prefWidth="600.0" styleClass="coloredArea" stylesheets="@admin.css">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothes_system.CashierController">
+   <center>
+      <StackPane fx:id="stackpane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="150.0" prefWidth="1315.0" styleClass="stackPane" stylesheets="@admin.css" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="#d7cccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Cashier DashBoard" textOrigin="CENTER">
+            <ImageView fitHeight="800.0" fitWidth="1358.0" pickOnBounds="true">
+               <image>
+                  <Image url="@resources/images/Gemini_Generated_Image_i6l835i6l835i6l8.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="CashierOrderPane" prefHeight="200.0" prefWidth="200.0" styleClass="anchorReport" stylesheets="@admin.css">
+               <children>
+                  <AnchorPane layoutX="224.0" layoutY="165.0" prefHeight="374.0" prefWidth="386.0" />
+                  <TableView fx:id="CashierOrders" layoutX="170.0" layoutY="114.0" prefHeight="488.0" prefWidth="538.0">
+                     <columns>
+                        <TableColumn fx:id="OID" prefWidth="75.0" text="Ordre ID" />
+                        <TableColumn fx:id="CID" prefWidth="102.4000244140625" text="Customer ID" />
+                        <TableColumn fx:id="totalAmount" prefWidth="100.79998779296875" text="Total Price" />
+                        <TableColumn fx:id="Payment" prefWidth="124.80001831054688" text="Payment Method" />
+                        <TableColumn fx:id="Date" prefWidth="132.79996337890623" text="Date" />
+                     </columns>
+                  </TableView>
+                  <AnchorPane fx:id="createOrderPane" layoutX="60.0" layoutY="35.0" prefHeight="621.0" prefWidth="669.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </center>
+   <left>
+      <VBox fx:id="sideBar" prefHeight="800.0" prefWidth="232.0" styleClass="sideBar" stylesheets="@admin.css" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="198.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/16-169348_user-icon-user-white-icon-transparent-clipart-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="cashierName" fill="#a576ab" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="186.0" spacing="5.0" styleClass="reportHBox" stylesheets="@admin.css">
+               <VBox.margin>
+                  <Insets left="5.0" top="30.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="232.0" spacing="5.0" styleClass="reportHBox">
+               <children>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/208-2088538_report-icon-reports-icon-white-png-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="createOrderChoose" onMouseClicked="#showEmployeesPane" prefHeight="21.0" prefWidth="200.0" text="Create Orders" textFill="#a676ac">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="22.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/578-5787543_beard-bates-white-swipe-arrow-png-clipart-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="85.0" prefWidth="232.0" spacing="5.0" styleClass="reportHBox">
+               <children>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/208-2088538_report-icon-reports-icon-white-png-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="CashierOrdersChoose" onMouseClicked="#reportsDisplay" onMousePressed="#reportsDisplay" prefHeight="46.0" prefWidth="165.0" text="Show My Orders" textFill="#a676ac">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="22.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/578-5787543_beard-bates-white-swipe-arrow-png-clipart-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Label fx:id="logoutButton" onMouseClicked="#returnToSignIn" prefHeight="30.0" prefWidth="193.0" styleClass="reportHBox" stylesheets="@admin.css" text="Log Out" textFill="#a676ac">
                <font>
-                  <Font size="41.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
-            </Text>
+               <VBox.margin>
+                  <Insets left="10.0" top="400.0" />
+               </VBox.margin>
+            </Label>
          </children>
       </VBox>
-   </children>
-</AnchorPane>
+   </left>
+</BorderPane>

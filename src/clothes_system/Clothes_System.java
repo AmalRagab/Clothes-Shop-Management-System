@@ -17,7 +17,7 @@ public class Clothes_System extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Admin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml"));
 
 
 
@@ -26,7 +26,6 @@ public class Clothes_System extends Application {
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
-        Reports.payment_Methods_Prices();
 
         
         

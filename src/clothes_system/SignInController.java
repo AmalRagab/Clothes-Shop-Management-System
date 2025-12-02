@@ -43,6 +43,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,8 +58,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class SignInController implements Initializable {
-    
-    
     @FXML
     private TextField emailField;
     @FXML
@@ -70,49 +70,63 @@ public class SignInController implements Initializable {
     private Text passText;
     @FXML
     private Button signInBtn;
+    @FXML
+    private Label errormsg;
+
     
 
     @FXML
-    private void signInAction() throws IOException {
-        String email = emailField.getText();
-        String password = passField.getText();
-        try {
-        Connection conn = DBconnector.connect(); // دالة الاتصال بالداتابيز
+private void signInAction() throws IOException {
+    errormsg.setVisible(false);
+    String email = emailField.getText();
+    String password = passField.getText();
 
+    Connection conn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
+    try {
+        conn = DBconnector.connect();
         String sql = "SELECT Email, Password, Type FROM \"User\" WHERE Email = ? AND Password = ?";
-
-        PreparedStatement pst = conn.prepareStatement(sql);
+        pst = conn.prepareStatement(sql);
         pst.setString(1, email);
         pst.setString(2, password);
-
-        ResultSet rs = pst.executeQuery();
+        rs = pst.executeQuery();
 
         if (rs.next()) {
             String typeDB = rs.getString("Type");
             System.out.println("Login successful! User type: " + typeDB);
-            if(typeDB.equalsIgnoreCase("ADMIN")){
+            
+            if (typeDB.equalsIgnoreCase("ADMIN")) {
+                AdminController.receive_Info(send_Info(email,password));
                 chooseAdmin();
-            }else{
+            } else {
+                CashierController.receive_Info(send_Info(email,password));
                 chooseCashier();
             }
         } else {
-            System.out.println("Wrong email or password!");
+            errormsg.setVisible(true);
         }
-
-        conn.close();
     } catch (SQLException e) {
         e.printStackTrace();
+    } finally {
+        // غلق كل شيء لتجنب الـ database locked
+        try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+        try { if (pst != null) pst.close(); } catch (SQLException e) { e.printStackTrace(); }
+        try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
     }
-   
-    }
+}
+
     private void chooseAdmin() throws IOException{
+        
          Stage stage = (Stage) signInBtn.getScene().getWindow();
         double width = stage.getWidth();
         double height = stage.getHeight();
 
         Parent root = FXMLLoader.load(getClass().getResource("Admin.fxml"));
-        Scene scene = new Scene(root, width, height); 
+        Scene scene = new Scene(root); 
         stage.setScene(scene);
+         stage.setMaximized(true);
         stage.show();
 
         
@@ -123,11 +137,19 @@ public class SignInController implements Initializable {
         double height = stage.getHeight();
 
         Parent root = FXMLLoader.load(getClass().getResource("Cashier.fxml"));
-        Scene scene = new Scene(root, width, height); 
+        Scene scene = new Scene(root); 
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
         
     }
+    
+    public List<String> send_Info(String email,String pass) {
+    List<String> info = new ArrayList<>();
+    info.add(email); 
+    info.add(pass);            
+    return info;
+}
     
     
     @Override

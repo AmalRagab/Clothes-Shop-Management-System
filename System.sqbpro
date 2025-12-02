@@ -1,2 +1,217 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="System.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2458"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Product" custom_title="0" dock_id="1" table="4,7:mainProduct"/><dock_state state="000000ff00000000fd00000001000000020000043c000002b6fc0100000001fb000000160064006f0063006b00420072006f007700730065003101000000000000043c0000011800ffffff000002580000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Admin" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="32"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Product" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="29"/><column index="2" value="54"/><column index="3" value="54"/><column index="4" value="56"/><column index="5" value="78"/><column index="6" value="31"/><column index="7" value="44"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">INSERT INTO Product(ID,Name,Price,Quantity,Status,SID)
-VALUES(4,'scarf',500,2,'AVAILABLE',6);</sql><current_tab id="0"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="System.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3432"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Admin" custom_title="0" dock_id="1" table="4,5:mainAdmin"/><dock_state state="000000ff00000000fd00000001000000020000043c000002b6fc0100000001fb000000160064006f0063006b00420072006f007700730065003101000000000000043c0000011800ffffff000002580000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Admin" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="32"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS &quot;Admin&quot; (
+	&quot;AID&quot;	INTEGER,
+	PRIMARY KEY(&quot;AID&quot;),
+	FOREIGN KEY(&quot;AID&quot;) REFERENCES &quot;User&quot;(&quot;UID&quot;)
+);
+CREATE TABLE IF NOT EXISTS &quot;Cashier&quot; (
+	&quot;CAID&quot;	INTEGER,
+	PRIMARY KEY(&quot;CAID&quot;),
+	FOREIGN KEY(&quot;CAID&quot;) REFERENCES &quot;User&quot;(&quot;UID&quot;)
+);
+CREATE TABLE IF NOT EXISTS &quot;Customer&quot; (
+	&quot;CID&quot;	INTEGER,
+	PRIMARY KEY(&quot;CID&quot;),
+	FOREIGN KEY(&quot;CID&quot;) REFERENCES &quot;Person&quot;(&quot;ID&quot;)
+);
+CREATE TABLE IF NOT EXISTS &quot;OrderItem&quot; (
+	&quot;PID&quot;	INTEGER,
+	&quot;OID&quot;	INTEGER,
+	&quot;Desired_Quantity&quot;	INTEGER NOT NULL,
+	&quot;Total_Price&quot;	REAL,
+	PRIMARY KEY(&quot;PID&quot;,&quot;OID&quot;),
+	FOREIGN KEY(&quot;OID&quot;) REFERENCES &quot;Orders&quot;(&quot;ID&quot;),
+	FOREIGN KEY(&quot;PID&quot;) REFERENCES &quot;Product&quot;(&quot;ID&quot;)
+);
+CREATE TABLE IF NOT EXISTS &quot;Orders&quot; (
+	&quot;ID&quot;	INTEGER,
+	&quot;Date&quot;	TEXT NOT NULL,
+	&quot;Discount&quot;	REAL,
+	&quot;Payment_Method&quot;	TEXT CHECK(&quot;Payment_Method&quot; IN ('CASH', 'CREDIT')),
+	&quot;Calculated_Price&quot;	REAL,
+	&quot;Total_Price&quot;	REAL,
+	&quot;CID&quot;	INTEGER,
+	&quot;CAID&quot;	INTEGER,
+	PRIMARY KEY(&quot;ID&quot;),
+	FOREIGN KEY(&quot;CAID&quot;) REFERENCES &quot;Cashier&quot;(&quot;CAID&quot;),
+	FOREIGN KEY(&quot;CID&quot;) REFERENCES &quot;Customer&quot;(&quot;CID&quot;)
+);
+CREATE TABLE IF NOT EXISTS &quot;Person&quot; (
+	&quot;ID&quot;	INTEGER,
+	&quot;Name&quot;	TEXT NOT NULL,
+	&quot;Contact_Info&quot;	TEXT,
+	&quot;Type&quot;	TEXT NOT NULL,
+	PRIMARY KEY(&quot;ID&quot;)
+);
+CREATE TABLE IF NOT EXISTS &quot;Product&quot; (
+	&quot;ID&quot;	INTEGER,
+	&quot;Name&quot;	TEXT NOT NULL,
+	&quot;Price&quot;	REAL NOT NULL,
+	&quot;Quantity&quot;	INTEGER NOT NULL,
+	&quot;Status&quot;	TEXT,
+	&quot;SID&quot;	INTEGER,
+	&quot;Colour&quot;	TEXT,
+	PRIMARY KEY(&quot;ID&quot;),
+	FOREIGN KEY(&quot;SID&quot;) REFERENCES &quot;Supplier&quot;(&quot;SID&quot;)
+);
+CREATE TABLE IF NOT EXISTS &quot;Supplier&quot; (
+	&quot;SID&quot;	INTEGER,
+	PRIMARY KEY(&quot;SID&quot;),
+	FOREIGN KEY(&quot;SID&quot;) REFERENCES &quot;Person&quot;(&quot;ID&quot;)
+);
+CREATE TABLE IF NOT EXISTS &quot;User&quot; (
+	&quot;UID&quot;	INTEGER,
+	&quot;Email&quot;	TEXT,
+	&quot;Password&quot;	TEXT,
+	&quot;Type&quot;	TEXT,
+	&quot;Salary&quot;	REAL,
+	PRIMARY KEY(&quot;UID&quot;),
+	FOREIGN KEY(&quot;UID&quot;) REFERENCES &quot;Person&quot;(&quot;ID&quot;)
+);
+
+COMMIT;
+
+CREATE TRIGGER Calc_OrderItem_Total
+AFTER INSERT ON OrderItem
+FOR EACH ROW
+BEGIN
+    -- تحديث Total_Price للـ OrderItem
+    UPDATE OrderItem
+    SET Total_Price = NEW.Desired_Quantity * (SELECT Price FROM Product WHERE ID = NEW.PID)
+    WHERE PID = NEW.PID AND OID = NEW.OID;
+
+    -- تحديث Total_Price للـ Order
+    UPDATE Orders
+    SET Total_Price = (SELECT SUM(Total_Price) FROM OrderItem WHERE OID = NEW.OID)
+    WHERE ID = NEW.OID;
+
+    -- تحديث Calculated_Price
+    UPDATE Orders
+    SET Calculated_Price = Total_Price -( Total_Price * Discount / 100) 
+    WHERE ID = NEW.OID;
+END;
+CREATE TRIGGER CheckPaymentMethod
+BEFORE INSERT ON Orders
+FOR EACH ROW
+BEGIN
+    SELECT
+        CASE
+            WHEN UPPER(NEW.Payment_Method) NOT IN ('CASH', 'CREDIT')
+            THEN RAISE(ABORT, 'Invalid payment method! Must be Cash or Credit.')
+        END;
+END;
+CREATE TRIGGER Check_Product_Stock
+BEFORE INSERT ON OrderItem
+FOR EACH ROW
+BEGIN
+    SELECT 
+        CASE
+            WHEN (SELECT Quantity FROM Product WHERE ID = NEW.PID) &lt; NEW.Desired_Quantity
+            THEN RAISE(ABORT, 'Not enough stock for this product!')
+        END;
+END;
+CREATE TRIGGER Prevent_ProductPrice_Change
+BEFORE UPDATE OF Price ON Product
+FOR EACH ROW
+BEGIN
+    SELECT
+        CASE
+            WHEN EXISTS (SELECT 1 FROM OrderItem WHERE PID = OLD.ID)
+            THEN RAISE(ABORT, 'Cannot change product price after it has been ordered!')
+        END;
+END;
+CREATE TRIGGER ReduceProductQuantity
+AFTER INSERT ON OrderItem
+FOR EACH ROW
+BEGIN
+    UPDATE Product
+    SET Quantity = Quantity - NEW.Desired_Quantity
+    WHERE ID = NEW.PID;
+END;
+CREATE TRIGGER UpdateProductStatus
+AFTER UPDATE OF Quantity ON Product
+FOR EACH ROW
+BEGIN
+    UPDATE Product
+    SET Status = CASE 
+                    WHEN NEW.Quantity = 0 THEN 'Unavailable'
+                    ELSE 'Available'
+                 END
+    WHERE ID = NEW.ID;
+END;
+CREATE TRIGGER auto_delete_subtypes
+AFTER DELETE ON Person
+BEGIN
+    DELETE FROM Customer WHERE CID = OLD.ID;
+    DELETE FROM Supplier WHERE SID = OLD.ID;
+    DELETE FROM User WHERE UID = OLD.ID;
+END;
+CREATE TRIGGER auto_insert_from_person
+AFTER INSERT ON Person
+BEGIN
+    INSERT INTO Customer (CID)
+    SELECT NEW.ID
+    WHERE NEW.Type = 'CUSTOMER';
+    INSERT INTO Supplier (SID)
+    SELECT NEW.ID
+    WHERE NEW.Type = 'SUPPLIER';
+    INSERT INTO User (UID)
+    SELECT NEW.ID
+    WHERE NEW.Type = 'USER';
+
+END;
+CREATE TRIGGER auto_user_type_update
+AFTER UPDATE OF Type ON User
+BEGIN
+    INSERT INTO Admin (AID)
+    SELECT NEW.UID
+    WHERE NEW.Type = 'ADMIN';
+    INSERT INTO Cashier (CAID)
+    SELECT NEW.UID
+    WHERE NEW.Type ='CASHIER';
+END;
+CREATE TRIGGER Prevent_Duplicate_person
+BEFORE INSERT ON  Person
+FOR EACH ROW
+BEGIN
+    SELECT CASE
+        WHEN EXISTS (
+            SELECT 1 FROM Person
+            WHERE Contact_Info = NEW.Contact_Info
+        )
+        THEN RAISE(ABORT, 'User with this Email already exists!')
+    END;
+END;
+
+-- Prevent duplicate Product Name
+CREATE TRIGGER IF NOT EXISTS prevent_duplicate_product_name
+BEFORE INSERT ON Product
+FOR EACH ROW
+BEGIN
+    SELECT CASE
+        WHEN EXISTS (SELECT 1 FROM Product WHERE Name = NEW.Name) THEN
+            RAISE(ABORT, 'Product Name already exists!')
+    END;
+END;
+
+-- Prevent inserting Product with non-existent Supplier
+CREATE TRIGGER IF NOT EXISTS prevent_product_without_supplier
+BEFORE INSERT ON Product
+FOR EACH ROW
+BEGIN
+    SELECT CASE
+        WHEN NEW.SID IS NOT NULL AND NOT EXISTS (SELECT 1 FROM Supplier WHERE SID = NEW.SID) THEN
+            RAISE(ABORT, 'Supplier does not exist!')
+    END;
+END;
+
+-- Prevent updating Product with non-existent Supplier
+CREATE TRIGGER IF NOT EXISTS prevent_product_without_supplier_update
+BEFORE UPDATE ON Product
+FOR EACH ROW
+WHEN NEW.SID IS NOT NULL AND NOT EXISTS (SELECT 1 FROM Supplier WHERE SID = NEW.SID)
+BEGIN
+    SELECT RAISE(ABORT, 'Supplier does not exist!');
+END;
+COMMIT;
+</sql><current_tab id="0"/></tab_sql></sqlb_project>

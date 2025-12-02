@@ -10,7 +10,7 @@ import java.util.Date;
 
 
 
-public class Order {
+   public class Order {
     public enum PaymentMethod {CASH,CREDIT}
     private ArrayList<OrderItems> orderItems;
     private int id;
@@ -21,6 +21,9 @@ public class Order {
     private double total_price;
     static private int order_counter;
     private Cashier cashier;
+    private int cid;     // Customer ID
+    private int caid;    // Cashier ID
+    
 
     public Order( Date date, float disount, PaymentMethod payment_method, double calculated_price, double total_price,Cashier cashier) {
         initializeCounter();
@@ -35,6 +38,10 @@ public class Order {
         this.orderItems = new ArrayList<>();
         
     }
+
+    public Order() {}
+    
+
     
      public static void initializeCounter() {
             String sql = "SELECT MAX(ID) FROM Orders";
@@ -59,6 +66,11 @@ public class Order {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+
     public Cashier getCashier() {
         return cashier;
     }
@@ -75,6 +87,22 @@ public class Order {
     public void setDate(Date date) {
         this.date = date;
     }
+        public int getCid() {
+        return cid;
+    }
+    
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+    
+    public int getCaid() {
+        return caid;
+    }
+    
+    public void setCaid(int caid) {
+        this.caid = caid;
+    }
+
 
     public float getDisount() {
         return disount;

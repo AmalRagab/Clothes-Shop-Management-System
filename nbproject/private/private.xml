@@ -3,24 +3,28 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Reports.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/products.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/AdminController.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Product.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/FXML.fxml</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Clothes_System.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/DBconnector.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/signin.css</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/User_DBO.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Admin.fxml</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/User.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Admin.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Cashier.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Person.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Customer.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/Supplier.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/CashierController.java</file>
-            <file>file:/C:/Users/soft%20zone/OneDrive/Documents/NetBeansProjects/ClothesShop/src/clothes_system/SignInController.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/User_DBO.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Supplier_DBO.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Supplier.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Person.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/AdminController.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Customer_DBO.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/FXML.fxml</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/admin.css</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/products.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Customer.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Order_DBO.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Order.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/OrderItems.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Admin.fxml</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/signin.css</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/SignIn.fxml</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/SignInController.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Clothes_System.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Cashier_DBO.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Cashier.java</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/Cashier.fxml</file>
+            <file>file:/C:/Users/soft%20zone/Downloads/Clothes-Shop-Management-System%20(4)/Clothes-Shop-Management-System/src/clothes_system/CashierController.java</file>
         </group>
     </open-files>
 </project-private>

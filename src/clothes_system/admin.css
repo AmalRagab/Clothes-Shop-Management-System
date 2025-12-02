@@ -1,34 +1,54 @@
+/* Color Palette Reference form Image:
+   - Vivid Pink: #FFAFCC
+   - Soft Pink:  #FFC7DD
+   - Light Pink: #FFE1ED
+   - Light Purple: #DADBFB
+   - Violet:     #BDBEF5
+*/
 
 .sideBar{
-    -fx-background-color: #E7DDFF;
+    -fx-background-color: #d7d8fe; /* Light Purple */
 }
+
 .anchorReport{
-    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-background-color: rgba(255, 255, 255, 0.6);
 }
+.anchorCustomer{
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
 .chartVBox{
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 15;
+    /* Optional: Add a subtle border matching the theme */
+    -fx-effect: dropshadow(three-pass-box, rgba(189, 190, 245, 0.2), 10, 0, 0, 0);
 }
+
 .topCustomerPrice{
-    -fx-background-color: #E2EAF4;
+    -fx-background-color: #FFE1ED; /* Lightest Pink for backgrounds */
     -fx-background-radius: 15;
 }
+
 .low_Stock{
-    -fx-background-color: #E2EAF4;
+    -fx-background-color: #FFE1ED; /* Lightest Pink */
     -fx-background-radius: 15;
 }
+
 .reportHBox:hover{
     -fx-cursor: hand;
+    -fx-background-color: #dadbfb; /* Soft Pink on hover */
+    -fx-background-radius: 10;
 }
+
 .productRoot {
-    -fx-background-color: #f7f7f7;
+    -fx-background-color: #FAFAFA; /* Kept very light gray/white for cleanliness */
     -fx-padding: 15;
 }
 
 /* TableView styling */
 .table-view {
     -fx-background-color: white;
-    -fx-border-color: #ccc;
+    -fx-border-color: #DADBFB; /* Light Purple Border */
     -fx-border-radius: 10;
     -fx-font-size: 13px;
     -fx-table-cell-border-color: transparent;
@@ -36,12 +56,17 @@
 }
 
 .table-view .column-header {
-    -fx-background-color: #B597E8; /* purple header */
-    -fx-text-fill: white;
+    -fx-background-color: #d7d8fe; /* The main Violet color */
+    -fx-text-fill: white; 
     -fx-font-weight: bold;
     -fx-font-size: 14px;
     -fx-alignment: CENTER;
     -fx-padding: 5 0 5 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #d7d8fe;
+    -fx-background-radius: 10 10 0 0;
 }
 
 .table-view .cell {
@@ -51,7 +76,7 @@
 
 /* Buttons */
 .button {
-    -fx-background-color: #B597E8; /* purple */
+    -fx-background-color: #BDBEF5; /* Main Violet */
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
@@ -60,45 +85,60 @@
 }
 
 .button:hover {
-
+    -fx-background-color: #d8d8fd; /* Switch to Vivid Pink on Hover */
     -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 175, 204, 0.4), 5, 0, 0, 2);
 }
 
 /* Search field */
 .text-field {
     -fx-background-radius: 8;
     -fx-border-radius: 8;
-    -fx-border-color: #ccc;
+    -fx-border-color: #DADBFB;
     -fx-padding: 5 10 5 10;
     -fx-font-size: 13px;
 }
 
 .text-field:focused {
-    -fx-border-color: #6C63FF;
+    -fx-border-color: #FFAFCC; /* Vivid Pink border when focused */
     -fx-border-width: 2;
 }
 
 /* Table row hover effect */
 .table-row-cell:hover {
-    -fx-background-color: rgba(108, 99, 255, 0.1);
+    -fx-background-color: #ececfd; /* Lightest Pink highlight */
+}
+.table-row-cell:selected {
+    -fx-background-color: #DADBFB; /* Light Purple for selection */
+    -fx-text-fill: black;
 }
 
-/* Specific sections (optional) */
-.addButtonPane {
-    -fx-background-color: #FFFFFF;
-    -fx-background-radius: 10;
-    -fx-padding: 10;
-    -fx-spacing: 10;
-}
-
-
-
+/* Charts */
 .chart-series-area-fill {
-    -fx-fill: rgba(181, 151, 232, 0.4);   
+    /* Semi-transparent version of #BDBEF5 */
+    -fx-fill: rgba(189, 190, 245, 0.4);    
 }
 
 .chart-series-area-line {
-    -fx-stroke:  #B597E8;               
+    -fx-stroke: #BDBEF5;                
     -fx-stroke-width: 2px;
 }
 
+.table-view .column-header-background {
+    -fx-background-color: #B597E8; /* ضعي كود اللون الذي تريدينه هنا */
+}
+
+/* 2. تغيير لون كل عمود مفرد (عشان الحدود والفواصل) */
+.table-view .column-header {
+    -fx-background-color: transparent; /* اجعليه شفاف ليأخذ لون الخلفية */
+    -fx-border-color: white; /* لون الفواصل بين الأعمدة */
+    -fx-border-width: 0 1 0 0; /* رسم خط على اليمين فقط */
+}
+
+/* 3. تغيير لون وحجم الخط في العناوين */
+.table-view .column-header .label {
+    -fx-text-fill: black; /* لون الخط */
+    -fx-font-weight: bold; /* سمك الخط */
+    -fx-font-size: 14px; /* حجم الخط */
+    -fx-alignment: CENTER; /* محاذاة النص */
+}

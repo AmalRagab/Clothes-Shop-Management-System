@@ -22,6 +22,9 @@ public class Person {
         this.contact_info = contact_info;
         this.type = type;
     }
+    public Person(){
+        
+    }
     public static void initializeCounter() {
             String sql = "SELECT MAX(ID) FROM Person";
             counter = getMaxId();
@@ -43,6 +46,11 @@ public class Person {
     public int getId() {
         return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
 
     public String getType() {
         return type.name();

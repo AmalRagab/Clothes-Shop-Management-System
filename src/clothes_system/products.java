@@ -10,6 +10,8 @@ import javafx.collections.ObservableList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import javafx.scene.control.Alert;
 
 
 public class products {
@@ -59,7 +61,7 @@ public class products {
     }
 
     // Update product
-    public void updateProduct(Product p) {
+    public boolean updateProduct(Product p) {
         String sql = "UPDATE product SET Name=?, Price=?, Quantity=?, Status=?, SID=?, Colour=? WHERE ID=?";
 
         try (Connection conn = DBconnector.connect();
@@ -74,31 +76,71 @@ public class products {
             ps.setInt(7, p.getId());
 
             ps.executeUpdate();
-
-        } catch (Exception e) {
+             return true;
+        }       
+        catch (SQLException e) {
+    // Check which trigger caused the error
+    String msg = e.getMessage();
+   
+    
+    if (msg.contains("Supplier does not exist!")) {
+        showAlert("Error", "Supplier does not exist!");
+    }
+    else {
+        showAlert("Error", "Database error: " + msg);
+    }
+    return false;
+}
+        catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
+
     // Add product
-    public void addProduct(Product p) {
-        String sql = "INSERT INTO product (Name, Price, Quantity, Status, SID, Colour) VALUES (?, ?, ?, ?, ?, ?)";
+    public boolean addProduct(Product p) {
+        String sql = "INSERT INTO product (ID,Name, Price, Quantity, Status, SID, Colour) VALUES (?,?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBconnector.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, p.getName());
-            ps.setDouble(2, p.getPrice());
-            ps.setInt(3, p.getQuantity());
-            ps.setString(4, p.getStatus());
-            ps.setInt(5, p.getSupplierID());
-            ps.setString(6, p.getColour());
-
+            ps.setInt(1, p.getId());
+            ps.setString(2, p.getName());
+            ps.setDouble(3, p.getPrice());
+            ps.setInt(4, p.getQuantity());
+            ps.setString(5, p.getStatus());
+            ps.setInt(6, p.getSupplierID());
+            ps.setString(7, p.getColour());
             ps.executeUpdate();
-
-        } catch (Exception e) {
+             return true;
+        }
+          catch (SQLException e) {
+    // Check which trigger caused the error
+    String msg = e.getMessage();
+    if (msg.contains("Product ID already exists!")) {
+        showAlert("Error", "Product ID already exists!");
+    }
+    else if (msg.contains("Product Name already exists!")) {
+        showAlert("Error", "Product Name already exists!");
+    }
+    else if (msg.contains("Supplier does not exist!")) {
+        showAlert("Error", "Supplier does not exist!");
+    }
+    else {
+        showAlert("Error", "Database error: " + msg);
+    }
+    return false;
+}
+        catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
-    
+      private void showAlert(String title, String message) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        }
 }

@@ -256,7 +256,52 @@ public class User_DBO {
 
         return data;
      }
+     public static String getAdminName(String email,String password) throws SQLException{
+         String sql = "SELECT p.name\n" +
+                      "FROM Person p\n" +
+                      "JOIN User u ON p.ID = u.UID\n" +
+                       "WHERE u.email = ?\n" +
+                       "  AND u.password = ?\n" +
+                       "  AND u.type = 'ADMIN';";
+         try (Connection conn = DBconnector.connect()) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1,email); 
+            ps.setString(2,password); 
 
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                  return rs.getString("Name");
+                }
+            }
+        }
+         
+     }
+         return null;
+
+}
+     public static String getCashierName(String email,String password) throws SQLException{
+         String sql = "SELECT p.name\n" +
+                      "FROM Person p\n" +
+                      "JOIN User u ON p.ID = u.UID\n" +
+                       "WHERE u.email = ?\n" +
+                       "  AND u.password = ?\n" +
+                       "  AND u.type = 'CASHIER';";
+         try (Connection conn = DBconnector.connect()) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1,email); 
+            ps.setString(2,password); 
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                  return rs.getString("Name");
+                }
+            }
+        }
+         
+     }
+         return null;
+
+}
 }
   
 
