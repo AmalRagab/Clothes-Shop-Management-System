@@ -10,28 +10,27 @@ import java.util.Date;
 
 
 
-   public class Order {
+public class Order {
     public enum PaymentMethod {CASH,CREDIT}
     private ArrayList<OrderItems> orderItems;
     private int id;
     private Date date;
-    private float disount;
+    private float discount;
     private PaymentMethod payment_method;
     private double calculated_price;
     private double total_price;
     static private int order_counter;
-    private Cashier cashier;
-    private int cid;     // Customer ID
-    private int caid;    // Cashier ID
-    
+    private int cashierId;
+    private int customerId;
 
-    public Order( Date date, float disount, PaymentMethod payment_method, double calculated_price, double total_price,Cashier cashier) {
+    public Order( Date date, float discount, PaymentMethod payment_method, double calculated_price, double total_price,int cashierId ,int customerId) {
         initializeCounter();
         order_counter++;
-        this.cashier=cashier;
+        this.cashierId=cashierId;
+        this.customerId=customerId;
         this.id=order_counter;
         this.date = date;
-        this.disount = disount;
+        this.discount = discount;
         this.payment_method = payment_method;
         this.calculated_price = calculated_price;
         this.total_price = total_price;
@@ -39,9 +38,10 @@ import java.util.Date;
         
     }
 
-    public Order() {}
+    public Order() {
+        
+    }
     
-
     
      public static void initializeCounter() {
             String sql = "SELECT MAX(ID) FROM Orders";
@@ -71,12 +71,20 @@ import java.util.Date;
     }
     
 
-    public Cashier getCashier() {
-        return cashier;
+    public int getCashierId() {
+        return cashierId;
     }
 
-    public void setCashier(Cashier cashier) {
-        this.cashier = cashier;
+    public void setCashier(int cashierId) {
+        this.cashierId = cashierId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
   
@@ -87,33 +95,17 @@ import java.util.Date;
     public void setDate(Date date) {
         this.date = date;
     }
-        public int getCid() {
-        return cid;
-    }
-    
-    public void setCid(int cid) {
-        this.cid = cid;
-    }
-    
-    public int getCaid() {
-        return caid;
-    }
-    
-    public void setCaid(int caid) {
-        this.caid = caid;
+
+    public float getDiscount() {
+        return discount;
     }
 
-
-    public float getDisount() {
-        return disount;
+    public void setDicsount(float discount) {
+        this.discount = discount;
     }
 
-    public void setDisount(float disount) {
-        this.disount = disount;
-    }
-
-    public PaymentMethod getPayment_method() {
-        return payment_method;
+    public String getPayment_method() {
+        return payment_method.name();
     }
 
     public void setPayment_method(PaymentMethod payment_method) {
@@ -150,7 +142,7 @@ import java.util.Date;
 
     @Override
     public String toString() {
-        return "Order{" + "id=" + id + ", date=" + date + ", disount=" + disount + ", payment_method=" + payment_method + ", calculated_price=" + calculated_price + ", total_price=" + total_price + '}';
+        return "Order{" + "id=" + id + ", date=" + date + ", disount=" + discount + ", payment_method=" + payment_method + ", calculated_price=" + calculated_price + ", total_price=" + total_price + '}';
     }
     
     

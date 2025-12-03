@@ -143,4 +143,31 @@ public class products {
             alert.setContentText(message);
             alert.showAndWait();
         }
+      public Product searchProduct( int productId){
+         String sql = "SELECT ID, Name, Price, Quantity, Status, SID, Colour FROM Product WHERE ID = ?";
+
+    try (Connection conn = DBconnector.connect();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, productId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return new Product(
+                        rs.getInt("ID"),
+                        rs.getInt("SID"),
+                        rs.getString("Name"),
+                        rs.getDouble("Price"),
+                        rs.getInt("Quantity"),
+                        rs.getString("Status"),
+                        rs.getString("Colour")
+                );
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+     }
 }

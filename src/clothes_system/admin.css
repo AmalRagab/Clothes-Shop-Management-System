@@ -1,14 +1,6 @@
-/* Color Palette Reference form Image:
-   - Vivid Pink: #FFAFCC
-   - Soft Pink:  #FFC7DD
-   - Light Pink: #FFE1ED
-   - Light Purple: #DADBFB
-   - Violet:     #BDBEF5
-*/
 
-.sideBar{
-    -fx-background-color: #d7d8fe; /* Light Purple */
-}
+
+
 
 .anchorReport{
     -fx-background-color: rgba(255, 255, 255, 0.6);
@@ -33,22 +25,25 @@
     -fx-background-color: #FFE1ED; /* Lightest Pink */
     -fx-background-radius: 15;
 }
+/*
+.sideBar{
+    -fx-background-color: #d7d8fe; 
+}
 
 .reportHBox:hover{
     -fx-cursor: hand;
-    -fx-background-color: #dadbfb; /* Soft Pink on hover */
+    -fx-background-color: #dadbfb;
     -fx-background-radius: 10;
 }
 
 .productRoot {
-    -fx-background-color: #FAFAFA; /* Kept very light gray/white for cleanliness */
+    -fx-background-color: #FAFAFA; 
     -fx-padding: 15;
 }
 
-/* TableView styling */
 .table-view {
     -fx-background-color: white;
-    -fx-border-color: #DADBFB; /* Light Purple Border */
+    -fx-border-color: #DADBFB; 
     -fx-border-radius: 10;
     -fx-font-size: 13px;
     -fx-table-cell-border-color: transparent;
@@ -56,7 +51,7 @@
 }
 
 .table-view .column-header {
-    -fx-background-color: #d7d8fe; /* The main Violet color */
+    -fx-background-color: #d7d8fe;
     -fx-text-fill: white; 
     -fx-font-weight: bold;
     -fx-font-size: 14px;
@@ -74,9 +69,10 @@
     -fx-padding: 5 10 5 10;
 }
 
-/* Buttons */
+
+
 .button {
-    -fx-background-color: #BDBEF5; /* Main Violet */
+    -fx-background-color: #BDBEF5; 
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
@@ -85,12 +81,15 @@
 }
 
 .button:hover {
-    -fx-background-color: #d8d8fd; /* Switch to Vivid Pink on Hover */
+    -fx-background-color: #d8d8fd; 
     -fx-cursor: hand;
     -fx-effect: dropshadow(three-pass-box, rgba(255, 175, 204, 0.4), 5, 0, 0, 2);
 }
 
-/* Search field */
+
+
+
+
 .text-field {
     -fx-background-radius: 8;
     -fx-border-radius: 8;
@@ -100,22 +99,22 @@
 }
 
 .text-field:focused {
-    -fx-border-color: #FFAFCC; /* Vivid Pink border when focused */
+    -fx-border-color: #FFAFCC; 
     -fx-border-width: 2;
 }
 
-/* Table row hover effect */
+
 .table-row-cell:hover {
-    -fx-background-color: #ececfd; /* Lightest Pink highlight */
+    -fx-background-color: #ececfd; 
 }
 .table-row-cell:selected {
-    -fx-background-color: #DADBFB; /* Light Purple for selection */
+    -fx-background-color: #DADBFB; 
     -fx-text-fill: black;
 }
 
-/* Charts */
+
 .chart-series-area-fill {
-    /* Semi-transparent version of #BDBEF5 */
+   
     -fx-fill: rgba(189, 190, 245, 0.4);    
 }
 
@@ -125,20 +124,219 @@
 }
 
 .table-view .column-header-background {
-    -fx-background-color: #B597E8; /* ضعي كود اللون الذي تريدينه هنا */
+    -fx-background-color: #B597E8;
 }
 
-/* 2. تغيير لون كل عمود مفرد (عشان الحدود والفواصل) */
 .table-view .column-header {
-    -fx-background-color: transparent; /* اجعليه شفاف ليأخذ لون الخلفية */
-    -fx-border-color: white; /* لون الفواصل بين الأعمدة */
-    -fx-border-width: 0 1 0 0; /* رسم خط على اليمين فقط */
+    -fx-background-color: transparent; 
+    -fx-border-color: white; 
+    -fx-border-width: 0 1 0 0;
 }
 
-/* 3. تغيير لون وحجم الخط في العناوين */
+
 .table-view .column-header .label {
-    -fx-text-fill: black; /* لون الخط */
-    -fx-font-weight: bold; /* سمك الخط */
-    -fx-font-size: 14px; /* حجم الخط */
-    -fx-alignment: CENTER; /* محاذاة النص */
+    -fx-text-fill: black; 
+    -fx-font-weight: bold; 
+    -fx-font-size: 14px; 
+    -fx-alignment: CENTER; 
+}
+*/
+
+    
+    /* ========================================== */
+/* Velora Theme Variables           */
+/* ========================================== */
+* {
+    -color-mauve-dark: #ac87c5; /* البنفسجي الأساسي */
+    -color-pink-med:    #E098B6; /* وردي متوسط */
+    -color-pink-light:  #F4C4D8; /* وردي فاتح جداً */
+    -color-bg-pale:     #F3EBF7; /* لون الخلفية الأساسي */
+    -color-text-dark:   #5D4070; /* لون النصوص الغامق ورأس الجدول */
+    -color-white:       #FFFFFF;
+}
+
+/* ========================================== */
+/* Layout & Main               */
+/* ========================================== */
+
+.productRoot {
+    -fx-background-color: -color-bg-pale; /* تم التغيير للون الخلفية الجديد */
+    -fx-padding: 15;
+}
+
+.sideBar{
+    /* تدرج لوني ناعم من البنفسجي للوردي */
+    -fx-background-color: linear-gradient(to bottom, -color-mauve-dark, -color-pink-med);
+}
+
+.reportHBox:hover{
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0px;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 0px 0px 0px 3px;
+}
+
+.anchorReport, .anchorCustomer {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 15;
+}
+
+.chartVBox {
+    -fx-background-color: -color-white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(172, 135, 197, 0.15), 10, 0, 0, 0);
+}
+
+.topCustomerPrice, .low_Stock {
+    -fx-background-color: -color-pink-light; /* الوردي الفاتح */
+    -fx-background-radius: 15;
+}
+
+
+/* ========================================== */
+/* Inputs & Buttons (Velora)         */
+/* ========================================== */
+
+.text-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: -color-pink-med; /* حدود وردية ناعمة */
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 13px;
+    -fx-background-color: -color-white;
+}
+
+.text-field:focused {
+    -fx-border-color: -color-mauve-dark; /* بنفسجي عند الكتابة */
+    -fx-border-width: 2;
+}
+
+
+
+/* ========================================== */
+/* Charts Styling                 */
+/* ========================================== */
+
+.chart-series-area-fill {
+    -fx-fill: rgba(172, 135, 197, 0.4); /* شفافية البنفسجي */
+}
+
+.chart-series-area-line {
+    -fx-stroke: -color-mauve-dark;
+    -fx-stroke-width: 2px;
+}
+
+/* ========================================== */
+/* Table View (Velora Style)           */
+/* ========================================== */
+
+/* 1. الحاوية الرئيسية */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* 2. رأس الجدول */
+.table-view .column-header-background {
+    -fx-background-color: #b493ca;
+    -fx-background-radius: 10 10 0 0;
+    -fx-pref-height: 50px;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 50px;
+    -fx-padding: 10px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* 3. الصفوف مع إضافة المسافة */
+.table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-background-insets: 0;
+
+    /* مسافة بين الصفوف */
+    -fx-background-insets: 0 0 5 0;       /* ← المسافة الأساسية */
+    -fx-padding: 5px 0;                    /* padding بسيط داخل الصف */
+
+    /* حدود بنفس لون الخلفية علشان تبان إنها مسافة */
+    -fx-border-color: -color-bg-pale;
+    -fx-border-width: 0 0 10px 0;          /* ← حجم المسافة */
+    
+    -fx-pref-height: 60px;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #FAFAFA;
+    -fx-effect: dropshadow(three-pass-box, rgba(172, 135, 197, 0.1), 5, 0, 0, 0);
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -color-pink-light;
+    -fx-text-fill: -color-text-dark;
+}
+
+/* 4. الخلايا */
+.table-view .cell {
+    -fx-text-fill: -color-text-dark;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 15;
+    -fx-border-color: transparent;
+}
+
+/* 5. Scroll Bar */
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: -color-pink-med;
+    -fx-background-radius: 5em;
+}
+
+.button {
+    -fx-padding: 5 15;
+    -fx-background-radius: 50em;
+    -fx-background-color: #b493ca;
+
+    
+    -fx-font-size: 16px;
+    -fx-font-family: "Inter";
+    -fx-text-fill: transparent;
+    -fx-background-insets: 0;
+    -fx-text-fill: #333;
+}
+
+/* hover */
+.button:hover {
+    -fx-background-color: #b69fc6;
+
+    
+}
+
+/* pressed */
+.button:pressed {
+    -fx-background-color:#b69fc6; 
+
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.45), 12, 0.2, 2, 2);
+    -fx-translate-y: 2;
+}
+.reportShape{
+
+    -fx-background-color: white;      /* خلفية البان */
+    -fx-border-color: purple;         /* لون الحد */
+    -fx-border-width: 3px;            /* سماكة الحد */
+    -fx-border-radius: 15px;          /* تدوير زوايا البان */
+    -fx-padding: 10px;                /* مساحة داخلية للنص */
+    -fx-font-size: 16px;              /* حجم الخط */
+    -fx-font-weight: bold;            /* سمك الخط */
+    -fx-text-fill: purple;            /* لون النص */
+    -fx-background-radius: 15px;      /* تدوير خلفية البان */
+
 }

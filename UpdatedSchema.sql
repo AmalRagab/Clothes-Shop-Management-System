@@ -61,8 +61,8 @@ CREATE TABLE IF NOT EXISTS "Supplier" (
 );
 CREATE TABLE IF NOT EXISTS "User" (
 	"UID"	INTEGER,
-	"Email"	TEXT,
-	"Password"	TEXT,
+	"Email"	TEXT Unique,
+	"Password" TEXT Unique,
 	"Type"	TEXT,
 	"Salary"	REAL,
 	PRIMARY KEY("UID"),

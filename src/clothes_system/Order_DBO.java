@@ -87,7 +87,7 @@ public class Order_DBO {
                     
                     // Get discount
                     float discount = rs.getFloat("Discount");
-                    o.setDisount(discount);
+                    o.setDicsount(discount);
                     System.out.println("  Discount: " + discount);
                     
                     // Get payment method
@@ -115,12 +115,12 @@ public class Order_DBO {
                     // ===== FIXED: Set CID field =====
                     // The CID in the database should match the customerId parameter
                     int dbCid = rs.getInt("CID");
-                    o.setCid(dbCid);
+                    o.setCustomerId(dbCid);
                     System.out.println("  Customer ID (CID): " + dbCid);
 
                     // Set CAID (Cashier ID)
                     int caid = rs.getInt("CAID");
-                    o.setCaid(caid);
+                    o.setCashier(caid);
                     System.out.println("  Cashier ID (CAID): " + caid);
                     // Note: Order class doesn't have a setCaid() method, so we need to add it
                     

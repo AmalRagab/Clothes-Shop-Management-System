@@ -1394,8 +1394,8 @@ private Label product;
         System.out.println("Number of orders found: " + orders.size());
         for (Order order : orders) {
             System.out.println("Order ID: " + order.getId() + 
-                             " | CID in Order object: " + order.getCid() + 
-                             " | CAID: " + order.getCaid());
+                             " | CID in Order object: " + order.getCustomerId() + 
+                             " | CAID: " + order.getCashierId());
         }
 
         if (orders != null && !orders.isEmpty()) {
