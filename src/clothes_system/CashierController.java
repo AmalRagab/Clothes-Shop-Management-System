@@ -264,6 +264,7 @@ public class CashierController implements Initializable {
         orderDetailsPane.setVisible(false);
         createOrderPane.setVisible(false);
     }
+    
 
 
 }

@@ -87,7 +87,7 @@ public class Order_DBO {
                     
                     // Get discount
                     float discount = rs.getFloat("Discount");
-                    o.setDicsount(discount);
+                    o.setDiscount(discount);
                     System.out.println("  Discount: " + discount);
                     
                     // Get payment method

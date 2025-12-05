@@ -1,11 +1,3 @@
-/*
- * Empty Stylesheet file.
- */
-
-/* خلفية الشاشة بالكامل */
-.root {
-    -fx-background-color: linear-gradient(to bottom, #d0b0ea, #fcfbf5);
-}
 
 /* تنسيق حقول الإدخال */
 .emailField, .passwordField {
@@ -17,23 +9,20 @@
     -fx-padding: 10 15 10 35; /* ضبط المسافات */
     -fx-font-size: 14px;
     -fx-text-fill: #333333; /* لون النص المكتوب */
+    -fx-prompt-text-fill: #9e9e9e; /* لون النص التوضيحي */
 }
 
-/* لون النص التوضيحي (Prompt Text) - كلمة Email و Password */
-.emailField, .passwordField {
-    -fx-prompt-text-fill: #9e9e9e;
-}
-
-/* حالة التركيز (عند الضغط للكتابة) */
+/* حالة التركيز (عند الضغط للكتابة داخل الحقل) */
 .emailField:focused, .passwordField:focused {
     -fx-border-color: #9c7fbf; /* حدود بنفسجية عند الكتابة */
     -fx-effect: dropshadow(gaussian, rgba(156, 127, 191, 0.4), 8, 0, 0, 1); /* توهج خفيف */
 }
 
-/* زر تسجيل الدخول - تم تعديل اللون ليتماشى مع الخلفية */
 .signInBtn {
-    /* تدرج لوني للزر ليعطي شكلاً حديثاً */
-    -fx-background-color: linear-gradient(to right, #9c7fbf, #7b5fac);
+    /* تدرج لوني دافئ (Warm Mauve) يليق مع الخلفية الجديدة */
+    -fx-background-color: linear-gradient(to right, #b57ebf, #946cc2);
+    
+    /* ... باقي الخصائص كما هي ... */
     -fx-text-fill: white;
     -fx-background-radius: 30;
     -fx-font-weight: bold;
@@ -55,29 +44,28 @@
 
 /* نص عنوان الصفحة "Sign In" */
 .signInText {
-    /* تغيير اللون للأرجواني الداكن ليكون مقروءاً بوضوح على الخلفية الفاتحة */
     -fx-fill: #5D4075; 
     -fx-font-family: "Segoe UI", sans-serif; /* خط عصري */
     -fx-font-weight: bold;
     -fx-font-size: 32px;
-    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.8), 2, 0, 0, 1); /* ظل أبيض خفيف لزيادة التباين */
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.8), 2, 0, 0, 1); /* ظل أبيض خفيف */
 }
 
-/* لوجو Velora (اختياري) */
+/* لوجو Velora */
 .logoText {
     -fx-text-fill: #5D4075;
     -fx-font-family: "Script MT Bold";
     -fx-font-size: 48px;
 }
-.signboard{
-    -fx-border-color: #f4f1f1;
-    -fx-border-width: 3;
-    -fx-border-radius: 10;
-    -fx-border-style: solid;
-     -fx-background-color: rgba(225, 225, 255, 0.3);
-    
+
+/* خلفية الشاشة بالكامل - الخيار الأول (الدافئ) */
+.root {
+    /* تدرج من الوردي الخوخي (أعلى) إلى البنفسجي الفاتح (أسفل) ليحاكي تدرجات الصورة */
+    -fx-background-color: #fbf7f8;
 
 }
-.stack{
-    -fx-background-color: linear-gradient(to bottom, #c7a1e6, #fcfbf5);
+
+/* الخلفية المكدسة - جعلناها فاتحة جداً (مائلة للأبيض الوردي) لعدم تشتيت الانتباه */
+.stack {
+    -fx-background-color:  #e4c1f;
 }

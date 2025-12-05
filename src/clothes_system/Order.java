@@ -100,7 +100,7 @@ public class Order {
         return discount;
     }
 
-    public void setDicsount(float discount) {
+    public void setDiscount(float discount) {
         this.discount = discount;
     }
 

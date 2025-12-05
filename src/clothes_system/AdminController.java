@@ -530,6 +530,15 @@ private Label reportChoose;
                 showAlert("Error", "Invalid employee ID!");
             }
         }
+        //Name validation
+ private boolean isValidName(String name) {
+        
+        String trimmedName = name.trim();
+        if (trimmedName.isEmpty()) {
+            return false;
+        }
+        return trimmedName.matches("^[\\p{L}\\s]+$");
+    }
 
         @FXML
         public void saveEmpClicked() {
@@ -541,7 +550,32 @@ private Label reportChoose;
                 double newSalary = Double.parseDouble(editEmpSalaryField.getText());
 
                 
-                boolean success = User_DBO.updateUser(empId, newName, newPhone, newEmail, newPass, newSalary);
+                // ⭐ START: Name Validation
+        if (newName.trim().isEmpty()) {
+            showAlert("Error", "Error\nName field cannot be empty.");
+            editEmpNameField.requestFocus();
+            return;
+        }
+        if (!isValidName(newName)) {
+            showAlert("Error", "Invalid Name!\nName must contain only letters and spaces,\n and cannot contain numbers or special characters.");
+            editEmpNameField.requestFocus();
+            editEmpNameField.selectAll();
+            return;
+        }
+        // ⭐ END: Name Validation
+        
+                // ⭐ START: Phone Number Validation
+        String cleanPhone = newPhone.replaceAll("[\\s\\-()]", ""); 
+        if (!isValidEgyptianPhoneNumber(cleanPhone)) {
+            showAlert("Error", "Invalid Phone Number! \nPlease enter a valid Egyptian phone number (11 digits, starts with 01).");
+            editEmpPhoneField.requestFocus();
+            editEmpPhoneField.selectAll();
+            return;
+        }
+        // ⭐ END: Phone Number Validation
+        
+        
+                boolean success = User_DBO.updateUser(empId, newName, cleanPhone, newEmail, newPass, newSalary);
 
                 if (success) {
                     showAlert("Success", "Employee updated successfully!");
@@ -568,7 +602,24 @@ private Label reportChoose;
                 showAlert("Error", "All fields are required!");
                 return;
             }
-
+            // ⭐ START: Name Validation
+    if (!isValidName(name)) {
+        showAlert("Error", "Invalid Name!\nName must contain only letters and spaces,\n and cannot contain numbers or special characters.");
+        addEmpNameField.requestFocus();
+        addEmpNameField.selectAll();
+        return;
+    }
+    // ⭐ END: Name Validation
+            
+        // ⭐ START: Phone Number Validation
+        String cleanPhone = phone.replaceAll("[\\s\\-()]", ""); 
+        if (!isValidEgyptianPhoneNumber(cleanPhone)) {
+        showAlert("Error", "Invalid Phone Number!\nPlease enter a valid Egyptian phone number (11 digits, starts with 01).");
+        addEmpPhoneField.requestFocus();
+        addEmpPhoneField.selectAll();
+        return;
+    }
+    // ⭐ END: Phone Number Validation
             // salary is a positive number
             double salary;
             try {
@@ -590,7 +641,7 @@ private Label reportChoose;
 
             // user type
             User.Utype utypeValue = rbAdmin.isSelected() ? User.Utype.ADMIN : User.Utype.CASHIER;
-            User u = new User(name, phone, Person.Type.USER, email, pass, salary, utypeValue);
+            User u = new User(name, cleanPhone, Person.Type.USER, email, pass, salary, utypeValue);
 
             // exceptions
             try {
@@ -613,8 +664,9 @@ private Label reportChoose;
                     e.printStackTrace();
                 }
             }
-        }
+            
 
+}
         // clear fields after add
         private void clearFields() {
             addEmpNameField.clear();
@@ -718,6 +770,7 @@ private Label reportChoose;
 }
       // ================= Edit Supplier =================
         private int suppId; 
+        private String personPreviousPhone;
 
         @FXML
         public void editSuppClicked() {    // get the user id from the table and fill the fields with the data
@@ -742,6 +795,8 @@ private Label reportChoose;
                 // fill old data
                 editSuppNameField.setText(person.getName());
                 editSuppPhoneField.setText(person.getContact_info());
+                personPreviousPhone=person.getContact_info();
+                System.out.println(personPreviousPhone);
 
 
                 editSuppPane.setVisible(true); 
@@ -754,8 +809,51 @@ private Label reportChoose;
         @FXML
         public void saveSuppClicked() {
             try {
-                String newName = editEmpNameField.getText();
-                String newPhone = editEmpPhoneField.getText();
+                String newName = editSuppNameField.getText();
+                String newPhone = editSuppPhoneField.getText();
+                System.out.println(newPhone);
+                if (newName.isEmpty() || newPhone.isEmpty()) {
+                showAlert("Error", "All fields are required!");
+                return;
+            }else if(!isValidEgyptianPhoneNumber(newPhone)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Phone Number");
+            alert.setHeaderText("Phone Number Format Error");
+            alert.setContentText("Please enter a valid Egyptian phone number:\n" +
+                               "• Must start with 01\n" +
+                               "• Must be exactly 11 digits\n" +
+                               "• Format: 01XXXXXXXXX (e.g., 01123456789)\n" +
+                               "• Only digits allowed (no spaces or dashes)");
+            alert.showAndWait();
+            addSuppPhoneField.requestFocus();
+            addSuppPhoneField.selectAll();
+            return;
+            }else if(isPhoneNumberExists(newPhone)){
+                if(newPhone.equals(personPreviousPhone )){
+                    
+                }else{
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Duplicate Phone Number");
+            alert.setHeaderText("Phone Number Already Exists");
+            alert.setContentText("This phone number is already registered to another person.\n" +
+                               "Please use a different phone number.");
+            alert.showAndWait();
+            addSuppPhoneField.requestFocus();
+            addSuppPhoneField.selectAll();
+            return;
+                }
+            
+                
+            }else if(!newName.matches("[a-zA-Z]+")){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Detect number");
+            alert.setHeaderText("Invalid Name");
+            alert.setContentText("Name can't contain a number\n");
+            alert.showAndWait();
+            addSuppNameField.requestFocus();
+            addSuppNameField.selectAll();
+            return;
+            }
 
                 boolean success = Supplier_DBO.updatePerson(suppId, newName, newPhone);
 
@@ -781,6 +879,39 @@ private Label reportChoose;
             if (name.isEmpty() || phone.isEmpty()) {
                 showAlert("Error", "All fields are required!");
                 return;
+            }else if(!isValidEgyptianPhoneNumber(phone)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Phone Number");
+            alert.setHeaderText("Phone Number Format Error");
+            alert.setContentText("Please enter a valid Egyptian phone number:\n" +
+                               "• Must start with 01\n" +
+                               "• Must be exactly 11 digits\n" +
+                               "• Format: 01XXXXXXXXX (e.g., 01123456789)\n" +
+                               "• Only digits allowed (no spaces or dashes)");
+            alert.showAndWait();
+            addSuppPhoneField.requestFocus();
+            addSuppPhoneField.selectAll();
+            return;
+            }else if(isPhoneNumberExists(phone)){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Duplicate Phone Number");
+            alert.setHeaderText("Phone Number Already Exists");
+            alert.setContentText("This phone number is already registered to another person.\n" +
+                               "Please use a different phone number.");
+            alert.showAndWait();
+            addSuppPhoneField.requestFocus();
+            addSuppPhoneField.selectAll();
+            return;
+                
+            }else if(!name.matches("[a-zA-Z]+")){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Detect number");
+            alert.setHeaderText("Invalid Name");
+            alert.setContentText("Name can't contain a number\n");
+            alert.showAndWait();
+            addSuppNameField.requestFocus();
+            addSuppNameField.selectAll();
+            return;
             }
 
             Person p = new Person(name, phone, Person.Type.SUPPLIER);
@@ -1225,98 +1356,118 @@ private Label product;
         // Reset Save button to add mode
         Save.setOnAction(this::handleSaveCustomer);
     }
-    
     @FXML
     private void handleSaveCustomer(ActionEvent event) {
-        String customerName = custName.getText().trim();
-        String contactInfo = Contact.getText().trim();
+    String customerName = custName.getText().trim();
+    String contactInfo = Contact.getText().trim();
 
-        // Check for empty fields
-        if (customerName.isEmpty() || contactInfo.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Missing Information");
-            alert.setContentText("Please fill in all fields.");
-            alert.showAndWait();
-            return;
-        }
-
-        // Remove any spaces, dashes, or parentheses from phone number
-        String cleanContactInfo = contactInfo.replaceAll("[\\s\\-()]", "");
-        
-        // Validate contact info format (Egyptian phone number)
-        if (!isValidEgyptianPhoneNumber(cleanContactInfo)) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Invalid Phone Number");
-            alert.setHeaderText("Phone Number Format Error");
-            alert.setContentText("Please enter a valid Egyptian phone number:\n" +
-                               "• Must start with 01\n" +
-                               "• Must be exactly 11 digits\n" +
-                               "• Format: 01XXXXXXXXX (e.g., 01123456789)\n" +
-                               "• Only digits allowed (no spaces or dashes)");
-            alert.showAndWait();
-            Contact.requestFocus();
-            Contact.selectAll();
-            return;
-        }
-
-        // Check if phone number already exists in database
-        if (isPhoneNumberExists(cleanContactInfo)) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Duplicate Phone Number");
-            alert.setHeaderText("Phone Number Already Exists");
-            alert.setContentText("This phone number is already registered to another customer.\n" +
-                               "Please use a different phone number.");
-            alert.showAndWait();
-            Contact.requestFocus();
-            Contact.selectAll();
-            return;
-        }
-
-        // === ADDED CONFIRMATION DIALOG FOR ADD ===
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Addition");
-        confirmAlert.setHeaderText("Add New Customer");
-        confirmAlert.setContentText("Are you sure you want to add this customer?\n\n" +
-                                   "• Name: " + customerName + "\n" +
-                                   "• Phone: " + formatPhoneNumber(cleanContactInfo) + "\n\n" +
-                                   "Please verify the information is correct.");
-
-        Optional<ButtonType> result = confirmAlert.showAndWait();
-        
-        // If user clicks Cancel or closes the dialog, do nothing
-        if (result.isPresent() && result.get() != ButtonType.OK) {
-            return;
-        }
-        // === END CONFIRMATION DIALOG ===
-
-        Customer newCustomer = new Customer(customerName,cleanContactInfo,Person.Type.CUSTOMER);
-
-        
-        boolean success = Customer_DBO.addCustomer(newCustomer);
-
-        if (success) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText("Customer Added Successfully");
-            alert.setContentText("Customer '" + customerName + "' has been added to the system.\n" +
-                               "Phone: " + formatPhoneNumber(cleanContactInfo));
-            alert.showAndWait();
-            
-            custName.clear();
-            Contact.clear();
-            refreshCustomerTable();
-            
-            // Clear search after adding new customer
-            Search.clear();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Add Failed");
-            alert.setContentText("Could not add the customer. Please try again.");
-            alert.showAndWait();
-        }
+    // Check for empty fields
+    if (customerName.isEmpty() || contactInfo.isEmpty()) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText("Missing Information");
+        alert.setContentText("Please fill in all fields.");
+        alert.showAndWait();
+        return;
     }
+
+    // === ADDED: Validate customer name contains only letters and spaces ===
+    if (!isValidCustomerName(customerName)) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Customer Name");
+        alert.setHeaderText("Name Format Error");
+        alert.setContentText("Please enter a valid customer name:\n" +
+                           "• Must contain only letters and spaces\n" +
+                           "• No numbers or special characters allowed");
+        alert.showAndWait();
+        custName.requestFocus();
+        custName.selectAll();
+        return;
+    }
+    // === END NAME VALIDATION ===
+
+    // Remove any spaces, dashes, or parentheses from phone number
+    String cleanContactInfo = contactInfo.replaceAll("[\\s\\-()]", "");
+    
+    // Validate contact info format (Egyptian phone number)
+    if (!isValidEgyptianPhoneNumber(cleanContactInfo)) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Phone Number");
+        alert.setHeaderText("Phone Number Format Error");
+        alert.setContentText("Please enter a valid Egyptian phone number:\n" +
+                           "• Must start with 01\n" +
+                           "• Must be exactly 11 digits\n" +
+                           "• Format: 01XXXXXXXXX (e.g., 01123456789)\n" +
+                           "• Only digits allowed (no spaces or dashes)");
+        alert.showAndWait();
+        Contact.requestFocus();
+        Contact.selectAll();
+        return;
+    }
+
+    // Check if phone number already exists in database
+    if (isPhoneNumberExists(cleanContactInfo)) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Duplicate Phone Number");
+        alert.setHeaderText("Phone Number Already Exists");
+        alert.setContentText("This phone number is already registered to another customer.\n" +
+                           "Please use a different phone number.");
+        alert.showAndWait();
+        Contact.requestFocus();
+        Contact.selectAll();
+        return;
+    }
+
+    // === ADDED CONFIRMATION DIALOG FOR ADD ===
+    Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+    confirmAlert.setTitle("Confirm Addition");
+    confirmAlert.setHeaderText("Add New Customer");
+    confirmAlert.setContentText("Are you sure you want to add this customer?\n\n" +
+                               "• Name: " + customerName + "\n" +
+                               "• Phone: " + formatPhoneNumber(cleanContactInfo) + "\n\n" +
+                               "Please verify the information is correct.");
+
+    Optional<ButtonType> result = confirmAlert.showAndWait();
+    
+    // If user clicks Cancel or closes the dialog, do nothing
+    if (result.isPresent() && result.get() != ButtonType.OK) {
+        return;
+    }
+    // === END CONFIRMATION DIALOG ===
+
+    Customer newCustomer = new Customer(customerName, cleanContactInfo, Person.Type.CUSTOMER);
+    boolean success = Customer_DBO.addCustomer(newCustomer);
+
+    if (success) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Customer Added Successfully");
+        alert.setContentText("Customer '" + customerName + "' has been added to the system.\n" +
+                           "Phone: " + formatPhoneNumber(cleanContactInfo));
+        alert.showAndWait();
+        
+        custName.clear();
+        Contact.clear();
+        refreshCustomerTable();
+        
+        // Clear search after adding new customer
+        Search.clear();
+    } else {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Add Failed");
+        alert.setContentText("Could not add the customer. Please try again.");
+        alert.showAndWait();
+    }
+}
+
+// === ADDED: Helper method to validate customer name ===
+private boolean isValidCustomerName(String name) {
+  
+    String namePattern = "^[\\p{L} .'-]+$";
+    
+    return name.matches(namePattern);
+}
     
     @FXML
     private void handleCancel(ActionEvent event) {
@@ -1400,7 +1551,7 @@ private Label product;
 
         if (orders != null && !orders.isEmpty()) {
             Orders.setItems(orders);
-            CustName.setText("Customer Name: " + selectedCust.getName());
+            custName.setText("Customer Name: " + selectedCust.getName());
 
             // DEBUG: Check TableView binding
             System.out.println("TableView items count: " + Orders.getItems().size());
@@ -1422,135 +1573,148 @@ private Label product;
         customerPane.setVisible(true);
         refreshCustomerTable();
     }
-    
     @FXML
     private void handleUpdateCustomer(ActionEvent event) {
-        Customer selectedCust = customers.getSelectionModel().getSelectedItem();
+    Customer selectedCust = customers.getSelectionModel().getSelectedItem();
 
-        if (selectedCust == null) {
+    if (selectedCust == null) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText("No Selection");
+        alert.setContentText("Please select a customer to update.");
+        alert.showAndWait();
+        return;
+    }
+    // Fill form with existing data
+    custName.setText(selectedCust.getName());
+    Contact.setText(selectedCust.getContact_info());
+
+    // Store the original customer for comparison
+    Customer originalCustomer = selectedCust;
+
+    // Store customer to update
+    Customer customerToUpdate = selectedCust;
+
+    // Temporarily change Save button action for update
+    Save.setOnAction(e -> {
+        String newName = custName.getText().trim();
+        String newContact = Contact.getText().trim();
+
+        // Check for empty fields
+        if (newName.isEmpty() || newContact.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
-            alert.setHeaderText("No Selection");
-            alert.setContentText("Please select a customer to update.");
+            alert.setHeaderText("Missing Information");
+            alert.setContentText("Please fill in all fields.");
             alert.showAndWait();
             return;
         }
 
-        // Fill form with existing data
-        custName.setText(selectedCust.getName());
-        Contact.setText(selectedCust.getContact_info());
+        // === ADDED: Validate customer name contains only letters and spaces ===
+        if (!isValidCustomerName(newName)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Customer Name");
+            alert.setHeaderText("Name Format Error");
+            alert.setContentText("Please enter a valid customer name:\n" +
+                               "• Must contain only letters and spaces\n" +
+                               "• No numbers or special characters allowed");
+            alert.showAndWait();
+            custName.requestFocus();
+            custName.selectAll();
+            return;
+        }
+        // === END NAME VALIDATION ===
 
-        // Store the original customer for comparison
-        Customer originalCustomer = selectedCust;
+        // Remove any spaces, dashes, or parentheses from phone number
+        String cleanContactInfo = newContact.replaceAll("[\\s\\-()]", "");
 
-        // Store customer to update
-        Customer customerToUpdate = selectedCust;
+        // Validate contact info format
+        if (!isValidEgyptianPhoneNumber(cleanContactInfo)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Phone Number");
+            alert.setHeaderText("Phone Number Format Error");
+            alert.setContentText("Please enter a valid Egyptian phone number:\n" +
+                               "• Must start with 01\n" +
+                               "• Must be exactly 11 digits\n" +
+                               "• Format: 01XXXXXXXXX (e.g., 01123456789)\n" +
+                               "• Only digits allowed (no spaces or dashes)");
+            alert.showAndWait();
+            Contact.requestFocus();
+            Contact.selectAll();
+            return;
+        }
 
-        // Temporarily change Save button action for update
-        Save.setOnAction(e -> {
-            String newName = custName.getText().trim();
-            String newContact = Contact.getText().trim();
+        // Check if phone number already exists (excluding current customer)
+        if (!cleanContactInfo.equals(originalCustomer.getContact_info()) && isPhoneNumberExists(cleanContactInfo)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Duplicate Phone Number");
+            alert.setHeaderText("Phone Number Already Exists");
+            alert.setContentText("This phone number is already registered to another customer.\n" +
+                               "Please use a different phone number.");
+            alert.showAndWait();
+            Contact.requestFocus();
+            Contact.selectAll();
+            return;
+        }
 
-            // Check for empty fields
-            if (newName.isEmpty() || newContact.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning");
-                alert.setHeaderText("Missing Information");
-                alert.setContentText("Please fill in all fields.");
-                alert.showAndWait();
-                return;
-            }
+        // === CONFIRMATION DIALOG FOR UPDATE ===
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Update");
+        confirmAlert.setHeaderText("Update Customer Information");
 
-            // Remove any spaces, dashes, or parentheses from phone number
-            String cleanContactInfo = newContact.replaceAll("[\\s\\-()]", "");
+        // Show changes
+        StringBuilder changes = new StringBuilder();
+        changes.append("Are you sure you want to update this customer?\n\n");
 
-            // Validate contact info format
-            if (!isValidEgyptianPhoneNumber(cleanContactInfo)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Invalid Phone Number");
-                alert.setHeaderText("Phone Number Format Error");
-                alert.setContentText("Please enter a valid Egyptian phone number:\n" +
-                                   "• Must start with 01\n" +
-                                   "• Must be exactly 11 digits\n" +
-                                   "• Format: 01XXXXXXXXX (e.g., 01123456789)\n" +
-                                   "• Only digits allowed (no spaces or dashes)");
-                alert.showAndWait();
-                Contact.requestFocus();
-                Contact.selectAll();
-                return;
-            }
+        if (!newName.equals(originalCustomer.getName())) {
+            changes.append("• Name: ").append(originalCustomer.getName())
+                   .append(" → ").append(newName).append("\n");
+        } else {
+            changes.append("• Name: ").append(newName).append(" (unchanged)\n");
+        }
 
-            // Check if phone number already exists (excluding current customer)
-            if (!cleanContactInfo.equals(originalCustomer.getContact_info()) && isPhoneNumberExists(cleanContactInfo)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Duplicate Phone Number");
-                alert.setHeaderText("Phone Number Already Exists");
-                alert.setContentText("This phone number is already registered to another customer.\n" +
-                                   "Please use a different phone number.");
-                alert.showAndWait();
-                Contact.requestFocus();
-                Contact.selectAll();
-                return;
-            }
+        if (!cleanContactInfo.equals(originalCustomer.getContact_info())) {
+            changes.append("• Phone: ").append(formatPhoneNumber(originalCustomer.getContact_info()))
+                   .append(" → ").append(formatPhoneNumber(cleanContactInfo)).append("\n");
+        } else {
+            changes.append("• Phone: ").append(formatPhoneNumber(cleanContactInfo)).append(" (unchanged)\n");
+        }
 
-            // === CONFIRMATION DIALOG FOR UPDATE ===
-            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmAlert.setTitle("Confirm Update");
-            confirmAlert.setHeaderText("Update Customer Information");
+        changes.append("\nPlease verify the changes are correct.");
 
-            // Show changes
-            StringBuilder changes = new StringBuilder();
-            changes.append("Are you sure you want to update this customer?\n\n");
+        confirmAlert.setContentText(changes.toString());
 
-            if (!newName.equals(originalCustomer.getName())) {
-                changes.append("• Name: ").append(originalCustomer.getName())
-                       .append(" → ").append(newName).append("\n");
-            } else {
-                changes.append("• Name: ").append(newName).append(" (unchanged)\n");
-            }
+        Optional<ButtonType> result = confirmAlert.showAndWait();
 
-            if (!cleanContactInfo.equals(originalCustomer.getContact_info())) {
-                changes.append("• Phone: ").append(formatPhoneNumber(originalCustomer.getContact_info()))
-                       .append(" → ").append(formatPhoneNumber(cleanContactInfo)).append("\n");
-            } else {
-                changes.append("• Phone: ").append(formatPhoneNumber(cleanContactInfo)).append(" (unchanged)\n");
-            }
+        // If user clicks Cancel or closes the dialog, do nothing
+        if (result.isPresent() && result.get() != ButtonType.OK) {
+            return;
+        }
+        // === END CONFIRMATION DIALOG ===
 
-            changes.append("\nPlease verify the changes are correct.");
+        customerToUpdate.setName(newName);
+        customerToUpdate.setContact_info(cleanContactInfo);
 
-            confirmAlert.setContentText(changes.toString());
+        boolean success = Customer_DBO.updateCustomer(customerToUpdate);
 
-            Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (success) {
+            // REMOVED THE DUPLICATE SUCCESS ALERT - ONLY SHOW CONFIRMATION DIALOG
 
-            // If user clicks Cancel or closes the dialog, do nothing
-            if (result.isPresent() && result.get() != ButtonType.OK) {
-                return;
-            }
-            // === END CONFIRMATION DIALOG ===
+            custName.clear();
+            Contact.clear();
+            refreshCustomerTable();
 
-            customerToUpdate.setName(newName);
-            customerToUpdate.setContact_info(cleanContactInfo);
-
-            boolean success = Customer_DBO.updateCustomer(customerToUpdate);
-
-            if (success) {
-                // REMOVED THE DUPLICATE SUCCESS ALERT - ONLY SHOW CONFIRMATION DIALOG
-
-                custName.clear();
-                Contact.clear();
-                refreshCustomerTable();
-
-                // Reset Save button to normal add action
-                Save.setOnAction(this::handleSaveCustomer);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Update Failed");
-                alert.setContentText("Could not update the customer.");
-                alert.showAndWait();
-            }
-        });
-    }
+            // Reset Save button to normal add action
+            Save.setOnAction(this::handleSaveCustomer);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Update Failed");
+            alert.setContentText("Could not update the customer.");
+            alert.showAndWait();
+        }
+    });
+}
     
     // Helper method to validate Egyptian phone number format
     private boolean isValidEgyptianPhoneNumber(String phoneNumber) {
@@ -1580,7 +1744,7 @@ private Label product;
         // Remove any formatting for comparison
         phoneNumber = phoneNumber.replaceAll("[\\s\\-()]", "");
         
-        String sql = "SELECT COUNT(*) as count FROM Person WHERE Contact_Info = ? AND Type = 'CUSTOMER'";
+        String sql = "SELECT COUNT(*) as count FROM Person WHERE Contact_Info = ?";
         
         try (java.sql.Connection connection = DBconnector.connect();
              java.sql.PreparedStatement pst = connection.prepareStatement(sql)) {
@@ -1729,11 +1893,11 @@ private Label product;
         id.setCellValueFactory(new PropertyValueFactory<>("id"));  // Order ID
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         tot_price.setCellValueFactory(new PropertyValueFactory<>("total_price"));
-        discount.setCellValueFactory(new PropertyValueFactory<>("disount"));  // Note the typo
+        discount.setCellValueFactory(new PropertyValueFactory<>("discount"));  // Note the typo
         pay_method.setCellValueFactory(new PropertyValueFactory<>("payment_method"));
         calc_price.setCellValueFactory(new PropertyValueFactory<>("calculated_price"));
-        cid.setCellValueFactory(new PropertyValueFactory<>("cid"));  // FIXED: Changed from "id" to "cid"
-        caid.setCellValueFactory(new PropertyValueFactory<>("caid"));
+        cid.setCellValueFactory(new PropertyValueFactory<>("customerId"));  // FIXED: Changed from "id" to "cid"
+        caid.setCellValueFactory(new PropertyValueFactory<>("cashierId"));
 
         
         setupRealTimeSearch();

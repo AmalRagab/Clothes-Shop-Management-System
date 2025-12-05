@@ -30,19 +30,20 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="198.0">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@resources/images/16-169348_user-icon-user-white-icon-transparent-clipart-removebg-preview.png" />
-                     </image>
-                  </ImageView>
-                  <Text fx:id="adminName" fill="#a576ab" strokeType="OUTSIDE" strokeWidth="0.0" text="t">
-                     <HBox.margin>
-                        <Insets left="30.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Text>
+                  <VBox alignment="CENTER" prefHeight="74.0" prefWidth="193.0">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@resources/images/16-169348_user-icon-user-white-icon-transparent-clipart-removebg-preview.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="adminName" fill="#a576ab" strokeType="OUTSIDE" strokeWidth="0.0" text="t">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="170.0" spacing="5.0" styleClass="reportHBox">

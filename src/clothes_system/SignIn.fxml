@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -7,37 +8,44 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
 <StackPane fx:id="stack" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1550.0" styleClass="stack" stylesheets="@signin.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothes_system.SignInController">
    <children>
-      <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="signboard" stylesheets="@signin.css">
+      <AnchorPane accessibleRole="IMAGE_VIEW" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" StackPane.alignment="CENTER">
          <children>
-            <TextField fx:id="emailField" layoutX="604.0" layoutY="221.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="214.0" promptText="    Email" styleClass="emailField" stylesheets="@signIn.css" />
-            <Button fx:id="signInBtn" layoutX="676.0" layoutY="395.0" mnemonicParsing="false" onAction="#signInAction" styleClass="signInBtn" stylesheets="@signin.css" text="Sign In" />
-            <Text fx:id="signInText" layoutX="656.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signInText" text="Sign In" />
-            <PasswordField fx:id="passField" layoutX="604.0" layoutY="295.0" prefHeight="42.0" prefWidth="214.0" promptText="    Password" styleClass="passwordField" stylesheets="@signin.css" />
-            <ImageView blendMode="COLOR_DODGE" fitHeight="676.0" fitWidth="714.0" layoutX="-89.0" layoutY="-1.0" opacity="0.76" pickOnBounds="true" preserveRatio="true" styleClass="logoText">
+            <ImageView cache="true" fitHeight="600.0" fitWidth="1300.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
-                  <Image url="@resources/images/91f8b9af-4176-4c0f-8bbf-06af81db75fa.png" />
+                  <Image url="@resources/images/Gemini_Generated_Image_kdl4h4kdl4h4kdl4.png" />
                </image>
             </ImageView>
-            <HBox layoutX="478.0" layoutY="189.0" prefHeight="31.0" prefWidth="43.0" />
-            <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="612.0" layoutY="301.0" opacity="0.52" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@resources/images/pngtree-lock-password-icon-vectors-png-image_1738050.jpg" />
-               </image>
-            </ImageView>
-            <HBox prefHeight="100.0" prefWidth="200.0" />
-            <ImageView fitHeight="17.0" fitWidth="25.0" layoutX="616.0" layoutY="234.0" opacity="0.52" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@resources/images/email-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="errormsg" alignment="CENTER" layoutX="587.0" layoutY="363.0" prefHeight="18.0" prefWidth="247.0" text="WRONG EMAIL OR PASSWORD!!" textFill="#e40808" visible="false" />
+            <AnchorPane id="AnchorPane" layoutX="280.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="938.0" styleClass="signboard" stylesheets="@signin.css">
+               <children>
+                  <TextField fx:id="emailField" layoutX="604.0" layoutY="221.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="214.0" promptText="    Email" styleClass="emailField" stylesheets="@signIn.css" />
+                  <Button fx:id="signInBtn" layoutX="676.0" layoutY="395.0" mnemonicParsing="false" onAction="#signInAction" styleClass="signInBtn" stylesheets="@signin.css" text="Sign In" />
+                  <Text fx:id="signInText" layoutX="656.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signInText" text="Sign In" />
+                  <PasswordField fx:id="passField" layoutX="604.0" layoutY="295.0" prefHeight="42.0" prefWidth="214.0" promptText="    Password" styleClass="passwordField" stylesheets="@signin.css" />
+                  <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="612.0" layoutY="301.0" opacity="0.52" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/pngtree-lock-password-icon-vectors-png-image_1738050.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="17.0" fitWidth="25.0" layoutX="616.0" layoutY="234.0" opacity="0.52" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/email-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="errormsg" alignment="CENTER" layoutX="587.0" layoutY="363.0" prefHeight="18.0" prefWidth="247.0" text="WRONG EMAIL OR PASSWORD!!" textFill="#e40808" visible="false" />
+               </children>
+            </AnchorPane>
          </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
       </AnchorPane>
    </children>
 </StackPane>
