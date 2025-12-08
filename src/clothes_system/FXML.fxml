@@ -1,43 +1,268 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stack" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1550.0" styleClass="stack" stylesheets="@signin.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="signboard" stylesheets="@signin.css">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothes_system.CashierController">
+   <center>
+      <StackPane fx:id="stackpane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="150.0" prefWidth="1315.0" styleClass="stackPane" stylesheets="@admin.css" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="emailField" layoutX="604.0" layoutY="221.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="214.0" promptText="    Email" styleClass="emailField" stylesheets="@signIn.css" />
-            <Button fx:id="signInBtn" layoutX="676.0" layoutY="395.0" mnemonicParsing="false" onAction="#signInAction" styleClass="signInBtn" stylesheets="@signin.css" text="Sign In" />
-            <Text fx:id="signInText" layoutX="656.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signInText" text="Sign In" />
-            <PasswordField fx:id="passField" layoutX="604.0" layoutY="295.0" prefHeight="42.0" prefWidth="214.0" promptText="    Password" styleClass="passwordField" stylesheets="@signin.css" />
-            <ImageView blendMode="COLOR_DODGE" fitHeight="676.0" fitWidth="714.0" layoutX="-89.0" layoutY="-1.0" opacity="0.76" pickOnBounds="true" preserveRatio="true" styleClass="logoText">
+            <ImageView fitHeight="800.0" fitWidth="1358.0" pickOnBounds="true">
                <image>
-                  <Image url="@resources/images/91f8b9af-4176-4c0f-8bbf-06af81db75fa.png" />
+                  <Image url="@resources/images/Gemini_Generated_Image_i6l835i6l835i6l8.png" />
                </image>
             </ImageView>
-            <HBox layoutX="478.0" layoutY="189.0" prefHeight="31.0" prefWidth="43.0" />
-            <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="612.0" layoutY="301.0" opacity="0.52" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@resources/images/pngtree-lock-password-icon-vectors-png-image_1738050.jpg" />
-               </image>
-            </ImageView>
-            <HBox prefHeight="100.0" prefWidth="200.0" />
-            <ImageView fitHeight="17.0" fitWidth="25.0" layoutX="616.0" layoutY="234.0" opacity="0.52" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@resources/images/email-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="errormsg" alignment="CENTER" layoutX="587.0" layoutY="363.0" prefHeight="18.0" prefWidth="247.0" text="WRONG EMAIL OR PASSWORD!!" textFill="#e40808" visible="false" />
+            <AnchorPane fx:id="CashierOrderPane" prefHeight="200.0" prefWidth="200.0" styleClass="anchorReport" stylesheets="@admin.css" visible="false">
+               <children>
+                  <AnchorPane layoutX="224.0" layoutY="165.0" prefHeight="374.0" prefWidth="386.0" />
+                  <TableView fx:id="CashierOrders" layoutX="170.0" layoutY="114.0" prefHeight="488.0" prefWidth="700.0" visible="false">
+                     <columns>
+                        <TableColumn fx:id="OID" prefWidth="75.0" text="Ordre ID" />
+                        <TableColumn fx:id="CID" prefWidth="102.4000244140625" text="Customer ID" />
+                        <TableColumn fx:id="totalAmount" prefWidth="100.79998779296875" text="Total Price" />
+                        <TableColumn fx:id="Payment" prefWidth="124.80001831054688" text="Payment Method" />
+                        <TableColumn fx:id="Date" prefWidth="132.79996337890623" text="Date" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="createOrderPane" prefHeight="621.0" prefWidth="669.0">
+               <children>
+                  <AnchorPane fx:id="orderDetailsPane" layoutX="344.0" layoutY="44.0" prefHeight="586.0" prefWidth="622.0" visible="false">
+                     <children>
+                        <TextField fx:id="cashierIdField" layoutX="168.0" layoutY="63.0" prefHeight="45.0" prefWidth="300.0" promptText="CashierId" />
+                        <RadioButton fx:id="cashRb" layoutX="181.0" layoutY="353.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="83.0" text="Cash">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="paymentMethod" />
+                           </toggleGroup>
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton fx:id="creditRb" layoutX="179.0" layoutY="400.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="87.0" text="Credit" toggleGroup="$paymentMethod">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font></RadioButton>
+                        <TextField fx:id="discountField" layoutX="168.0" layoutY="138.0" prefHeight="45.0" prefWidth="300.0" promptText="Discount" />
+                        <TextField fx:id="customerPhoneField" layoutX="168.0" layoutY="217.0" prefHeight="45.0" prefWidth="300.0" promptText="CustomerPhone" />
+                        <TextField fx:id="customerNameField" layoutX="168.0" layoutY="293.0" prefHeight="45.0" prefWidth="300.0" promptText="Customer Name" />
+                        <Button fx:id="printInvoiceBtn" layoutX="443.0" layoutY="451.0" mnemonicParsing="false" onAction="#printInvoiceClicked" prefHeight="43.0" prefWidth="131.0" text="Print Invoice" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="invoicePane" layoutX="377.0" layoutY="44.0" prefHeight="650.0" prefWidth="641.0" style="-fx-background-color: white;">
+                     <children>
+                        <ImageView fx:id="logo" fitHeight="144.0" fitWidth="251.0" layoutX="18.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Clothes-Shop-Management-System/src/clothes_system/images/word.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="53.0" layoutY="208.0" text="Customer name :" />
+                        <Label layoutX="58.0" layoutY="243.0" text="Phone :" />
+                        <Label fx:id="custname" layoutX="159.0" layoutY="208.0" text="name">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="phonecust" layoutX="158.0" layoutY="244.0" text="phone" />
+                        <Label layoutX="307.0" layoutY="25.0" text="Velota store">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="307.0" layoutY="53.0" text="Zagazig,Sharkia" />
+                        <ImageView fitHeight="15.0" fitWidth="18.0" layoutX="282.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@resources/images/address.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="307.0" layoutY="82.0" text="055456784" />
+                        <ImageView fitHeight="15.0" fitWidth="18.0" layoutX="282.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@resources/images/phone.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="307.0" layoutY="108.0" text="01123456789" />
+                        <ImageView fitHeight="71.0" fitWidth="21.0" layoutX="279.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@resources/images/whatsApp.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="421.0" layoutY="566.0" text="Date :">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="invoiceitems" layoutX="42.0" layoutY="280.0" prefHeight="270.0" prefWidth="580.0">
+                          <columns>
+                            <TableColumn fx:id="product" prefWidth="283.99993896484375" text="Product" />
+                              <TableColumn fx:id="Quantity" prefWidth="104.800048828125" text="Quantity" />
+                              <TableColumn fx:id="UnitPrice" prefWidth="94.40008544921875" text="Unit Price" />
+                              <TableColumn fx:id="Total" prefWidth="97.59991455078125" text="Total" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="475.0" layoutY="565.0" prefHeight="18.0" prefWidth="96.0" text="date" />
+                        <Label layoutX="305.0" layoutY="133.0" text="velotaStore@gmail.com" />
+                        <ImageView fitHeight="19.0" fitWidth="18.0" layoutX="279.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@resources/images/email-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg" />
+                           </image>
+                        </ImageView>
+                        <Line endX="-7.60003662109375" endY="12.190887451171875" layoutX="251.0" layoutY="127.0" startX="-7.60003662109375" startY="-94.20000457763672" />
+                        <Label layoutX="421.0" layoutY="593.0" text="PaymentMethod :">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="payment" layoutX="537.0" layoutY="592.0" prefHeight="18.0" prefWidth="34.0" text="cash" />
+                        <Label layoutX="64.0" layoutY="583.0" text="Total Price :" />
+                        <Label fx:id="total" layoutX="145.0" layoutY="583.0" text="price">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="191.0" layoutY="583.0" text="LE" />
+                        <Label layoutX="64.0" layoutY="557.0" text="Discount" />
+                        <Label fx:id="discount" layoutX="126.0" layoutY="557.0" prefHeight="15.0" prefWidth="18.0" text="00" />
+                        <Label layoutX="149.0" layoutY="557.0" prefHeight="15.0" prefWidth="18.0" text="\%" />
+                        <Label layoutX="421.0" layoutY="618.0" text="InvoiceNum :">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="invoicenum" layoutX="506.0" layoutY="617.0" prefHeight="18.0" prefWidth="34.0" text="orderid" />
+                        <Label layoutX="64.0" layoutY="617.0" text="cashier : ">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="cashiername" layoutX="121.0" layoutY="617.0" text="cashierName">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="addProductPane" layoutX="125.0" layoutY="56.0" prefHeight="441.0" prefWidth="418.0" visible="false">
+                     <children>
+                        <TextField fx:id="productIdField" layoutX="106.0" layoutY="127.0" prefHeight="32.0" prefWidth="265.0" promptText="Product ID" />
+                        <Spinner fx:id="quantitySpinner" editable="true" layoutX="310.0" layoutY="183.0" prefHeight="32.0" prefWidth="74.0" />
+                        <Label alignment="CENTER" layoutX="75.0" layoutY="26.0" prefHeight="52.0" prefWidth="253.0" text="Add Product">
+                           <font>
+                              <Font name="Amiri Bold" size="35.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="43.0" layoutY="336.0" mnemonicParsing="false" onAction="#finishBtnClicked" prefHeight="49.0" prefWidth="105.0" text="Finish" />
+                        <Button layoutX="265.0" layoutY="336.0" mnemonicParsing="false" onAction="#nextBtnClicked" prefHeight="49.0" prefWidth="105.0" text="Next" />
+                        <Label layoutX="25.0" layoutY="128.0" prefHeight="30.0" prefWidth="70.0" text="Product :">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="createCustomerPane" layoutX="523.0" layoutY="209.0" prefHeight="344.0" prefWidth="410.0" visible="false">
+                     <children>
+                        <Label layoutX="21.0" layoutY="43.0" text="Name:" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="custName" layoutX="106.0" layoutY="41.0" prefHeight="26.0" prefWidth="256.0" style="-fx-background-radius: 9;" />
+                        <Label layoutX="7.0" layoutY="118.0" text="Contact:" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="Contact" layoutX="114.0" layoutY="116.0" prefHeight="26.0" prefWidth="256.0" promptText="01#########" style="-fx-background-radius: 9;" />
+                        <Button fx:id="Save" defaultButton="true" layoutX="207.0" layoutY="195.0" mnemonicParsing="false" onAction="#handleSaveCustomer" prefHeight="38.0" prefWidth="98.0" stylesheets="@admin.css" text="Save" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <Button fx:id="closeBtn" layoutX="1080.0" layoutY="711.0" mnemonicParsing="false" onAction="#closeBtnClicked" text="print" />
+               </children>
+            </AnchorPane>
          </children>
-      </AnchorPane>
-   </children>
-</StackPane>
+      </StackPane>
+   </center>
+   <left>
+      <VBox fx:id="sideBar" prefHeight="800.0" prefWidth="232.0" styleClass="sideBar" stylesheets="@admin.css" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="198.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/16-169348_user-icon-user-white-icon-transparent-clipart-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="cashierName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="63.0" prefWidth="204.0" spacing="5.0" styleClass="reportHBox">
+               <children>
+                  <Label fx:id="createOrderChoose" onMouseClicked="#showEmployeesPane" prefHeight="30.0" prefWidth="143.0" text="Create Orders" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="85.0" prefWidth="232.0" spacing="5.0" styleClass="reportHBox">
+               <children>
+                  <Label fx:id="CashierOrdersChoose" onMouseClicked="#reportsDisplay" onMousePressed="#reportsDisplay" prefHeight="46.0" prefWidth="165.0" text="Show My Orders" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label fx:id="logoutButton" alignment="CENTER" onMouseClicked="#returnToSignIn" prefHeight="30.0" prefWidth="193.0" styleClass="reportHBox" stylesheets="@admin.css" text="Log Out" textFill="#a676ac">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" top="400.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </left>
+</BorderPane>

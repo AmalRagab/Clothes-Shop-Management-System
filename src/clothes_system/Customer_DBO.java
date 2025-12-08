@@ -31,7 +31,7 @@ public class Customer_DBO {
 
     //--------------------------------------------------------------------------------------------------------------------
      
-    // SIMPLE addCustomer method that will work
+    
     public static boolean addCustomer(Customer c) {
         System.out.println("\n=== Adding customer: " + c.getName() + " ===");
         
@@ -42,7 +42,6 @@ public class Customer_DBO {
                 pst.setString(1, c.getName());
                 pst.setString(2, c.getContact_info());
                 pst.executeUpdate();
-                System.out.println("✓ Added to Person table");
                 return true;
             }
         } catch (SQLException e) {
@@ -147,33 +146,92 @@ public class Customer_DBO {
     }
 
     public static boolean deleteCustomer(int customerId) {
-        try (Connection connection = DBconnector.connect()) {
-            connection.setAutoCommit(false);
+    Connection connection = null;
+    try {
+        connection = DBconnector.connect();
+        connection.setAutoCommit(false);
 
-            // Delete from Customer table first
-            String sqlCustomer = "DELETE FROM Customer WHERE CID = ?";
-            try (PreparedStatement pstCust = connection.prepareStatement(sqlCustomer)) {
-                pstCust.setInt(1, customerId);
-                pstCust.executeUpdate();
+        // First, check if customer has existing orders
+        String checkOrdersSql = "SELECT COUNT(*) as order_count FROM Orders WHERE CID = ?";
+        try (PreparedStatement pstCheck = connection.prepareStatement(checkOrdersSql)) {
+            pstCheck.setInt(1, customerId);
+            ResultSet rs = pstCheck.executeQuery();
+            
+            if (rs.next() && rs.getInt("order_count") > 0) {
+                // Customer has orders, cannot delete
+                System.out.println("Cannot delete customer: Has " + rs.getInt("order_count") + " existing orders");
+                return false;
             }
+        }
 
-            // Then delete from Person table
-            String sqlPerson = "DELETE FROM Person WHERE ID = ?";
-            try (PreparedStatement pstPerson = connection.prepareStatement(sqlPerson)) {
-                pstPerson.setInt(1, customerId);
-                pstPerson.executeUpdate();
+        // Delete from Customer table first
+        String sqlCustomer = "DELETE FROM Customer WHERE CID = ?";
+        try (PreparedStatement pstCust = connection.prepareStatement(sqlCustomer)) {
+            pstCust.setInt(1, customerId);
+            int rowsAffected = pstCust.executeUpdate();
+            
+            if (rowsAffected == 0) {
+                // Customer not found in Customer table
+                connection.rollback();
+                return false;
             }
+        }
 
-            connection.commit();
-            System.out.println("Customer deleted successfully from both tables");
-            return true;
+        // Then delete from Person table
+        String sqlPerson = "DELETE FROM Person WHERE ID = ?";
+        try (PreparedStatement pstPerson = connection.prepareStatement(sqlPerson)) {
+            pstPerson.setInt(1, customerId);
+            int rowsAffected = pstPerson.executeUpdate();
+            
+            if (rowsAffected == 0) {
+                // Person not found in Person table
+                connection.rollback();
+                return false;
+            }
+        }
 
+        connection.commit();
+        System.out.println("Customer deleted successfully from both tables");
+        return true;
+
+    } catch (SQLException e) {
+        try {
+            if (connection != null) {
+                connection.rollback();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        e.printStackTrace();
+        System.out.println("Failed to delete customer");
+        return false;
+    } finally {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Failed to delete customer");
-            return false;
         }
     }
-
+}
+    
+public static int getCustomerOrderCount(int customerId) {
+    String sql = "SELECT COUNT(*) as order_count FROM Orders WHERE CID = ?";
+    
+    try (Connection connection = DBconnector.connect();
+         PreparedStatement pst = connection.prepareStatement(sql)) {
+        
+        pst.setInt(1, customerId);
+        ResultSet rs = pst.executeQuery();
+        
+        if (rs.next()) {
+            return rs.getInt("order_count");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return 0;
+}
 
 }

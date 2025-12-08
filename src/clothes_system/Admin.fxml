@@ -30,20 +30,19 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="198.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="74.0" prefWidth="193.0">
-                     <children>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@resources/images/16-169348_user-icon-user-white-icon-transparent-clipart-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                        <Text fx:id="adminName" fill="#a576ab" strokeType="OUTSIDE" strokeWidth="0.0" text="t">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </VBox>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/images/16-169348_user-icon-user-white-icon-transparent-clipart-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="adminName" fill="#a576ab" strokeType="OUTSIDE" strokeWidth="0.0" text="t">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Text>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="170.0" spacing="5.0" styleClass="reportHBox">
@@ -168,7 +167,7 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Label fx:id="reportChoose" onMouseClicked="#reportsDisplay" onMousePressed="#reportsDisplay" prefHeight="21.0" prefWidth="200.0" text="Reports" textFill="#a676ac">
+                  <Label fx:id="reportChoose" onMouseClicked="#reportsDisplay" onMouseEntered="#refreshData" onMousePressed="#reportsDisplay" prefHeight="21.0" prefWidth="200.0" text="Reports" textFill="#a676ac">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -212,22 +211,28 @@
                            <children>
                               <AnchorPane fx:id="reportsPane" prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <VBox layoutX="510.0" layoutY="518.0" prefHeight="265.0" prefWidth="350.0" styleClass="reportShape" stylesheets="@admin.css">
+                                    <VBox layoutX="510.0" layoutY="509.0" prefHeight="282.0" prefWidth="374.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label text="Orders In Year" textFill="#766c6c">
+                                          <Label text="Orders In Year" textFill="#662a71">
                                              <VBox.margin>
                                                 <Insets left="100.0" top="10.0" />
                                              </VBox.margin>
                                              <font>
-                                                <Font name="Arial" size="20.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <BarChart fx:id="Orders_Chart" prefHeight="170.0" prefWidth="352.0" styleClass="reoportShape" stylesheets="@admin.css">
+                                          <BarChart fx:id="Orders_Chart" prefHeight="188.0" prefWidth="318.0">
                                              <xAxis>
-                                                <CategoryAxis label="Year" prefHeight="47.0" prefWidth="296.0" side="BOTTOM" />
+                                                <CategoryAxis label="Year" prefHeight="41.0" prefWidth="230.0" side="BOTTOM">
+                                                   <tickLabelFont>
+                                                      <Font name="Arial" size="10.0" />
+                                                   </tickLabelFont></CategoryAxis>
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis label="Order" prefHeight="94.0" prefWidth="58.0" side="LEFT" upperBound="0.0" />
+                                                <NumberAxis label="Order" prefHeight="94.0" prefWidth="58.0" side="LEFT" upperBound="0.0">
+                                                   <tickLabelFont>
+                                                      <Font name="Arial" size="10.0" />
+                                                   </tickLabelFont></NumberAxis>
                                              </yAxis>
                                              <VBox.margin>
                                                 <Insets left="10.0" right="30.0" top="50.0" />
@@ -235,22 +240,28 @@
                                           </BarChart>
                                        </children>
                                     </VBox>
-                                    <VBox layoutX="961.0" layoutY="500.0" prefHeight="258.0" prefWidth="350.0" styleClass="reportShape" stylesheets="@admin.css">
+                                    <VBox layoutX="961.0" layoutY="509.0" prefHeight="282.0" prefWidth="374.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label text="Best Seller Product" textFill="#766c6c">
+                                          <Label prefHeight="24.0" prefWidth="210.0" text="Best Seller Product" textFill="#662a71">
                                              <VBox.margin>
                                                 <Insets left="100.0" top="10.0" />
                                              </VBox.margin>
                                              <font>
-                                                <Font name="Arial" size="20.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <BarChart fx:id="Seller_Chart" prefHeight="150.0" prefWidth="352.0" styleClass="reoportShape" stylesheets="@admin.css">
+                                          <BarChart fx:id="Seller_Chart" prefHeight="332.0" prefWidth="308.0">
                                              <xAxis>
-                                                <CategoryAxis label="Product ID" prefHeight="45.0" prefWidth="300.0" side="BOTTOM" />
+                                                <CategoryAxis label="Product ID" prefHeight="43.0" prefWidth="228.0" side="BOTTOM">
+                                                   <tickLabelFont>
+                                                      <Font name="Arial" size="10.0" />
+                                                   </tickLabelFont></CategoryAxis>
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis label="Sold Quantity " minorTickCount="0" minorTickLength="0.0" prefHeight="88.0" prefWidth="50.0" side="LEFT" tickLabelGap="0.0" tickLength="0.0" tickUnit="0.0" upperBound="0.0" />
+                                                <NumberAxis label="Sold Qty" minorTickCount="0" minorTickLength="0.0" prefHeight="88.0" prefWidth="50.0" side="LEFT" tickLabelGap="0.0" tickLength="0.0" tickUnit="0.0" upperBound="0.0">
+                                                   <tickLabelFont>
+                                                      <Font name="Arial" size="10.0" />
+                                                   </tickLabelFont></NumberAxis>
                                              </yAxis>
                                              <VBox.margin>
                                                 <Insets left="20.0" right="30.0" top="50.0" />
@@ -258,25 +269,28 @@
                                           </BarChart>
                                        </children>
                                     </VBox>
-                                    <VBox layoutX="58.0" layoutY="521.0" prefHeight="258.0" prefWidth="350.0" styleClass="reportShape" stylesheets="@admin.css">
+                                    <VBox layoutX="58.0" layoutY="509.0" prefHeight="282.0" prefWidth="374.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label text="Orders In Year" textFill="#766c6c">
+                                          <Label text="Sales In Year" textFill="#662a71">
                                              <VBox.margin>
                                                 <Insets left="100.0" top="10.0" />
                                              </VBox.margin>
                                              <font>
-                                                <Font name="Arial" size="20.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <BarChart fx:id="prices_Chart" prefHeight="214.0" prefWidth="352.0" styleClass="reoportShape" stylesheets="@admin.css">
+                                          <BarChart fx:id="prices_Chart" prefHeight="200.0" prefWidth="318.0">
                                             <xAxis>
                                               <CategoryAxis label="Year" prefHeight="41.0" prefWidth="274.0" side="BOTTOM">
                                                    <tickLabelFont>
-                                                      <Font name="Arial" size="8.0" />
+                                                      <Font name="Arial" size="10.0" />
                                                    </tickLabelFont></CategoryAxis>
                                             </xAxis>
                                             <yAxis>
-                                              <NumberAxis label="Sales" prefHeight="104.0" prefWidth="62.0" side="LEFT" />
+                                              <NumberAxis label="Sales" prefHeight="104.0" prefWidth="62.0" side="LEFT">
+                                                   <tickLabelFont>
+                                                      <Font name="Arial" size="10.0" />
+                                                   </tickLabelFont></NumberAxis>
                                             </yAxis>
                                              <VBox.margin>
                                                 <Insets left="10.0" right="30.0" top="50.0" />
@@ -286,12 +300,12 @@
                                     </VBox>
                                     <AnchorPane layoutX="61.0" layoutY="280.0" prefHeight="170.0" prefWidth="315.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Payment Method Report">
+                                          <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="252.0" text="Payment Method Report" textFill="#662a71">
                                              <font>
-                                                <Font name="Arial" size="18.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="payment_Method_Rep" fontSmoothingType="LCD" layoutX="111.0" layoutY="85.0" smooth="false" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
+                                          <Text fx:id="payment_Method_Rep" fontSmoothingType="LCD" layoutX="43.0" layoutY="79.0" smooth="false" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
                                              <font>
                                                 <Font name="Arial" size="12.0" />
                                              </font>
@@ -300,12 +314,12 @@
                                     </AnchorPane>
                                     <AnchorPane layoutX="531.0" layoutY="60.0" prefHeight="170.0" prefWidth="315.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="TOP CUSTOMER PRICE">
+                                          <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="230.0" text="TOP CUSTOMER PRICE" textFill="#662a71">
                                              <font>
-                                                <Font name="Arial" size="18.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="top_Price_Result" fontSmoothingType="LCD" layoutX="117.0" layoutY="87.0" smooth="false" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
+                                          <Text fx:id="top_Price_Result" fontSmoothingType="LCD" layoutX="43.0" layoutY="79.0" smooth="false" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text">
                                              <font>
                                                 <Font name="Arial Bold" size="12.0" />
                                              </font>
@@ -314,42 +328,42 @@
                                     </AnchorPane>
                                     <AnchorPane layoutX="63.0" layoutY="54.0" prefHeight="170.0" prefWidth="315.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Total Revenue">
+                                          <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" style="-fx-font-family: #5D4070;" text="Total Revenue" textFill="#662a71">
                                              <font>
-                                                <Font name="Arial" size="18.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="Total_Revenue" layoutX="124.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
+                                          <Text fx:id="Total_Revenue" layoutX="43.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane layoutX="977.0" layoutY="59.0" prefHeight="170.0" prefWidth="315.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label layoutX="28.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Best Supplier">
+                                          <Label layoutX="28.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Best Supplier" textFill="#662a71">
                                              <font>
-                                                <Font name="Arial" size="18.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="top_Supplier" layoutX="109.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
+                                          <Text fx:id="top_Supplier" layoutX="43.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane layoutX="526.0" layoutY="283.0" prefHeight="170.0" prefWidth="315.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="225.0" text="TOP CUSTOMER ORDER">
+                                          <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="258.0" text="TOP CUSTOMER ORDER" textFill="#662a71">
                                              <font>
-                                                <Font name="Arial" size="18.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="top_Order_Result" layoutX="111.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
+                                          <Text fx:id="top_Order_Result" layoutX="43.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane layoutX="980.0" layoutY="272.0" prefHeight="170.0" prefWidth="315.0" styleClass="reportShape" stylesheets="@admin.css">
                                        <children>
-                                          <Label layoutX="28.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Low Stock Alert">
+                                          <Label layoutX="28.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Low Stock Alert" textFill="#662a71">
                                              <font>
-                                                <Font name="Arial" size="18.0" />
+                                                <Font name="Sitka Text" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Text fx:id="alert" layoutX="113.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
+                                          <Text fx:id="alert" layoutX="43.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="top_Price_Result" text="Text" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -362,7 +376,7 @@
                      </children>
                   </VBox>
                </children></AnchorPane>
-             <AnchorPane fx:id="employeesPane" prefHeight="800.0" prefWidth="1300.0">
+             <AnchorPane fx:id="employeesPane" prefHeight="800.0" prefWidth="1300.0" visible="false">
                 <children>
                     <TableView fx:id="employeeTable" layoutX="134.0" layoutY="124.0" prefHeight="526.0" prefWidth="890.0">
                         <columns>
@@ -412,7 +426,7 @@
                </AnchorPane>
                 </children>
             </AnchorPane>
-            <AnchorPane fx:id="suppliersPane" prefHeight="800.0" prefWidth="1300.0">
+            <AnchorPane fx:id="suppliersPane" prefHeight="800.0" prefWidth="1300.0" visible="false">
                <children>
                   <TableView fx:id="suppliersTable" layoutX="70.0" layoutY="145.0" prefHeight="376.0" prefWidth="695.0">
                      <columns>
@@ -446,7 +460,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ordersPane" focusTraversable="true" prefHeight="750.0" prefWidth="1315.0">
+            <AnchorPane fx:id="ordersPane" focusTraversable="true" prefHeight="750.0" prefWidth="1315.0" visible="false">
                <children>
                   <Label fx:id="Custname" layoutX="50.0" layoutY="36.0" prefHeight="38.0" prefWidth="500.0" text="Customer Name:">
                      <font>
@@ -478,7 +492,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </AnchorPane>
-            <AnchorPane fx:id="customerPane" prefHeight="804.0" prefWidth="1315.0">
+            <AnchorPane fx:id="customerPane" prefHeight="804.0" prefWidth="1315.0" visible="false">
                <children>
                   <TextField fx:id="Search" layoutX="72.0" layoutY="30.0" onAction="#handleSearch" prefHeight="27.0" prefWidth="299.0" promptText="search" style="-fx-background-radius: 9;">
                      <cursor>
@@ -582,13 +596,13 @@
                   <Button fx:id="Deletebtn" layoutX="586.0" layoutY="643.0" mnemonicParsing="false" onAction="#deleteproduct" text="Delete" />
                   <AnchorPane id="AnchorPane" fx:id="addpane" layoutX="762.0" layoutY="158.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="458.0" prefWidth="600.0">
                      <children>
-                        <TextField fx:id="pid" alignment="CENTER" layoutX="217.0" layoutY="14.0" text="ID" />
-                        <TextField fx:id="name" alignment="CENTER" layoutX="217.0" layoutY="67.0" text="name" />
-                        <TextField fx:id="price1" alignment="CENTER" layoutX="217.0" layoutY="123.0" text="price" />
-                        <TextField fx:id="quantity1" alignment="CENTER" layoutX="216.0" layoutY="178.0" text="quantity" />
-                        <TextField fx:id="status1" alignment="CENTER" layoutX="213.0" layoutY="229.0" text="status" />
-                        <TextField fx:id="sid" alignment="CENTER" layoutX="214.0" layoutY="281.0" text="supplierID" />
-                        <TextField fx:id="colour" alignment="CENTER" layoutX="214.0" layoutY="330.0" text="colour" />
+                        <TextField fx:id="pid" alignment="CENTER" layoutX="217.0" layoutY="14.0" promptText="ID" />
+                        <TextField fx:id="name" alignment="CENTER" layoutX="217.0" layoutY="67.0" promptText="Name" />
+                        <TextField fx:id="price1" alignment="CENTER" layoutX="217.0" layoutY="123.0" promptText="Price" />
+                        <TextField fx:id="quantity1" alignment="CENTER" layoutX="216.0" layoutY="178.0" promptText="Quantity" />
+                        <TextField fx:id="status1" alignment="CENTER" layoutX="213.0" layoutY="229.0" promptText="Status" />
+                        <TextField fx:id="sid" alignment="CENTER" layoutX="214.0" layoutY="281.0" promptText="SupplierID" />
+                        <TextField fx:id="colour" alignment="CENTER" layoutX="214.0" layoutY="330.0" promptText="Colour" />
                         <Button fx:id="finish" layoutX="217.0" layoutY="377.0" mnemonicParsing="false" onAction="#finish" prefHeight="36.0" prefWidth="74.0" text="save" />
                         <Button fx:id="cancel" layoutX="298.0" layoutY="377.0" mnemonicParsing="false" onAction="#cancel" prefHeight="36.0" prefWidth="78.0" text="cancel" />
                      </children>
@@ -607,7 +621,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <TextField fx:id="search" layoutX="40.0" layoutY="64.0" prefHeight="38.0" prefWidth="245.0" text="search" />
+                  <TextField fx:id="search" layoutX="40.0" layoutY="64.0" prefHeight="38.0" prefWidth="245.0" promptText="Search" />
                   <AnchorPane id="AnchorPane" fx:id="editpane" layoutX="750.0" layoutY="135.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="481.0" prefWidth="600.0">
                      <children>
                         <Text fx:id="title" layoutX="260.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT PRODUCT" />
@@ -623,12 +637,12 @@
                         <TextField fx:id="fsid" layoutX="105.0" layoutY="340.0" />
                         <TextField fx:id="fcolour" layoutX="105.0" layoutY="392.0" />
                         <TextField fx:id="tid" layoutX="341.0" layoutY="81.0" />
-                        <TextField fx:id="tname" layoutX="340.0" layoutY="130.0" />
-                        <TextField fx:id="tprice" layoutX="340.0" layoutY="181.0" />
-                        <TextField fx:id="tquantity" layoutX="341.0" layoutY="236.0" />
-                        <TextField fx:id="tstatus" layoutX="340.0" layoutY="290.0" />
-                        <TextField fx:id="tsid" layoutX="340.0" layoutY="340.0" />
-                        <TextField fx:id="tcolour" layoutX="341.0" layoutY="392.0" />
+                        <TextField fx:id="tname" layoutX="340.0" layoutY="130.0" promptText="Name" />
+                        <TextField fx:id="tprice" layoutX="340.0" layoutY="181.0" promptText="Price" />
+                        <TextField fx:id="tquantity" layoutX="341.0" layoutY="236.0" promptText="Quantity" />
+                        <TextField fx:id="tstatus" layoutX="340.0" layoutY="290.0" promptText="Status" />
+                        <TextField fx:id="tsid" layoutX="340.0" layoutY="340.0" promptText="SupplierID" />
+                        <TextField fx:id="tcolour" layoutX="341.0" layoutY="392.0" promptText="Colour" />
                      </children>
                   </AnchorPane>
                </children>

@@ -118,7 +118,7 @@ public class User_DBO {
 
     public static Person searchPerson(String searchTerm) {
     Integer id = null;
-    try {
+    try {   
         id = Integer.parseInt(searchTerm); 
     } catch (NumberFormatException e) {
         
@@ -126,36 +126,41 @@ public class User_DBO {
 
     try (Connection conn = DBconnector.connect()) {
 
-        String sqlUser = "SELECT p.ID, p.Name, p.Contact_Info, p.Type AS PersonType, u.Type AS UserType, u.Email, u.Password, u.Salary " +
+       
+        String sqlUser = "SELECT p.ID, p.Name, p.Contact_Info, p.Type AS PersonType, " +
+                         "u.Type AS UserType, u.Email, u.Password, u.Salary " +
                          "FROM Person p JOIN User u ON p.ID = u.UID " +
-                         "WHERE (? IS NOT NULL AND p.ID = ?) OR p.Name = ? OR p.Contact_Info = ?";
+                         "WHERE (? IS NOT NULL AND p.ID = ?) OR p.Name = ? OR p.Contact_Info = ? OR u.Email = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sqlUser)) {
             ps.setObject(1, id);
             ps.setObject(2, id);
             ps.setString(3, searchTerm);
             ps.setString(4, searchTerm);
+            ps.setString(5, searchTerm); 
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+                if (rs.next()) {  
                     
+                    int personId = rs.getInt("ID");
+                    String name = rs.getString("Name");
+                    String contact = rs.getString("Contact_Info");
                     Person.Type personType = Person.Type.valueOf(rs.getString("PersonType").toUpperCase());
                     User.Utype userType = User.Utype.valueOf(rs.getString("UserType").toUpperCase());
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    double salary = rs.getDouble("Salary");
 
-                    return new User(
-                        
-                        rs.getString("Name"),
-                        rs.getString("Contact_Info"),
-                        personType,
-                        rs.getString("Email"),
-                        rs.getString("Password"),
-                        rs.getDouble("Salary"),
-                        userType
-                    );
+                    User user = new User(name, contact, personType, email, password, salary, userType);
+                    user.setId(personId); 
+
+
+                    return user;
                 }
             }
         }
 
+        // Search Person (Customer أو Supplier)
         String sqlPerson = "SELECT p.ID, p.Name, p.Contact_Info, p.Type AS PersonType " +
                            "FROM Person p " +
                            "LEFT JOIN Supplier s ON p.ID = s.SID " +
@@ -171,13 +176,19 @@ public class User_DBO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    int personId = rs.getInt("ID");
+                    String name = rs.getString("Name");
+                    String contact = rs.getString("Contact_Info");
                     Person.Type personType = Person.Type.valueOf(rs.getString("PersonType").toUpperCase());
-                    return new Person(
-                       
-                        rs.getString("Name"),
-                        rs.getString("Contact_Info"),
-                        personType
-                    );
+
+                 
+                    Person person = new Person();
+                    person.setId(personId);
+                    person.setName(name);
+                    person.setContact_info(contact);
+                    person.setType(personType);
+
+                    return person;
                 }
             }
         }
@@ -186,7 +197,7 @@ public class User_DBO {
         e.printStackTrace();
     }
     return null;
-    }
+}
 
     public static ObservableList<ObservableList<String>> getAllPersonsForTable() {
     ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
@@ -301,6 +312,23 @@ public class User_DBO {
      }
          return null;
 
+}
+     public static boolean emailExists(String email) {
+    String query = "SELECT COUNT(*) FROM User WHERE Email = ?";
+    try (Connection conn = DBconnector.connect();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false;
 }
 }
   

@@ -12,10 +12,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author soft zone
- */
+
 public class Order_DBO {
     public static ObservableList<Order> getOrdersByCustomerId(int customerId) {
     ObservableList<Order> list = FXCollections.observableArrayList();
@@ -23,7 +20,7 @@ public class Order_DBO {
     String sql = "SELECT * FROM Orders WHERE CID = ?"; 
     
     try (Connection connection = DBconnector.connect()) {
-        System.out.println("✓ Database connection successful");
+        System.out.println(" Database connection successful");
         System.out.println("Executing query: " + sql + " with CID=" + customerId);
         
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
@@ -33,7 +30,6 @@ public class Order_DBO {
                 int orderCount = 0;
                 while (rs.next()) {
                     orderCount++;
-                    System.out.println("✓ Found order #" + orderCount);
                     
                     Order o = new Order();
                     

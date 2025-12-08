@@ -61,6 +61,7 @@ public class products {
     }
 
     // Update product
+    // Update product
     public boolean updateProduct(Product p) {
         String sql = "UPDATE product SET Name=?, Price=?, Quantity=?, Status=?, SID=?, Colour=? WHERE ID=?";
 
@@ -85,11 +86,13 @@ public class products {
     
     if (msg.contains("Supplier does not exist!")) {
         showAlert("Error", "Supplier does not exist!");
+          return false;
     }
     else {
         showAlert("Error", "Database error: " + msg);
+          return false;
     }
-    return false;
+   
 }
         catch (Exception e) {
             e.printStackTrace();
@@ -100,6 +103,7 @@ public class products {
 
     // Add product
     public boolean addProduct(Product p) {
+        
         String sql = "INSERT INTO product (ID,Name, Price, Quantity, Status, SID, Colour) VALUES (?,?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBconnector.connect();
@@ -120,8 +124,8 @@ public class products {
     if (msg.contains("Product ID already exists!")) {
         showAlert("Error", "Product ID already exists!");
     }
-    else if (msg.contains("Product Name already exists!")) {
-        showAlert("Error", "Product Name already exists!");
+    else if (msg.contains("Duplicate name and colour!")) {
+        showAlert("Error", "Duplicate name and colour!");
     }
     else if (msg.contains("Supplier does not exist!")) {
         showAlert("Error", "Supplier does not exist!");

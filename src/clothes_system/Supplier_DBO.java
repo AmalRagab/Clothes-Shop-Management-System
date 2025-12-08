@@ -11,11 +11,8 @@ import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**
- *
- * @author soft zone
- */
 public class Supplier_DBO {
+    
     public static boolean addPerson(Person p){
         String sql ="INSERT INTO Person(Name,Contact_Info,Type) VALUES(?,?,?)";
         try(Connection connection=DBconnector.connect();

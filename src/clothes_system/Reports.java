@@ -24,7 +24,8 @@ public class Reports {
     private static ResultSet result;
     public static List<Map<String, Object>> topRevenueUser() {
         List<Map<String, Object>> list = new ArrayList<>();
-        String query = "SELECT P.Name, P.Contact_Info, COUNT(O.OID) AS no_OF_Orders, SUM(Total_Price) AS total_Price " +
+        String query = "SELECT P.Name, P.Contact_Info, COUNT(O.OID) AS no_OF_Orders,"+
+                       " SUM(Total_Price) AS total_Price " +
                        "FROM Person P INNER JOIN Orders O ON O.CID = P.ID " +
                        "GROUP BY P.ID ORDER BY no_OF_Orders DESC LIMIT 1";
 
@@ -73,7 +74,9 @@ public class Reports {
     }
         public static List<Map<String, Object>> allOrdersInYears() {
         List<Map<String, Object>> list = new ArrayList<>();
-        String query = "SELECT SUBSTR(DATE,-4) AS year, COUNT(ID) AS no_of_orders FROM Orders GROUP BY year";
+        String query = "SELECT SUBSTR(TRIM(Date), -4) AS year ,"+
+                       "COUNT(ID) AS no_of_orders"+
+                       " FROM Orders GROUP BY year";     
 
         try (Connection conn = DBconnector.connect();
              PreparedStatement ps = conn.prepareStatement(query);
@@ -94,7 +97,8 @@ public class Reports {
     }
         public static List<Map<String, Object>> totalPriceInYears() {
         List<Map<String, Object>> list = new ArrayList<>();
-        String query = "SELECT SUBSTR(DATE,-4) AS year, SUM(Total_price) AS total_year_price FROM Orders GROUP BY year";
+        String query = "SELECT SUBSTR(TRIM(Date), -4) AS year,"+
+                       "SUM(Total_price) AS total_year_price FROM Orders GROUP BY year";
 
         try (Connection conn = DBconnector.connect();
              PreparedStatement ps = conn.prepareStatement(query);
@@ -116,7 +120,8 @@ public class Reports {
 
         public static List<Map<String, Object>> payment_Methods_Prices() {
         List<Map<String, Object>> list = new ArrayList<>();
-        String query = "SELECT Payment_Method, SUM(Total_Price) AS Payment_Prices FROM Orders GROUP BY Payment_Method ORDER BY Payment_Prices DESC";
+        String query = "SELECT Payment_Method, SUM(Total_Price) AS Payment_Prices FROM Orders "+
+                       "GROUP BY Payment_Method ORDER BY Payment_Prices DESC";
 
         try (Connection conn = DBconnector.connect();
              PreparedStatement ps = conn.prepareStatement(query);
@@ -138,7 +143,9 @@ public class Reports {
 
        public static List<Map<String, Object>> getTopNSoldProducts() {
         List<Map<String, Object>> list = new ArrayList<>();
-        String sql = "SELECT P.ID, SUM(O.Desired_Quantity) AS TotalSoldQty FROM Product P INNER JOIN OrderItem O ON P.ID=O.PID GROUP BY P.ID ORDER BY TotalSoldQty DESC";
+        String sql = "SELECT P.ID, SUM(O.Desired_Quantity) AS TotalSoldQty FROM Product P "+
+                     "INNER JOIN OrderItem O ON P.ID=O.PID"+
+                     " GROUP BY P.ID ORDER BY TotalSoldQty DESC LIMIT 3";
 
         try (Connection conn = DBconnector.connect();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -185,8 +192,8 @@ public class Reports {
 
        public static List<Map<String, Object>> totalRevenue() {
         List<Map<String, Object>> list = new ArrayList<>();
+        
         String sql = "SELECT SUM(Total_Price) AS total_revenue FROM Orders";
-
         try (Connection conn = DBconnector.connect();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -206,8 +213,8 @@ public class Reports {
 
     public static List<Map<String, Object>> LowStockAlert() {
         List<Map<String, Object>> list = new ArrayList<>();
-        String sql = "SELECT ID, Name FROM Product WHERE Quantity < 6";
-
+        
+        String sql = "SELECT ID, Name FROM Product WHERE Quantity < 10";
         try (Connection conn = DBconnector.connect();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {

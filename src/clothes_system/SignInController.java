@@ -101,7 +101,7 @@ private void signInAction() throws IOException {
                 AdminController.receive_Info(send_Info(email,password));
                 chooseAdmin();
             } else {
-                //CashierController.receive_Info(send_Info(email,password));
+                CashierController.receive_Info(send_Info(email,password));
                 chooseCashier();
             }
         } else {

@@ -327,6 +327,7 @@ System.out.println(sb.toString());
 
  @FXML
 private void loadSalesData() {
+    prices_Chart.getData().clear();
     AreaChart.Series<String, Number> series = new AreaChart.Series<>();
     series.setName("Sales");
 
@@ -340,17 +341,37 @@ private void loadSalesData() {
 
     prices_Chart.getData().add(series);
 
+     String[] colors = {
+        "#800080", // Purple
+        "#9370DB", // MediumPurple
+        "#B597E8", // لونك الأصلي
+        "#BA55D3", // MediumOrchid
+        "#DDA0DD", // Plum
+        "#4B0082"  // Indigo
+    };
+
+    int index = 0; // عداد للألوان
+
+    // 2. المرور على البيانات وتلوين كل عمود بلون مختلف بالترتيب
     for (XYChart.Series<String, Number> s : prices_Chart.getData()) {
         for (XYChart.Data<String, Number> data : s.getData()) {
-            data.getNode().setStyle("-fx-bar-fill: #B597E8;");
+            
+            // معادلة اختيار اللون: العداد % عدد الألوان (لضمان التكرار لو العواميد زادت عن الألوان)
+            String color = colors[index % colors.length];
+            
+            data.getNode().setStyle("-fx-bar-fill: " + color + ";");
+            
+            index++; // الانتقال للون التالي
         }
     }
+    // ------------------ نهاية التعديل ------------------
 }
 
 
 
 @FXML
 private void loadOrdersData() {
+    Orders_Chart.getData().clear();
     XYChart.Series<String, Number> series = new XYChart.Series<>();
     series.setName("Orders");
 
@@ -364,17 +385,37 @@ private void loadOrdersData() {
 
     Orders_Chart.getData().add(series);
 
+     String[] colors = {
+        "#800080", // Purple
+        "#9370DB", // MediumPurple
+        "#B597E8", // لونك الأصلي
+        "#BA55D3", // MediumOrchid
+        "#DDA0DD", // Plum
+        "#4B0082"  // Indigo
+    };
+
+    int index = 0; // عداد للألوان
+
+    // 2. المرور على البيانات وتلوين كل عمود بلون مختلف بالترتيب
     for (XYChart.Series<String, Number> s : Orders_Chart.getData()) {
         for (XYChart.Data<String, Number> data : s.getData()) {
-            data.getNode().setStyle("-fx-bar-fill: #B597E8;");
+            
+            // معادلة اختيار اللون: العداد % عدد الألوان (لضمان التكرار لو العواميد زادت عن الألوان)
+            String color = colors[index % colors.length];
+            
+            data.getNode().setStyle("-fx-bar-fill: " + color + ";");
+            
+            index++; // الانتقال للون التالي
         }
     }
+    // ------------------ نهاية التعديل ------------------
 }
 
  
 
 @FXML
 private void loadSellerData() {
+    Seller_Chart.getData().clear();
     XYChart.Series<String, Number> series = new XYChart.Series<>();
     series.setName("Seller");
 
@@ -388,13 +429,45 @@ private void loadSellerData() {
 
     Seller_Chart.getData().add(series);
 
+    String[] colors = {
+        "#800080", // Purple
+        "#9370DB", // MediumPurple
+        "#B597E8", // لونك الأصلي
+        "#BA55D3", // MediumOrchid
+        "#DDA0DD", // Plum
+        "#4B0082"  // Indigo
+    };
+
+    int index = 0; // عداد للألوان
+
+    // 2. المرور على البيانات وتلوين كل عمود بلون مختلف بالترتيب
     for (XYChart.Series<String, Number> s : Seller_Chart.getData()) {
         for (XYChart.Data<String, Number> data : s.getData()) {
-            data.getNode().setStyle("-fx-bar-fill: #B597E8;");
+            
+            // معادلة اختيار اللون: العداد % عدد الألوان (لضمان التكرار لو العواميد زادت عن الألوان)
+            String color = colors[index % colors.length];
+            
+            data.getNode().setStyle("-fx-bar-fill: " + color + ";");
+            
+            index++; // الانتقال للون التالي
         }
     }
+    // ------------------ نهاية التعديل ------------------
 }
 // ================= Initialize Reports =================
+//Refresh data
+@FXML
+void refreshData(MouseEvent event) throws SQLException {
+        getReportText(); 
+        getReport2Text();
+        getReport3Text();
+        getReport4Text();
+        getReport5Text();
+        getReport6Text();
+        loadSalesData();
+        loadOrdersData();
+        loadSellerData();
+}
 @FXML
 private void intializeReports() throws SQLException{
         getReportText(); 
@@ -539,7 +612,11 @@ private Label reportChoose;
         }
         return trimmedName.matches("^[\\p{L}\\s]+$");
     }
+//⭐ Email validation
+ private boolean isValidGmailEmail(String email) {
 
+        return email.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$");
+    }
         @FXML
         public void saveEmpClicked() {
             try {
@@ -573,8 +650,16 @@ private Label reportChoose;
             return;
         }
         // ⭐ END: Phone Number Validation
-        
-        
+        // ⭐ add new
+        // ⭐ START: Email Validation (must end with @gmail.com)
+        if (!isValidGmailEmail(newEmail)) {
+            showAlert("Error", "Invalid Email Format!\nThe email address must be a valid format and must end with @gmail.com.");
+            editEmpEmailField.requestFocus();
+            editEmpEmailField.selectAll();
+            return;
+        }
+        // ⭐ END: Email Validation
+        // ⭐ end
                 boolean success = User_DBO.updateUser(empId, newName, cleanPhone, newEmail, newPass, newSalary);
 
                 if (success) {
@@ -620,6 +705,25 @@ private Label reportChoose;
         return;
     }
     // ⭐ END: Phone Number Validation
+    
+    //// ⭐ add new
+         // ⭐ START: Email Validation (must end with @gmail.com)
+      if (!isValidGmailEmail(email)) {
+        showAlert("Error", "Invalid Email Format!\nThe email address must be a valid format\nand must end with @gmail.com.");
+        addEmpEmailField.requestFocus();
+        addEmpEmailField.selectAll();
+        return;
+    }
+    // ⭐ END: Email Validation
+    
+     // ⭐ is email exist?
+    if (User_DBO.emailExists(email)) {
+        showAlert("Error", "This email is already registered!\nPlease use another email.");
+        addEmpEmailField.requestFocus();
+        addEmpEmailField.selectAll();
+        return;
+    }
+    // ⭐ end
             // salary is a positive number
             double salary;
             try {
@@ -642,30 +746,18 @@ private Label reportChoose;
             // user type
             User.Utype utypeValue = rbAdmin.isSelected() ? User.Utype.ADMIN : User.Utype.CASHIER;
             User u = new User(name, cleanPhone, Person.Type.USER, email, pass, salary, utypeValue);
+// ⭐ add new
+            boolean success = User_DBO.addUser(u);
 
-            // exceptions
-            try {
-                User_DBO.addUser(u);
-                if (true) {
-                    showAlert("Success", "User added successfully!");
-                    loadEmployeesData();
-                    addEmpPane.setVisible(false);
-                    clearFields();
-                } else {
-                    showAlert("Error", "Failed to add user!");
-                }
-            } catch (Exception e) {
-                // trigger exception
-                if (e.getMessage().contains("User with this Email already exists")) {
-                    showAlert("Error", "User already exists!");
-                    // data base exceptions
-                } else {    
-                    showAlert("Error", "Database error: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-            
-
+    if (success) {
+        showAlert("Success", "Employee added successfully!");
+        addEmpPane.setVisible(false);
+        loadEmployeesData();
+    } else {
+        showAlert("Error", "Failed to add employee!");
+    }
+    // ⭐ end
+          
 }
         // clear fields after add
         private void clearFields() {
@@ -1039,7 +1131,7 @@ private void deleteproduct(ActionEvent event) {
     Optional<ButtonType> result = alert.showAndWait();
 
     // If user clicked CANCEL → do nothing
-    if (result.isEmpty() || result.get() != ButtonType.OK) {
+    if (!result.isPresent() || result.get() != ButtonType.OK) {
         return;
     }
 
@@ -1062,15 +1154,24 @@ private void deleteproduct(ActionEvent event) {
             status1.clear();
             colour.clear();
             sid.clear();
-
+             tname.clear();
+            tprice.clear();
+            tquantity.clear();
+            tid.clear();
+            tstatus.clear();
+            tcolour.clear();
+            tsid.clear();
+           
 
         }
 
     @FXML
     private void cancel(ActionEvent event) {
+        
         addpane.setVisible(false);
         editpane.setVisible(false);
         productPane.setVisible(true);
+         clearFieldsproduct();
     }
 
     @FXML
@@ -1106,21 +1207,23 @@ private void save(ActionEvent event) {
                 productPane.setVisible(true);
         }
         else{
-           
+           showAlert("Error", "edit failed.supplier does not exist");
         }
        
       
 
     } catch (Exception e) {
         e.printStackTrace();
-         showAlert("Error", "edit failed.supplier does not exist");
+       
     }
 }
 
 
  @FXML
 private void finish(ActionEvent event) {
+
     try {
+         
         // 1. Read values from text fields
         int productID = Integer.parseInt(pid.getText()); // optional if DB auto-generates
         String productName = name.getText();
@@ -1128,8 +1231,11 @@ private void finish(ActionEvent event) {
         int productQuantity = Integer.parseInt(quantity1.getText());
         String productColour = colour.getText();
         int supplierId = Integer.parseInt( sid.getText());
-        String productStatus = status1.getText();
-
+      String status = status1.getText();
+         if ("UNAVAILABLE".equals(status)) {
+            showAlert("Error", "Cannot add product. Quantity must be more than 0!");
+            return; // stop further execution
+        }
         // 2. Create Product object
         Product newProduct = new Product(
             productID,        // 0 if auto-generated
@@ -1137,7 +1243,7 @@ private void finish(ActionEvent event) {
             productName,
             productPrice,
             productQuantity,
-            productStatus,
+            status,
             productColour
         );
         boolean isadded=productDB.addProduct(newProduct);
@@ -1163,9 +1269,10 @@ private void finish(ActionEvent event) {
            price1.setText("price");
             quantity1.setText("quantity");
             pid.setText("pid");
-            status1.setText("status");
+            status1.setText("AVAILABLE");
             colour.setText("colour");
             sid.setText("sid");
+          
 
     } 
    catch (Exception e) {
@@ -1190,6 +1297,7 @@ private Label product;
 
     @FXML
     private void showAddProductPane() {
+
         productPane.setVisible(true);
         addpane.setVisible(true);
         editpane.setVisible(false);
@@ -1200,6 +1308,28 @@ private Label product;
         editSuppPane.setVisible(false);
         customerPane.setVisible(false);
         ordersPane.setVisible(false);
+        
+        quantity1.textProperty().addListener((obs, oldVal, newVal) -> {
+    if (newVal.isEmpty()) {
+        status1.setText("");
+        return;
+    }
+
+    try {
+        int qty = Integer.parseInt(newVal);
+
+        if (qty > 0) {
+            status1.setText("AVAILABLE");
+        } else {
+            status1.setText("UNAVAILABLE");
+        }
+
+        status1.setEditable(false);
+
+    } catch (NumberFormatException e) {
+        status1.setText("");
+    }
+});
     }
 
     @FXML
@@ -1214,6 +1344,8 @@ private Label product;
 
     // Fill FROM fields (show current values)
     fid.setText(String.valueOf(selected.getId()));
+    tid.setText(String.valueOf(selected.getId()));
+    tid.setEditable(false);
     fname.setText(selected.getName());
     fprice.setText(String.valueOf(selected.getPrice()));
     fquantity.setText(String.valueOf(selected.getQuantity()));
@@ -1230,8 +1362,29 @@ private Label product;
         editSuppPane.setVisible(false);
         customerPane.setVisible(false);
         ordersPane.setVisible(false);
+        
+        tquantity.textProperty().addListener((obs, oldVal, newVal) -> {
+    if (newVal.isEmpty()) {
+        tstatus.setText("");
+        return;
     }
-    
+
+    try {
+        int qty = Integer.parseInt(newVal);
+
+        if (qty > 0) {
+            tstatus.setText("AVAILABLE");
+        } else {
+            tstatus.setText("UNAVAILABLE");
+        }
+
+        tstatus.setEditable(false);
+
+    } catch (NumberFormatException e) {
+        tstatus.setText("");
+    }
+});
+    }
 //================================================================================================================================ 
 // ========================================================= Customers ===========================================================    
 
@@ -1476,54 +1629,67 @@ private boolean isValidCustomerName(String name) {
     }
     
     @FXML
-    private void handleDeleteCustomer(ActionEvent event) {
-        Customer selectedCust = customers.getSelectionModel().getSelectedItem();
+private void handleDeleteCustomer(ActionEvent event) {
+    Customer selectedCust = customers.getSelectionModel().getSelectedItem();
 
-        if (selectedCust == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("No Selection");
-            alert.setContentText("Please select a customer to delete.");
-            alert.showAndWait();
-            return;
-        }
-
-        // === VERIFICATION DIALOG FOR DELETE ===
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Deletion");
-        confirmAlert.setHeaderText("Delete Customer");
-        confirmAlert.setContentText("Are you sure you want to delete customer:\n\n" +
-                                   "• Name: " + selectedCust.getName() + "\n" +
-                                   "• Phone: " + formatPhoneNumber(selectedCust.getContact_info()) + "\n" +
-                                   "• ID: " + selectedCust.getId() + "\n\n" +
-                                   "⚠️ This action cannot be undone!");
-
-        Optional<ButtonType> result = confirmAlert.showAndWait();
-        
-        // If user clicks Cancel or closes the dialog, do nothing
-        if (result.isPresent() && result.get() != ButtonType.OK) {
-            return;
-        }
-        // === END VERIFICATION DIALOG ===
-
-        boolean success = Customer_DBO.deleteCustomer(selectedCust.getId());
-
-        if (success) {
-            refreshCustomerTable(); 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText("Customer Deleted");
-            alert.setContentText("Customer '" + selectedCust.getName() + "' has been deleted successfully.");
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Delete Failed");
-            alert.setContentText("Could not delete the customer.");
-            alert.showAndWait();
-        }
+    if (selectedCust == null) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText("No Selection");
+        alert.setContentText("Please select a customer to delete.");
+        alert.showAndWait();
+        return;
     }
+
+    // === CHECK FOR EXISTING ORDERS FIRST ===
+    int orderCount = Customer_DBO.getCustomerOrderCount(selectedCust.getId());
     
+    if (orderCount > 0) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Cannot Delete Customer");
+        alert.setHeaderText("Customer Has Existing Orders");
+        alert.setContentText("Cannot delete customer '" + selectedCust.getName() + "' because they have " + 
+                           orderCount + " existing order(s).\n\n" +
+                           "To delete this customer, you must first delete or reassign all their orders.");
+        alert.showAndWait();
+        return;
+    }
+
+    // === VERIFICATION DIALOG FOR DELETE ===
+    Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+    confirmAlert.setTitle("Confirm Deletion");
+    confirmAlert.setHeaderText("Delete Customer");
+    confirmAlert.setContentText("Are you sure you want to delete customer:\n\n" +
+                               "• Name: " + selectedCust.getName() + "\n" +
+                               "• Phone: " + formatPhoneNumber(selectedCust.getContact_info()) + "\n" +
+                               "• ID: " + selectedCust.getId() + "\n\n" +
+                               "⚠ This action cannot be undone!");
+
+    Optional<ButtonType> result = confirmAlert.showAndWait();
+    
+    // If user clicks Cancel or closes the dialog, do nothing
+    if (result.isPresent() && result.get() != ButtonType.OK) {
+        return;
+    }
+    // === END VERIFICATION DIALOG ===
+
+    boolean success = Customer_DBO.deleteCustomer(selectedCust.getId());
+
+    if (success) {
+        refreshCustomerTable(); 
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Customer Deleted");
+        alert.setContentText("Customer '" + selectedCust.getName() + "' has been deleted successfully.");
+        alert.showAndWait();
+    } else {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Delete Failed");
+        alert.setContentText("Could not delete the customer. Please try again.");
+        alert.showAndWait();
+    }
+}
     @FXML
     private void handleShowOrders(ActionEvent event) {
         Customer selectedCust = customers.getSelectionModel().getSelectedItem();

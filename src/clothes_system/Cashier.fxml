@@ -8,7 +8,6 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
@@ -18,22 +17,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothes_system.CashierController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clothes_system.CashierController">
    <center>
       <StackPane fx:id="stackpane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="150.0" prefWidth="1315.0" styleClass="stackPane" stylesheets="@admin.css" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="800.0" fitWidth="1358.0" pickOnBounds="true">
+            <ImageView fitHeight="800.0" fitWidth="1315.0" pickOnBounds="true">
                <image>
                   <Image url="@resources/images/Gemini_Generated_Image_i6l835i6l835i6l8.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="CashierOrderPane" prefHeight="200.0" prefWidth="200.0" styleClass="anchorReport" stylesheets="@admin.css" visible="false">
+            <AnchorPane fx:id="CashierOrderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1315.0" styleClass="anchorReport" stylesheets="@admin.css">
                <children>
                   <AnchorPane layoutX="224.0" layoutY="165.0" prefHeight="374.0" prefWidth="386.0" />
-                  <TableView fx:id="CashierOrders" layoutX="170.0" layoutY="114.0" prefHeight="488.0" prefWidth="700.0">
+                  <TableView fx:id="CashierOrders" layoutX="140.0" layoutY="95.0" prefHeight="634.0" prefWidth="1126.0">
                      <columns>
                         <TableColumn fx:id="OID" prefWidth="75.0" text="Ordre ID" />
                         <TableColumn fx:id="CID" prefWidth="102.4000244140625" text="Customer ID" />
@@ -47,11 +47,10 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="createOrderPane" prefHeight="621.0" prefWidth="669.0">
+            <AnchorPane fx:id="createOrderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1315.0">
                <children>
-                  <AnchorPane fx:id="orderDetailsPane" layoutX="344.0" layoutY="178.0" prefHeight="375.0" prefWidth="265.0" visible="false">
+                  <AnchorPane fx:id="orderDetailsPane" layoutX="500.0" layoutY="178.0" prefHeight="375.0" prefWidth="265.0">
                      <children>
-                        <TextField fx:id="cashierIdField" layoutX="59.0" layoutY="61.0" promptText="CashierId" />
                         <RadioButton fx:id="cashRb" layoutX="78.0" layoutY="179.0" mnemonicParsing="false" text="Cash">
                            <toggleGroup>
                               <ToggleGroup fx:id="paymentMethod" />
@@ -59,18 +58,109 @@
                         </RadioButton>
                         <RadioButton fx:id="creditRb" layoutX="159.0" layoutY="179.0" mnemonicParsing="false" text="Credit" toggleGroup="$paymentMethod" />
                         <TextField fx:id="discountField" layoutX="59.0" layoutY="113.0" promptText="Discount" />
-                        <TextField fx:id="customerPhoneField" layoutX="59.0" layoutY="207.0" promptText="CustomerPhone" />
-                        <TextField fx:id="customerNameField" layoutX="59.0" layoutY="258.0" promptText="Customer Name" />
+                        <TextField fx:id="customerPhoneField" layoutX="60.0" layoutY="228.0" promptText="CustomerPhone" />
                         <Button fx:id="printInvoiceBtn" layoutX="85.0" layoutY="325.0" mnemonicParsing="false" onAction="#printInvoiceClicked" text="Print Invoice" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="invoicePane" layoutX="288.0" layoutY="209.0" prefHeight="511.0" prefWidth="342.0" visible="false">
+                  <AnchorPane fx:id="invoicePane" layoutX="288.0" layoutY="38.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="642.0">
                      <children>
-                        <Button fx:id="closeBtn" layoutX="137.0" layoutY="456.0" mnemonicParsing="false" onAction="#closeBtnClicked" text="Close" />
-                        <TextArea fx:id="invoiceArea" layoutX="14.0" layoutY="14.0" prefHeight="411.0" prefWidth="314.0" />
+                        <AnchorPane fx:id="invoicePane" layoutX="2.0" layoutY="6.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="680.0" style="-fx-background-color: white;">
+                           <children>
+                              <ImageView fx:id="logo" fitHeight="144.0" fitWidth="251.0" layoutX="18.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@resources/images/logo.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="53.0" layoutY="208.0" text="Customer name :" />
+                              <Label layoutX="58.0" layoutY="243.0" text="Phone :" />
+                              <Label fx:id="custname" layoutX="187.0" layoutY="208.0" text="name">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="phonecust" layoutX="158.0" layoutY="244.0" text="phone" />
+                              <Label layoutX="307.0" layoutY="25.0" text="Velota store">
+                                 <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="307.0" layoutY="53.0" text="Zagazig,Sharkia" />
+                              <ImageView fitHeight="15.0" fitWidth="18.0" layoutX="282.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@resources/images/location.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="307.0" layoutY="82.0" text="055456784" />
+                              <ImageView fitHeight="15.0" fitWidth="18.0" layoutX="282.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@resources/images/call.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="307.0" layoutY="108.0" text="01123456789" />
+                              <ImageView fitHeight="71.0" fitWidth="21.0" layoutX="279.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@resources/images/message.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="421.0" layoutY="566.0" text="Date :">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TableView fx:id="invoiceitems" layoutX="42.0" layoutY="280.0" prefHeight="270.0" prefWidth="580.0">
+                                 <columns>
+                                    <TableColumn fx:id="product" prefWidth="283.99993896484375" text="Product" />
+                                    <TableColumn fx:id="Quantity" prefWidth="104.800048828125" text="Quantity" />
+                                    <TableColumn fx:id="UnitPrice" prefWidth="94.40008544921875" text="Unit Price" />
+                                    <TableColumn fx:id="Total" prefWidth="97.59991455078125" text="Total" />
+                                 </columns>
+                              </TableView>
+                              <Label layoutX="475.0" layoutY="565.0" prefHeight="18.0" prefWidth="143.0" text="date" />
+                              <Label layoutX="305.0" layoutY="133.0" text="velotaStore@gmail.com" />
+                              <ImageView fitHeight="19.0" fitWidth="18.0" layoutX="279.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@resources/images/email-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Line endX="-7.60003662109375" endY="12.190887451171875" layoutX="251.0" layoutY="127.0" startX="-7.60003662109375" startY="-94.20000457763672" />
+                              <Label layoutX="421.0" layoutY="593.0" text="PaymentMethod :">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="payment" layoutX="537.0" layoutY="592.0" prefHeight="18.0" prefWidth="70.0" text="cash" />
+                              <Label layoutX="64.0" layoutY="583.0" text="Total Price :" />
+                              <Label fx:id="total" layoutX="145.0" layoutY="583.0" text="price">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="191.0" layoutY="583.0" text="LE" />
+                              <Label layoutX="64.0" layoutY="557.0" text="Discount" />
+                              <Label fx:id="discountLbl" layoutX="126.0" layoutY="557.0" prefHeight="18.0" prefWidth="37.0" text="00" />
+                              <Label layoutX="163.0" layoutY="557.0" prefHeight="15.0" prefWidth="18.0" text="\%" />
+                              <Label layoutX="421.0" layoutY="618.0" text="InvoiceNum :">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="invoicenum" layoutX="515.0" layoutY="616.0" prefHeight="18.0" prefWidth="63.0" text="orderid" />
+                              <Label layoutX="64.0" layoutY="617.0" text="cashier : ">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="cashiername" layoutX="121.0" layoutY="617.0" text="cashierName">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="closeBtn" layoutX="285.0" layoutY="642.0" mnemonicParsing="false" onAction="#closeBtnClicked" text="Close" />
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="addProductPane" layoutX="195.0" layoutY="169.0" prefHeight="310.0" prefWidth="264.0">
+                  <AnchorPane fx:id="addProductPane" layoutX="450.0" layoutY="250.0" prefHeight="310.0" prefWidth="264.0">
                      <children>
                         <TextField fx:id="productIdField" layoutX="47.0" layoutY="88.0" promptText="Product ID" />
                         <Spinner fx:id="quantitySpinner" editable="true" layoutX="82.0" layoutY="169.0" prefHeight="32.0" prefWidth="97.0" />
@@ -83,29 +173,19 @@
                         <Button layoutX="154.0" layoutY="260.0" mnemonicParsing="false" onAction="#nextBtnClicked" text="Next" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="createCustomerPane" layoutX="523.0" layoutY="209.0" prefHeight="344.0" prefWidth="410.0">
+                  <AnchorPane fx:id="createCustomerPane" layoutX="672.0" layoutY="194.0" prefHeight="344.0" prefWidth="410.0">
                      <children>
-                        <Label layoutX="21.0" layoutY="43.0" text="Name:" textAlignment="CENTER">
+                        <Label layoutX="27.0" layoutY="134.0" text="Name:" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="custName" layoutX="106.0" layoutY="41.0" prefHeight="26.0" prefWidth="256.0" style="-fx-background-radius: 9;">
+                        <TextField fx:id="custNameField" layoutX="126.0" layoutY="132.0" prefHeight="26.0" prefWidth="256.0" style="-fx-background-radius: 9;">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
                         </TextField>
-                        <Label layoutX="7.0" layoutY="118.0" text="Contact:" textAlignment="CENTER">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="Contact" layoutX="114.0" layoutY="116.0" prefHeight="26.0" prefWidth="256.0" promptText="01#########" style="-fx-background-radius: 9;">
-                           <cursor>
-                              <Cursor fx:constant="TEXT" />
-                           </cursor>
-                        </TextField>
-                        <Button fx:id="Save" defaultButton="true" layoutX="207.0" layoutY="195.0" mnemonicParsing="false" onAction="#handleSaveCustomer" prefHeight="38.0" prefWidth="98.0" stylesheets="@admin.css" text="Save" textFill="WHITE">
+                        <Button fx:id="Save" defaultButton="true" layoutX="156.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleSaveCustomer" prefHeight="38.0" prefWidth="98.0" stylesheets="@admin.css" text="Save" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
@@ -113,6 +193,11 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
+                        <Label alignment="CENTER" layoutX="93.0" layoutY="46.0" prefHeight="18.0" prefWidth="223.0" text="Customer not exist,  Add them" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </children>

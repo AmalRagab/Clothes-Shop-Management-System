@@ -15,7 +15,8 @@ public class Cashier_DBO {
     
     public static void addOrder(Order o){
     try (Connection conn = DBconnector.connect()) {
-        String insertOrderSQL = "INSERT INTO Orders (ID, Date, Discount, Payment_Method, Calculated_Price, Total_Price, CID, CAID) "
+        String insertOrderSQL = "INSERT INTO Orders (ID, Date, Discount, Payment_Method, "
+                + "Calculated_Price, Total_Price, CID, CAID) "
                               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = conn.prepareStatement(insertOrderSQL);
         ps.setInt(1, o.getId());
@@ -97,7 +98,22 @@ public static void addOrderItem(OrderItems oi ,int orderId){
     }
     return data;
 }
+    public static int getCashierIdByEmail(String email) throws SQLException {
+    String sql = "SELECT UID FROM User WHERE Email = ? AND Type = 'CASHIER'";
     
+    try (Connection conn = DBconnector.connect();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        
+        ps.setString(1, email);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("UID");   
+            }
+        }
+    }
+    return -1; 
+}
+
 
 }
     
